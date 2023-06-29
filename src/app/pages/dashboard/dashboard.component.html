@@ -1,0 +1,127 @@
+<div class="d-flex flex-column-fluid">
+    <!--begin::Container-->
+    <div class="container">
+        <!--begin::Profile 2-->
+        <div class="d-flex flex-row">
+            <!--begin::Aside-->
+            <div class="flex-row-auto offcanvas-mobile w-300px w-xl-350px" id="kt_profile_aside">
+                <!--begin::Card-->
+                <div class="card card-custom">
+                    <!--begin::Body-->
+                    <div class="card-body pt-15" *ngIf="user$ | async as _user">
+                        <!--begin::User-->
+                        <div class="text-center mb-10">
+                            <div class="symbol symbol-60 symbol-circle symbol-xl-90">
+                                <div class="symbol-label"
+                                    style="background-image:url('/assets/media/svg/avatars/003-girl-1.svg')"></div>
+                                <i class="symbol-badge symbol-badge-bottom bg-success"></i>
+                            </div>
+                            <h4 class="font-weight-bold my-2"> {{ _user.fullName }}</h4>
+                            <div class="text-muted mb-2"> {{ _user.username }}</div>
+                            <span class="label label-light-warning label-inline font-weight-bold label-lg">Active</span>
+                        </div>
+                        <!--end::User-->
+                        <!--begin::Contact-->
+                        <div class="mb-10 text-center">
+                            <a href="#" class="btn btn-icon btn-circle btn-light-facebook mr-2">
+                                <i class="socicon-facebook"></i>
+                            </a>
+                            <a href="#" class="btn btn-icon btn-circle btn-light-twitter mr-2">
+                                <i class="socicon-twitter"></i>
+                            </a>
+                            <a href="#" class="btn btn-icon btn-circle btn-light-google">
+                                <i class="socicon-google"></i>
+                            </a>
+                        </div>
+                        <!--end::Contact-->
+                        <!--begin::Nav-->
+                        <a href="#"
+                            class="btn btn-hover-light-primary font-weight-bold py-3 px-6 mb-2 text-center btn-block active">Thông
+                            tin chung </a>
+                        <a href="#"
+                            class="btn btn-hover-light-primary font-weight-bold py-3 px-6 mb-2 text-center btn-block">Thông
+                            tin cá nhân</a>
+                        <a href="#"
+                            class="btn btn-hover-light-primary font-weight-bold py-3 px-6 mb-2 text-center btn-block">Đổi
+                            mật khẩu</a>
+
+                        <!--end::Nav-->
+                    </div>
+                    <!--end::Body-->
+                </div>
+                <!--end::Card-->
+            </div>
+            <!--end::Aside-->
+            <!--begin::Content-->
+            <div class="flex-row-fluid ml-lg-8">
+                <!--begin::Row-->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <!--begin::List Widget 10-->
+                        <div class="card card-custom card-stretch gutter-b">
+                            <!--begin::Header-->
+                            <div class="card-header border-0">
+                                <h3 class="card-title font-weight-bolder text-dark">Thông báo</h3>
+                                <div class="text-right" style="margin-top: 10px;text-align: right;">
+                                    <button type="button" class="btn btn-success mr-2 text-right"
+                                        (click)="updateStatus()"><i class="fa fa-check"></i>
+                                        Đã xử lý
+                                    </button>
+                                </div>
+                            </div>
+                            <!--end::Header-->
+                            <!--begin::Body-->
+                            <div class="card-body pt-0">
+                                <!--begin::Item-->
+                                <div class="mb-6" *ngFor="let item of items$ | async;">
+                                    <!--begin::Content-->
+                                    <div class="d-flex align-items-center flex-grow-1">
+                                        <!--begin::Checkbox-->
+                                        <label class="checkbox checkbox-lg checkbox-lg flex-shrink-0 mr-4">
+                                            <input type="checkbox" (click)="selectRow(item.ID)"
+                                                [attr.disabled]="item.TrangThai === 0 || item.TrangThai === 2 ? null: ''">
+                                            <span></span>
+                                        </label>
+                                        <!--end::Checkbox-->
+                                        <!--begin::Section-->
+                                        <div class="d-flex flex-wrap align-items-center justify-content-between w-100">
+                                            <!--begin::Info-->
+                                            <div class="d-flex flex-column align-items-cente py-2 w-75">
+                                                <!--begin::Title-->
+                                                <a href="#"
+                                                    class="text-dark-75 font-weight-bold text-hover-primary font-size-lg mb-1">{{item.MaYeuCau}}
+                                                    - {{item.NoiDung}}</a>
+                                                <!--begin::Data-->
+                                                <span class="text-muted font-weight-bold">{{item.NgayHen}}</span>
+                                                <!--end::Data-->
+                                            </div>
+                                            <!--end::Info-->
+                                            <!--begin::Label-->
+                                            <span class="label label-lg  label-inline font-weight-bold py-4"
+                                                [class]="item.TrangThai === 2 ? 'label-light-danger' : item.TrangThai === 0 ?'label-light-warning' : 'label-light-primary'">
+                                                {{item.TrangThai === 2 ? "Quá hạn xử lý": item.TrangThai === 0 ? "Chưa
+                                                xử lý": "Đã xử lý"}}
+                                            </span>
+                                            <!--end::Label-->
+                                        </div>
+                                        <!--end::Section-->
+                                    </div>
+                                    <!--end::Content-->
+                                </div>
+                            </div>
+                            <!--end: Card Body-->
+                        </div>
+                        <!--end: Card-->
+                        <!--end: List Widget 10-->
+                    </div>
+                </div>
+                <!--end::Row-->
+            </div>
+            <!--end::Content-->
+        </div>
+        <!--end::Profile 2-->
+    </div>
+    <!--end::Container-->
+
+
+</div>

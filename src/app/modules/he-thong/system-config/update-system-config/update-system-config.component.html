@@ -1,0 +1,35 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            Thông tin cấu hình hệ thống
+        </div>
+    </div>
+    <div class="overlay overlay-block cursor-default modal-body" style="min-height: 404px;">   
+        <ng-container>
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                
+                <div class="form-group row">
+                    <div class="col-lg-6">
+                        <label>Mã số <span style="color:red">*</span></label>
+                        <label *ngIf="systemconfig.ID > 0"
+                            class="form-control form-control-solid">{{systemconfig.Code}}</label>
+                        <input *ngIf="systemconfig.ID === 0" type="text" class="form-control" name="Code" formControlName="Code" 
+                        [class.is-invalid]="isControlInvalid('Code')"/>                        
+                    </div>
+                    <div class="col-lg-6">
+                        <label>Giá trị <span style="color:red">*</span></label>
+                        <input type="text" class="form-control" name="Value" formControlName="Value" 
+                        [class.is-invalid]="isControlInvalid('Value')"/>
+                    </div>                    
+                </div> 
+              
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container>
+            <button type="submit" [disabled]="formGroup.invalid" class="btn btn-primary btn-elevate" (click)="save()">Lưu thông tin</button>
+        </ng-container>
+    </div>
+</div>

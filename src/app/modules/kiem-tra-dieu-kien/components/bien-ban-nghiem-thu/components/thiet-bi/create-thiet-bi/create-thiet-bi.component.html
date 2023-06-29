@@ -1,0 +1,173 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            Bảng kê thiết bị sử dụng điện
+        </div>
+    </div>
+    <div class="overlay overlay-block cursor-default modal-body" style="min-height: 404px;">
+
+        <ng-container>
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                <div class="form-group row">
+                    <div class="col-lg-6">
+                        <label>Tên khách hàng</label>
+                        <input type="text" class="form-control" autocomplete="off" placeholder="Tên khách hàng"
+                            name="KHTen" formControlName="KHTen" />
+                    </div>
+
+                    <div class="col-lg-6">
+                        <label>Địa chỉ dùng điện </label>
+                        <input type="text" class="form-control" autocomplete="off" placeholder="Địa điểm dùng điện"
+                            name="DiaChiDungDien" formControlName="DiaChiDungDien" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        <label>Tổng công suất</label>
+                        <input type="text" class="form-control" autocomplete="off" placeholder="Tổng công suất "
+                            name="TongCongSuat" formControlName="TongCongSuat" />
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <div class="col-lg-6">
+                        <label>Ngày lập</label>
+                        <div class="input-group input-group-solid">
+                            <div class="input-group-append" (click)="NgayLap.toggle()">
+                                <span class="input-group-text">
+                                    <i class="text-dark-50 flaticon-calendar"></i>
+                                </span>
+                            </div>
+                            <input type="text" name="NgayLap" class="form-control form-control-solid" autocomplete="off"
+                                placeholder="dd/mm/yyyy" ngbDatepicker #NgayLap="ngbDatepicker"
+                                formControlName="NgayLap" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <label>Ngày ký</label>
+                        <div class="input-group input-group-solid">
+                            <div class="input-group-append" (click)="NgayKy.toggle()">
+                                <span class="input-group-text">
+                                    <i class="text-dark-50 flaticon-calendar"></i>
+                                </span>
+                            </div>
+                            <input type="text" name="NgayKy" class="form-control form-control-solid" autocomplete="off"
+                                placeholder="dd/mm/yyyy" ngbDatepicker #NgayKy="ngbDatepicker"
+                                formControlName="NgayKy" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-lg-6">
+                        <label>Người lập</label>
+                        <input type="text" class="form-control" autocomplete="off"
+                            placeholder="Người lập" name="NguoiLap" formControlName="NguoiLap" />
+                    </div>
+                    <div class="col-lg-6">
+                        <label>Người ký</label>
+                        <input type="text" class="form-control" autocomplete="off"
+                            placeholder="Người ký" name="NguoiKy" formControlName="NguoiKy" />
+                    </div>
+                </div>
+
+            </form>
+            <div class="form-group row">
+                <div class="table-responsive angular-bootstrap-table">
+
+                    <table class="table">
+
+                        <tr>
+                            <th rowspan="2" style="width: 50px; max-width: 50px;"> STT </th>
+                            <th rowspan="2"> Tên thiết bị </th>
+                            <th rowspan="2"> Công suất</th>
+                            <th rowspan="2"> Số lượng </th>
+                            <th rowspan="2"> Hệ số đồng thời </th>
+                            <th rowspan="1" colspan="2"> Thời gian sử dụng </th>
+                            <th rowspan="2"> Tổng công suất </th>
+                            <th rowspan="2"> Điện năng sử dụng </th>
+                            <th rowspan="2"> Ghi chú </th>
+                            <th rowspan="2"></th>
+                        </tr>
+                        <tr>
+                            <th rowspan="1"> Số giờ/Ngày </th>
+                            <th rowspan="1"> Số ngày/Tháng </th>
+                        </tr>
+
+
+                        <tbody [formGroup]="dataTable">
+                            <ng-container formArrayName="tableRows"
+                                *ngFor="let group of getFormControls.controls ; let i=index">
+                                <tr [formGroupName]="i">
+                                    <td style="width: 50px; max-width: 50px;">
+                                        {{i + 1}}
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-contro form-control-solidl"
+                                            style="padding: 0.2rem 0.5rem;" autocomplete="off" name="Ten"
+                                            formControlName="Ten" />
+                                    </td>
+
+                                    <td>
+                                        <input type="text" class="form-contro form-control-solidl"
+                                            style="padding: 0.2rem 0.5rem;" autocomplete="off" name="CongSuat"
+                                            formControlName="CongSuat" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-contro form-control-solidl"
+                                            style="padding: 0.2rem 0.5rem;" autocomplete="off" name="SoLuong"
+                                            formControlName="SoLuong" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-contro form-control-solidl"
+                                            style="padding: 0.2rem 0.5rem;" autocomplete="off" name="HeSoDongThoi"
+                                            formControlName="HeSoDongThoi" />
+                                    </td>
+
+                                    <td>
+                                        <input type="text" class="form-contro form-control-solidl"
+                                            style="padding: 0.2rem 0.5rem;" autocomplete="off" name="SoGio"
+                                            formControlName="SoGio" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-contro form-control-solidl"
+                                            style="padding: 0.2rem 0.5rem;" autocomplete="off" name="SoNgay"
+                                            formControlName="SoNgay" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-contro form-control-solidl"
+                                            style="padding: 0.2rem 0.5rem;" autocomplete="off" name="TongCongSuat"
+                                            formControlName="TongCongSuat" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-contro form-control-solidl"
+                                            style="padding: 0.2rem 0.5rem;" autocomplete="off" name="GhiChu"
+                                            formControlName="GhiChu" />
+                                    </td>
+                                    <td>
+
+                                        <a title="Xóa" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-2"
+                                            (click)="deleteRow(i,group)">
+                                            <span [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'"
+                                                cacheSVG="true" class="svg-icon svg-icon-md svg-icon-danger">
+                                            </span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container>
+            <button type="submit" class="btn btn-primary btn-elevate" (click)="save()">Lưu</button>
+        </ng-container>
+    </div>
+</div>

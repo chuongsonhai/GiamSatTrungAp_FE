@@ -1,0 +1,66 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            Cấu hình công việc
+        </div>
+    </div>
+    <div class="overlay overlay-block cursor-default modal-body" style="min-height: 404px;">   
+        <ng-container>
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">                
+                <div class="form-group row">
+                    <div class="col-lg-9">
+                        <label>Mã loại yêu cầu <span style="color:red">*</span></label>
+                        <input type="text" class="form-control" name="MA_LOAI_YCAU" formControlName="MA_LOAI_YCAU" 
+                        [class.is-invalid]="isControlInvalid('MA_LOAI_YCAU')"/>
+                    </div> 
+                    <div class="col-lg-3">
+                        <label>Số thứ tự</label>
+                        <input type="text" class="form-control" name="ORDERNUMBER" formControlName="ORDERNUMBER"/>
+                    </div>                                        
+                </div> 
+                <div class="form-group row">
+                    <div class="col-lg-6">
+                        <label>Mã công việc trước <span style="color:red">*</span></label>
+                        <label class="form-control">{{cauHinhDK.MA_CVIEC_TRUOC}}</label>                        
+                    </div>
+                    <div class="col-lg-6">
+                        <label>Mã công việc tiếp <span style="color:red">*</span></label>
+                        <label class="form-control">{{cauHinhDK.MA_CVIEC_TIEP}}</label>                        
+                    </div>                    
+                </div>                                
+                <div class="form-group row">
+                    <div class="col-lg-4">
+                        <label>Trạng thái yêu cầu</label>
+                        <select class="form-control" name="TTHAI_YCAU" formControlName="TTHAI_YCAU">
+                            <option value="" selected>--- Trạng thái tiếp ---</option>
+                            <option [value]="item.TrangThai"
+                                *ngFor="let item of listTrangThai">
+                                {{item.MoTa}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-lg-4">
+                        <label>Trạng thái tiếp</label>
+                        <select class="form-control" name="TRANG_THAI_TIEP" formControlName="TRANG_THAI_TIEP">
+                            <option value="" selected>--- Trạng thái tiếp ---</option>
+                            <option [value]="item.TrangThai"
+                                *ngFor="let item of listTrangThai">
+                                {{item.MoTa}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-lg-4">
+                        <label>Loại công việc</label>
+                        <label class="form-control">{{cauHinhDK.LOAI === 0? "Yêu cầu đấu nối" : "Yêu cầu nghiệm thu"}}</label>
+                    </div>                    
+                </div>                
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container>
+            <button type="submit" [disabled]="formGroup.invalid" class="btn btn-primary btn-elevate" (click)="save()">Lưu thông tin</button>
+        </ng-container>
+    </div>
+</div>

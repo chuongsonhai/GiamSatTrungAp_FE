@@ -1,0 +1,164 @@
+<div class="card card-custom gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label">Kiểm tra điều kiện đóng điện điểm đấu nối và nghiệm thu</h3>
+        </div>        
+    </div>
+    <div class="card-body">
+        <!-- begin: Filtration form -->
+        <div class="form form-label-right">
+            <div class="form-group row">
+                <div class="col-lg-4" [formGroup]="filterGroup">
+                    <label>Đơn vị quản lý</label>
+                    <select class="form-control" name="maDViQLy" formControlName="maDViQLy">
+                        <ng-container *ngIf="allowGetAll | async">
+                            <option  value="">-- Chọn tất cả --</option>
+                          </ng-container>
+                        <option [value]="item.orgCode"
+                            *ngFor="let item of organizations">
+                            {{item.orgCode}} - {{item.orgName}}
+                        </option>
+                    </select>  
+                </div>
+                <div class="col-lg-3" [formGroup]="filterGroup">
+                    <label>Mã số</label>
+                    <input type="text" class="form-control" name="searchText" placeholder="Mã số" value=""
+                        formControlName="keyword" />
+                </div>
+                <div class="col-lg-3" [formGroup]="filterGroup">
+                    <label>tên khách hàng</label>
+                    <input type="text" class="form-control" name="khachhang" placeholder="Tên khách hàng" value=""
+                        formControlName="khachhang" />
+                </div>
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <label>Trạng thái</label>
+                    <select class="form-control" name="status" placeholder="Trạng thái" formControlName="status">
+                        <option value="-1">-- Tất cả --</option>
+                        <option value="0">Chưa tiếp nhận</option>
+                        <option value="1">Tiếp nhận</option>
+                        <option value="2">Phân công khảo sát</option>
+                        <option value="3">Kết quả khảo sát</option>
+                        <option value="4">Biên bản kiểm tra</option>
+                        <option value="5">Dự thảo hợp đồng</option> 
+                        <option value="6">Phân công treo tháo</option>                       
+                        <option value="7">Kết quả treo tháo</option>
+                        <option value="8">Biên bản treo tháo</option>
+                        <option value="9">Biên bản nghiệm thu</option>
+                        <option value="11">Hoàn thành</option>
+                        <option value="13">Trả lại hồ sơ</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <label>Từ ngày</label>
+                    <div class="input-group input-group-solid">
+                        <div class="input-group-append" (click)="fromdate.toggle()">
+                            <span class="input-group-text">
+                                <i class="text-dark-50 flaticon-calendar"></i>
+                            </span>
+                        </div>
+                        <input type="text" name="fromdate" class="form-control form-control-solid" autocomplete="off"
+                            placeholder="dd/mm/yyyy" ngbDatepicker #fromdate="ngbDatepicker"
+                            formControlName="fromdate" />
+                    </div>
+                </div>
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <label>Đến ngày</label>
+                    <div class="input-group input-group-solid">
+                        <div class="input-group-append" (click)="todate.toggle()">
+                            <span class="input-group-text">
+                                <i class="text-dark-50 flaticon-calendar"></i>
+                            </span>
+                        </div>
+                        <input type="text" name="todate" class="form-control form-control-solid" autocomplete="off"
+                            placeholder="dd/mm/yyyy" ngbDatepicker #todate="ngbDatepicker"
+                            formControlName="todate" />
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <button type="button" class="btn btn-primary mr-2" style="height: 60%;bottom: 0;position: absolute;" (click)="filter()">
+                        <i class="fa fa-search"></i> 
+                        Tìm kiếm
+                    </button>  
+                </div>
+            </div>
+        </div>    
+        <!-- end: Filtration form -->
+   
+        <!-- begin:Table -->
+        <div class="table-responsive angular-bootstrap-table">
+            <table class="table table-head-custom table-vertical-center overflow-hidden">
+                <thead>                    
+                    <th style="width: 40px;">
+                        STT
+                    </th>
+                    <th style="width: 110px;text-align: center;">
+                        Mã yêu cầu
+                    </th>
+                    <th>
+                        Số thỏa thuận
+                    </th>
+                    <th>
+                        Người yêu cầu
+                    </th>
+                    <th>
+                        Chủ đầu tư
+                    </th>
+                    <th>
+                        Công trình điện
+                    </th>                                        
+                    <th>
+                        Bên nhận
+                    </th>
+                    <th style="width: 110px;text-align: center;">Ngày lập</th>
+                    <th>
+                        Trở ngại
+                    </th>
+                    <th style="width: 110px;text-align: center;">
+                        Trạng thái
+                    </th>
+                    <th style="text-align: center;width:110px">Thao tác</th>
+                    <th style="width: 130px;text-align: center;">Hợp đồng</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of service.items$ | async; let i=index;">
+                        <td>{{ i + paginator.pageSize * (paginator.page - 1) + 1 }}</td>
+                        <td>{{item.MaYeuCau}}</td>
+                        <td>{{item.SoThoaThuanDN}}</td>
+                        <td>{{item.NguoiYeuCau}}</td>
+                        <td>{{item.DuAnDien}}</td>
+                        <td>{{item.DiaChiDungDien}}</td>
+                        <td>{{item.CoQuanChuQuan}}</td>
+                        <td>{{item.NgayYeuCau}}</td>
+                        <td>{{item.TroNgai}}</td>
+                        <td style="text-align: center;">
+                            <span *ngIf="item.TrangThai==0">Chưa tiếp nhận </span>
+                            <span *ngIf="item.TrangThai==1">Tiếp nhận</span>
+                            <span *ngIf="item.TrangThai==2">Phân công kiểm tra</span>
+                            <span *ngIf="item.TrangThai==3">Kết quả kiểm tra</span>
+                            <span *ngIf="item.TrangThai==4">Biên bản kiểm tra</span>
+                            <span *ngIf="item.TrangThai==5">Dự thảo hợp đồng</span>
+                            <span *ngIf="item.TrangThai==6">Phân công thi công</span>
+                            <span *ngIf="item.TrangThai==7">Kết quả treo tháo</span>
+                            <span *ngIf="item.TrangThai==8">Biên bản treo tháo</span>
+                            <span *ngIf="item.TrangThai==9">Biên bản nghiệm thu</span>
+                            <span *ngIf="item.TrangThai==11">Hoàn thành</span>
+                            <span *ngIf="item.TrangThai==13">Trả lại hồ sơ</span>
+                        </td>
+                        <td style="text-align: center;">                            
+                            <a [routerLink]="'update/' + item.ID" style="padding-right: 10px;"> <i class="fa fa-eye text-primary"></i></a>                        
+                            <a (click)="histories(item.MaYeuCau)"> <i class="fa fa-history text-primary"></i></a>
+                        </td>                             
+                        <td style="text-align: center;">
+                            <a (click)="contract(item.MaDViQLy, item.MaYeuCau)"> <i class="fa fa-file-pdf text-primary"></i></a>
+                        </td>                                          
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <app-paginator class="d-flex justify-content-between align-items-center flex-wrap" [paginator]="paginator"
+            [isLoading]="isLoading" (paginate)="paginate($event)"></app-paginator>
+    </div>
+</div>
+

@@ -1,0 +1,122 @@
+<div class="card card-custom gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label">Danh sách biên bản treo tháo </h3>
+        </div>
+    </div>
+    <div class="card-body">
+        <!-- begin: Filtration form -->
+        <div class="form form-label-right">
+            <div class="form-group row">
+                <div class="col-lg-4" [formGroup]="filterGroup">
+                    <select class="form-control" name="maDViQLy" formControlName="maDViQLy">
+                        <option [value]="item.orgCode"
+                            *ngFor="let item of organizations">
+                            {{item.orgCode}} - {{item.orgName}}
+                        </option>
+                    </select>  
+                </div>
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <input type="text" class="form-control" name="searchText" placeholder="Mã yêu cầu" value=""
+                        formControlName="maYCau" />
+                </div>
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <input type="text" class="form-control" name="searchText" placeholder="Từ khóa tìm kiếm" value=""
+                        formControlName="keyword" />
+                </div>
+                <div class="col-lg-4" [formGroup]="filterGroup">
+                    <select class="form-control" name="status" placeholder="Trạng thái" formControlName="status">
+                        <option selected="selected" value="-1">-- Tất cả --</option>
+                        <option value="0">Mới tạo</option>
+                        <option value="1">Đã duyệt</option>
+                        <option value="2">Hoàn thành</option>
+                    </select>
+                </div>                
+            </div>
+            <div class="form-group row">
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <label>Từ ngày</label>
+                    <div class="input-group input-group-solid">
+                        <div class="input-group-append" (click)="fromdate.toggle()">
+                            <span class="input-group-text">
+                                <i class="text-dark-50 flaticon-calendar"></i>
+                            </span>
+                        </div>
+                        <input type="text" name="fromdate" class="form-control form-control-solid" autocomplete="off"
+                            placeholder="dd/mm/yyyy" ngbDatepicker #fromdate="ngbDatepicker"
+                            formControlName="fromdate" />
+                    </div>
+                </div>
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <label>Đến ngày</label>
+                    <div class="input-group input-group-solid">
+                        <div class="input-group-append" (click)="todate.toggle()">
+                            <span class="input-group-text">
+                                <i class="text-dark-50 flaticon-calendar"></i>
+                            </span>
+                        </div>
+                        <input type="text" name="todate" class="form-control form-control-solid" autocomplete="off"
+                            placeholder="dd/mm/yyyy" ngbDatepicker #todate="ngbDatepicker" formControlName="todate" />
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <button type="button" class="btn btn-primary mr-2" style="height: 60%;bottom: 0;position: absolute;"
+                        (click)="filter()">
+                        <i class="fa fa-search"></i>
+                        Tìm kiếm
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive angular-bootstrap-table">
+            <table class="table table-head-custom table-vertical-center overflow-hidden">
+                <thead>
+                    <th style="width: 40px;text-align: center;">
+                        STT
+                    </th>
+                    <th style="width: 110px">
+                        Mã yêu cầu
+                    </th>
+                    <th>
+                        Số biên bản
+                    </th>
+                    <th>
+                        Khách hàng
+                    </th>
+                    <th>
+                        Địa chỉ xây dựng
+                    </th>
+                    <th>
+                        Đơn vị
+                    </th>
+                    <th style="width: 110px;text-align: center;">
+                        Ngày lập
+                    </th>
+                    <th style="width: 100px;text-align: center;">Thao tác</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of service.items$ | async; let i=index;">
+                        <td>{{ i + paginator.pageSize * (paginator.page - 1) + 1 }}</td>
+                        <td>{{item.MaYeuCau}}</td>
+                        <td>{{item.SoBienBan}}</td>
+                        <td>{{item.KHTen}}</td>
+                        <td>{{item.DiaDiemXayDung}}</td>
+                        <td>{{item.MaDViQLy}}</td>
+                        <td>{{item.NgayLap}}</td>
+                        <td style="text-align: center;">
+                            <span *ngIf="item.TRANG_THAI==0">Mới tạo</span>
+                            <span *ngIf="item.TRANG_THAI==1">Đã duyệt</span>
+                            <span *ngIf="item.TRANG_THAI==2">Hoàn thành </span>
+                        </td>
+                        <td style="text-align: center;">
+                            <a (click)="view(item.ID)"><i class="fa fa-eye text-primary"></i></a>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <app-paginator class="d-flex justify-content-between align-items-center flex-wrap" [paginator]="paginator"
+            [isLoading]="isLoading" (paginate)="paginate($event)"></app-paginator>
+    </div>
+</div>

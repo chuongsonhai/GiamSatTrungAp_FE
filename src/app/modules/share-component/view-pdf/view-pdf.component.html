@@ -1,0 +1,13 @@
+<div class="modal-content">
+    <div class="modal-body">
+        <div class="pdf-container">
+            <ng-container *ngIf="!(isLoadingForm$ | async) && src">
+              <iframe class="iframe-pdf" width="100%" onload="this.style.height=(window.outerHeight / 2)+'px';"
+                frameBorder="0" [src]="getUrl('BBNT')"></iframe>
+            </ng-container>
+          </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+    </div>
+</div>

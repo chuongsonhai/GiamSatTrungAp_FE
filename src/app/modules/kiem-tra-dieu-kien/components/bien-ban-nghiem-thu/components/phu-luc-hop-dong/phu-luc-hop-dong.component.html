@@ -1,0 +1,165 @@
+<ng-container *ngIf="isLoadingForm$ | async; else showData">
+    <div class="overlay-layer bg-transparent">
+        <div class="spinner spinner-lg spinner-success"><span style="padding-left:35px;">Đang tải dữ liệu, vui lòng
+                chờ</span></div>
+    </div>
+</ng-container>
+<ng-template #showData>
+    <div class="card card-custom gutter-b">
+        <div class="card-header">
+            <div class="card-title">
+                <h3 class="card-label">Phụ lục hợp đồng</h3>
+            </div>
+        </div>
+        <div class="card-body">
+            <!-- begin:Table -->
+            <div class="table-responsive angular-bootstrap-table">
+                <table class="table table-head-custom table-vertical-center overflow-hidden">
+                    <thead>
+                        <th style="width: 40px;">
+                            STT
+                        </th>
+                        <th style="width: 300px;text-align: center;">
+                            Tên phụ lục
+                        </th>
+                        <th style="width: 130px;text-align: center;">
+                            Trạng thái
+                        </th>
+                        <th style="width: 100px;text-align: center;">Thao tác</th>
+                        <th style="width: 100px;text-align: center;"></th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>BẢNG KÊ THIẾT BỊ SỬ DỤNG ĐIỆN</td>
+                            <td style="text-align: center;">
+                                <span *ngIf="bangkethietbi.TrangThai===-1">Dự thảo</span>
+                                <span *ngIf="bangkethietbi.TrangThai===0">Mới tạo</span>
+                                <span *ngIf="bangkethietbi.TrangThai===1">KH ký</span>
+                                <span *ngIf="bangkethietbi.TrangThai===2">EVN ký </span>
+                            </td>
+                            <td style="text-align: center;">
+                                <button *ngIf="bangkethietbi.ID>0" class="btn btn-icon"
+                                    (click)="view(bangkethietbi.Data)">
+                                    <i class="fa fa-eye text-primary"></i></button>
+                            </td>
+                            <td>
+                                <!-- <label class="checkbox" *ngIf="bangkethietbi.ID > 0 && bangkethietbi.TrangThai === 1">
+                                    <input type="checkbox" (click)="selectRow(bangkethietbi.ID)"
+                                        [checked]="isRowSelected(bangkethietbi.ID)">
+                                    <span></span>
+                                </label> -->
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>BIỂU ĐỒ PHỤ TẢI </td>
+                            <td style="text-align: center;">
+                                <span *ngIf="bieudophutai.TrangThai===-1">Dự thảo</span>
+                                <span *ngIf="bieudophutai.TrangThai===0">Mới tạo</span>
+                                <span *ngIf="bieudophutai.TrangThai===1">KH ký</span>
+                                <span *ngIf="bieudophutai.TrangThai===2">EVN ký </span>
+                            </td>
+                            <td style="text-align: center;">
+                                <button *ngIf="bieudophutai.ID>0" class="btn btn-icon"
+                                    (click)="view(bieudophutai.Data)"> <i class="fa fa-eye text-primary"></i></button>
+                            </td>
+                            <td>
+                                <!-- <label class="checkbox" *ngIf="bieudophutai.ID > 0 && bieudophutai.TrangThai === 1">
+                                    <input type="checkbox" (click)="selectRow(bieudophutai.ID)"
+                                        [checked]="isRowSelected(bieudophutai.ID)">
+                                    <span></span>
+                                </label> -->
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>THỎA THUẬN BẢO ĐẢM THỰC HIỆN HỢP ĐỒNG MUA BÁN ĐIỆN </td>
+                            <td style="text-align: center;">
+                                <span *ngIf="thoathuandambao.TrangThai===-1">Dự thảo</span>
+                                <span *ngIf="thoathuandambao.TrangThai===0">Mới tạo</span>
+                                <span *ngIf="thoathuandambao.TrangThai===1">KH ký</span>
+                                <span *ngIf="thoathuandambao.TrangThai===2">EVN ký </span>
+                            </td>
+                            <td style="text-align: center;">
+                                <button *ngIf="thoathuandambao.ID===0" class="btn btn-icon" (click)="updatettdb()"> <i
+                                        class="fa fa-edit text-primary"></i></button>
+                                <button *ngIf="thoathuandambao.ID>0" class="btn btn-icon"
+                                    (click)="view(thoathuandambao.Data)"> <i
+                                        class="fa fa-eye text-primary"></i></button>
+                                <button *ngIf="thoathuandambao.ID>0" class="btn btn-icon" (click)="updatettdb()"> <i
+                                        class="fa fa-edit text-primary"></i></button>
+
+                            </td>
+                            <td>
+                                <label class="checkbox" *ngIf="thoathuandambao.ID > 0 && thoathuandambao.TrangThai === 1">
+                                    <input type="checkbox" (click)="selectRow(thoathuandambao.ID)"
+                                        [checked]="isRowSelected(thoathuandambao.ID)">
+                                    <span></span>
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>BIÊN BẢN THỎA THUẬN TỶ LỆ MỤC ĐÍCH SỬ DỤNG ĐIỆN </td>
+                            <td style="text-align: center;">
+                                <span *ngIf="thoathuantyle.TrangThai===-1">Dự thảo</span>
+                                <span *ngIf="thoathuantyle.TrangThai===0">Mới tạo</span>
+                                <span *ngIf="thoathuantyle.TrangThai===1">KH ký</span>
+                                <span *ngIf="thoathuantyle.TrangThai===2">EVN ký </span>
+                            </td>
+                            <td style="text-align: center;">
+                                <button *ngIf="thoathuantyle.ID===0"  class="btn btn-icon" (click)="updatetttl()"> <i
+                                        class="fa fa-edit text-primary"></i></button>
+                                <button *ngIf="thoathuantyle.ID>0" class="btn btn-icon"
+                                    (click)="view(thoathuantyle.Data)">
+                                    <i class="fa fa-eye text-primary"></i></button>
+                                <button *ngIf="thoathuantyle.ID>0" class="btn btn-icon" (click)="updatetttl()"> <i
+                                        class="fa fa-edit text-primary"></i></button>
+
+                            </td>
+                            <td>
+                                <label class="checkbox" *ngIf="thoathuantyle.ID > 0 && thoathuantyle.TrangThai === 1">
+                                    <input type="checkbox" (click)="selectRow(thoathuantyle.ID)"
+                                        [checked]="isRowSelected(thoathuantyle.ID)">
+                                    <span></span>
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>BIÊN BẢN CHẤM DỨT HỢP ĐỒNG MUA BÁN ĐIỆN</td>
+                            <td style="text-align: center;">
+                                <span *ngIf="thoathuanchamdut.TrangThai===-1">Dự thảo</span>
+                                <span *ngIf="thoathuanchamdut.TrangThai===0">Mới tạo</span>
+                                <span *ngIf="thoathuanchamdut.TrangThai===1">KH ký</span>
+                                <span *ngIf="thoathuanchamdut.TrangThai===2">EVN ký </span>
+                            </td>
+                            <td style="text-align: center;">
+                                <button *ngIf="thoathuanchamdut.ID===0" class="btn btn-icon" (click)="updatettcd()"> <i
+                                        class="fa fa-edit text-primary"></i></button>
+                                <button *ngIf="thoathuanchamdut.ID>0" class="btn btn-icon"
+                                    (click)="view(thoathuanchamdut.Data)"> <i
+                                        class="fa fa-eye text-primary"></i></button>
+                                <button *ngIf="thoathuanchamdut.ID>0" class="btn btn-icon" (click)="updatettcd()"> <i
+                                        class="fa fa-edit text-primary"></i></button>
+
+                            </td>
+                            <td>
+                                <label class="checkbox" *ngIf="thoathuanchamdut.ID > 0 && thoathuanchamdut.TrangThai === 1">
+                                    <input type="checkbox" (click)="selectRow(thoathuanchamdut.ID)"
+                                        [checked]="isRowSelected(thoathuanchamdut.ID)">
+                                    <span></span>
+                                </label>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer text-right">
+            <button class="btn btn-success mr-2" *ngIf="congVanYeuCau.TrangThai > 4" (click)="signDocs()">Ký số phụ lục</button>
+        </div>
+    </div>
+</ng-template>

@@ -1,0 +1,83 @@
+<div class="card card-custom gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label">Danh sách nhân viên </h3>
+        </div>
+    </div>
+    <div class="card-body">
+        <!-- begin: Filtration form -->
+        <div class="form form-label-right">
+            <div class="form-group row">
+                <div class="col-lg-3" [formGroup]="filterGroup">
+                    <select class="form-control" name="maDViQLy" (change)="loadBPhans($event.target.value)" formControlName="maDViQLy">
+                        <option [value]="item.orgCode" *ngFor="let item of organizations">
+                            {{item.orgCode}} - {{item.orgName}}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-lg-3" [formGroup]="filterGroup">
+                    <select class="form-control" name="maBPhan" formControlName="maBPhan">
+                        <option value="" selected>--- Bộ phận ---</option>
+                        <option [value]="item.MA_BPHAN" *ngFor="let item of commonService.bophans$ | async">
+                            {{item.MA_BPHAN}} - {{item.TEN_BPHAN}}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-lg-3" [formGroup]="filterGroup">
+                    <input type="text" class="form-control" name="keyword" placeholder="Từ khóa tìm kiếm" value=""
+                        formControlName="keyword" />
+                </div>
+                <div class="col-lg-3" [formGroup]="filterGroup">
+                    <input type="checkbox" placeholder="Đồng bộ từ CMIS" name="dongBoCmis" formControlName="dongBoCmis" /> ?Đồng bộ          
+                    <button type="button" class="btn btn-primary mr-2" (click)="filter()"><i class="fa fa-search"></i>
+                        Tìm kiếm
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- end: Filtration form -->
+        <!-- begin:Table -->
+        <div class="table-responsive angular-bootstrap-table">
+            <table class="table table-head-custom table-vertical-center overflow-hidden">
+                <thead>
+                    <th style="width: 40px;">
+                        STT
+                    </th>
+                    <th>
+                        Mã đơn vị
+                    </th>
+                    <th>
+                        Bộ phận
+                    </th>
+                    <th>
+                        Tên
+                    </th>
+                    <th>
+                        Liên hệ
+                    </th>
+                    <th>
+                        Quản lý
+                    </th>
+                    <th style="width: 100px;text-align: center;">Thao tác</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of service.items$ | async; let i=index;">
+                        <td>{{ i + paginator.pageSize * (paginator.page - 1) + 1 }}</td>
+                        <td>{{ item.MA_DVIQLY }}</td>
+                        <td>{{ item.MA_BPHAN }}</td>
+                        <td>{{ item.MA_NVIEN }} - {{ item.TEN_NVIEN }}</td>
+                        <td>{{ item.DIEN_THOAI }} - {{ item.EMAIL }}</td>
+                        <td style="text-align: center;">{{ item.TRUONG_BPHAN ? "Có": "Không"}}</td>
+                        <td style="text-align: center;">
+                            <a title="Sửa" class="btn btn-icon btn-hover-primary btn-xs" (click)="edit(item.ID)">
+                                <i class="fa fa-edit text-primary"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <app-paginator class="d-flex justify-content-between align-items-center flex-wrap" [paginator]="paginator"
+            [isLoading]="isLoading" (paginate)="paginate($event)"></app-paginator>
+    </div>
+</div>

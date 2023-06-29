@@ -1,0 +1,91 @@
+<div class="card card-custom gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label">Danh sách yêu cầu</h3>
+        </div>
+    </div>
+    <div class="card-body">
+        <!-- begin: Filtration form -->
+        <div class="form form-label-right">
+            <div class="form-group row">
+                <div class="col-lg-3" [formGroup]="filterGroup">
+                    <input type="text" class="form-control" name="searchText" placeholder="Mã yêu cầu" value=""
+                        formControlName="maYCau" />
+                </div>
+                <div class="col-lg-3" [formGroup]="filterGroup">
+                    <input type="text" class="form-control" name="searchText" placeholder="Nội dung xử lý" value=""
+                        formControlName="keyword" />
+                </div>                
+                <button type="button" class="btn btn-primary mr-2" (click)="filter()"><i class="fa fa-search"></i> 
+                    Tìm kiếm
+                </button>
+                <button type="button" class="btn btn-success mr-2" (click)="exportExcel()"><i class="fa fa-download"></i> 
+                    Xuất excel
+                </button>
+            </div>
+        </div>
+        <div class="table-responsive angular-bootstrap-table">
+            <table class="table table-head-custom table-vertical-center overflow-hidden">
+                <thead>
+                    <th style="width: 40px;text-align: center;">
+                        STT
+                    </th>
+                    <th style="width: 120px">
+                        Mã yêu cầu
+                    </th>
+                    <th>
+                        Công việc
+                    </th>
+                    <th>
+                        Điểm đo điện
+                    </th>
+                    <th>
+                        Nội dung
+                    </th>
+                    <th>
+                        Mã DViQLy
+                    </th>
+                    <th>
+                        Người nhận
+                    </th>
+                    <th style="width: 120px">
+                        Ngày bắt đầu
+                    </th>
+                    <th style="width: 130px">
+                        Ngày kết thúc
+                    </th>
+                    <th style="width: 120px">
+                        Số ngày
+                    </th>
+                    <th style="width: 110px;text-align: center;">
+                        Trạng thái
+                    </th>                    
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of service.items$ | async; let i=index;">
+                        <td>{{ i + paginator.pageSize * (paginator.page - 1) + 1 }}</td>
+                        <td>{{item.MA_YCAU_KNAI}}</td>
+                        <td>{{item.MA_CVIEC}}</td>
+                        <td>{{item.MA_DDO_DDIEN}}</td>
+                        <td>{{item.NDUNG_XLY}}</td>
+                        <td>{{item.MA_DVIQLY}}</td>
+                        <td>{{item.MA_BPHAN_NHAN}}/{{item.MA_NVIEN_NHAN}}</td>
+                        <td>{{item.NGAY_BDAU}}</td>
+                        <td>{{item.NGAY_KTHUC}}</td>
+                        <td style="text-align: center;">{{item.SO_NGAY_LVIEC}}</td>
+                        <td style="text-align: center;">
+                            <span *ngIf="item.TRANG_THAI==0">Mới tạo</span>
+                            <span *ngIf="item.TRANG_THAI==1">Đã đồng bộ</span>
+                            <span *ngIf="item.TRANG_THAI==2">Chờ gửi</span>    
+                            <span *ngIf="item.TRANG_THAI==3">Gửi lỗi</span>                          
+                        </td>
+                        
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <app-paginator class="d-flex justify-content-between align-items-center flex-wrap" [paginator]="paginator"
+            [isLoading]="isLoading" (paginate)="paginate($event)"></app-paginator>
+    </div>
+</div>

@@ -1,0 +1,70 @@
+<ng-container *ngIf="isLoadingForm$ | async; else showData">
+    <div class="overlay-layer bg-transparent">
+        <div class="spinner spinner-lg spinner-success"><span style="padding-left:35px;">Đang tải dữ liệu, vui lòng
+                chờ</span></div>
+    </div>
+</ng-container>
+<ng-template #showData>
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="modal-title h4" id="example-modal-sizes-title-lg">
+                Nhập số và ngày biên bản trên hệ thống quản lý văn bản (D-Office)
+            </div>
+        </div>
+        <div class="overlay overlay-block cursor-default modal-body" style="min-height: 404px;">
+            <ng-container>
+                <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                    <div class="form-group row">
+                        <div class="col-lg-4">
+                            <label>Số biên bản <span style="color:red">*</span></label>
+                            <input type="text" class="form-control" autocomplete="off"
+                                placeholder="Số biên bản thỏa thuận" name="SoBienBan" formControlName="SoBienBan"
+                                [class.is-invalid]="isControlInvalid('SoBienBan')" />
+                        </div>
+                        <div class="col-lg-8">
+                            <label>Ngày biên bản <span style="color:red">*</span></label>
+                            <div class="input-group input-group-solid">
+                                <div class="input-group-append" (click)="ngayBienBan.toggle()">
+                                    <span class="input-group-text">
+                                        <i class="text-dark-50 flaticon-calendar"></i>
+                                    </span>
+                                </div>
+                                <input type="text" name="NgayBienBan" class="form-control form-control-solid"
+                                    autocomplete="off" placeholder="dd/mm/yyyy" ngbDatepicker
+                                    #ngayBienBan="ngbDatepicker" formControlName="NgayBienBan"
+                                    [class.is-invalid]="isControlInvalid('NgayBienBan')" />
+                                <div class="input-group-append" (click)="ngayBienBan.toggle()">
+                                    <button type="button" [disabled]="submited| async" (click)="getPdf()"
+                                        class="btn btn-success btn-elevate">Lấy biên bản</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-lg-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="CusSigned" formControlName="CusSigned">
+                                <label class="form-check-label">
+                                    Khách hàng đã ký
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-lg-8">
+                            <button type="button" class="btn btn-light btn-elevate mr-2" (click)="closeModal()">Thoát</button>
+                            <button type="button" [disabled]="formGroup.invalid || (submited| async)" (click)="save()"
+                                class="btn btn-success btn-elevate">Gửi yêu cầu</button>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="pdf-container col-lg-12">
+                            <ng-container *ngIf="!(isLoadingForm$ | async) && safeSrc">
+                                <iframe width="100%" onload="this.style.height=(window.outerHeight / 2) +'px';"
+                                    frameBorder="0" [src]="getUrl()"></iframe>
+                            </ng-container>
+                        </div>
+                    </div>
+                </form>
+            </ng-container>
+        </div>        
+    </div>
+</ng-template>

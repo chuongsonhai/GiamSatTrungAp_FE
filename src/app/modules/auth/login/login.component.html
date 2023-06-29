@@ -1,0 +1,80 @@
+<div class="login-form login-signin">
+    <!--begin::Form-->
+    <form class="form" [formGroup]="loginForm" novalidate="novalidate" id="kt_login_signin_form" (ngSubmit)="submit()">
+      <!--begin::Title-->
+      <div class="pt-lg-0 pt-5">
+        <h3 class="font-weight-bolder text-dark font-size-h4 font-size-h1-lg">
+          Đăng nhập hệ thống
+        </h3>
+      </div>
+      <!--end::Title-->      
+      <div class="form-group row">  
+        <div class="col-lg-6">  
+            <button (click)="ssoSignIn()" [disabled]="submited"  type="button" class="btn btn-danger">                
+                Đăng nhập SSO 
+            </button>
+        </div>           
+    </div> 
+      <hr style="border-top: 1px solid #eee;">
+      <!--begin::Form group-->
+      <div class="form-group">
+        <label class="font-size-h6 font-weight-bolder text-dark">Tài khoản</label>
+        <input class="form-control form-control-solid" type="username" name="username" formControlName="username"
+          autocomplete="off" placeholder="Tài khoản đăng nhập"
+          [ngClass]="{ 'is-invalid': loginForm.controls['username'].invalid }" />
+        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'Tên đăng nhập không được bỏ trống',
+            control: loginForm.controls['username']
+          }"></ng-container>
+        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'maxLength',
+            message: 'Tên đăng nhập không vượt quá 64 kí tự',
+            control: loginForm.controls['username']
+          }"></ng-container>
+      </div>
+      <!--end::Form group-->
+  
+      <!--begin::Form group-->
+      <div class="form-group">
+        <div class="d-flex justify-content-between mt-n5">
+          <label class="font-size-h6 font-weight-bolder text-dark pt-5">Mật khẩu</label>
+        </div>
+  
+        <input class="form-control form-control-solid" type="password" name="password" autocomplete="off"
+          formControlName="password" placeholder="Mật khẩu đăng nhập"
+          [ngClass]="{ 'is-invalid': loginForm.controls['password'].invalid }" />
+        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'Mật khẩu không được bỏ trống',
+            control: loginForm.controls['password']
+          }"></ng-container>
+        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'maxLength',
+            message: 'Mật khẩu quá dài',
+            control: loginForm.controls['password']
+          }"></ng-container>
+      </div>
+      <!--end::Form group-->
+  
+      <!--begin::Action-->
+      <div class="pb-lg-0 pb-5">      
+          <button [disabled]="loginForm.invalid || submited" class="btn btn-primary" type="submit">
+            Đăng nhập
+          </button>                    
+          <ng-container *ngIf="isLoading$ | async">
+            <span class="spinner spinner-primary ml-5"></span>
+          </ng-container>      
+      </div>
+    </form>
+  </div>
+  <!--end::Signin-->
+  <ng-template #formError let-control="control" let-message="message" let-validation="validation">
+    <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+      <div class="fv-plugins-message-container">
+        <div class="fv-help-block">
+          {{ message }}
+        </div>
+      </div>
+    </ng-container>
+  </ng-template>

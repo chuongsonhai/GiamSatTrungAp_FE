@@ -1,0 +1,62 @@
+<ng-container *ngIf="isLoadingForm$ | async; else showData">
+    <div class="overlay-layer bg-transparent">
+        <div class="spinner spinner-lg spinner-success"><span style="padding-left:35px;">Đang tải dữ liệu, vui lòng
+                chờ</span></div>
+    </div>
+</ng-container>
+<ng-template #showData>
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="modal-title h4" id="example-modal-sizes-title-lg">
+                Phân công kiểm tra điều kiện đóng điện điểm đấu nối
+            </div>
+        </div>
+        <div class="overlay overlay-block cursor-default modal-body" style="min-height: 404px;">
+            <ng-container>
+                <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                    <div class="form-group row">
+                        <div class="col-lg-6">
+                            <label>Người thực hiện <span style="color:red">*</span></label>
+                            <select class="form-control" [attr.disabled]="PhanCongTC.TRANG_THAI === 1 ? '': null"
+                                name="MA_NVIEN_KS" formControlName="MA_NVIEN_KS"
+                                [class.is-invalid]="isControlInvalid('MA_NVIEN_KS')">
+                                <option [ngValue]="item.MA_NVIEN" [selected]="checkSelect(item.MA_NVIEN)" *ngFor="let item of tienTrinhData.nhanViens">
+                                    {{item.MA_NVIEN}} - {{item.TEN_NVIEN}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-lg-3">
+                            <label>Ngày hẹn <span style="color:red">*</span></label>
+                            <div class="input-group input-group-solid">
+                                <div class="input-group-append" (click)="ngayHen.toggle()">
+                                    <span class="input-group-text">
+                                        <i class="text-dark-50 flaticon-calendar"></i>
+                                    </span>
+                                </div>
+                                <input type="text" name="NGAY_HEN" class="form-control form-control-solid"
+                                    autocomplete="off" placeholder="dd/mm/yyyy" ngbDatepicker #ngayHen="ngbDatepicker"
+                                    formControlName="NGAY_HEN" [class.is-invalid]="isControlInvalid('NGAY_HEN')" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-lg-12">
+                            <label>Nội dung <span style="color:red">*</span></label>
+                            <input type="text" [attr.disabled]="PhanCongTC.TRANG_THAI === 1 ? '': null" class="form-control" autocomplete="off" placeholder="Nội dung yêu cầu"
+                                name="NDUNG_XLY" formControlName="NDUNG_XLY"
+                                [class.is-invalid]="isControlInvalid('NDUNG_XLY')" />
+                        </div>
+                    </div>
+                </form>
+            </ng-container>
+        </div>
+        <div class="modal-footer" *ngIf="(allowApprove | async) && 13 > congVanYeuCau.TrangThai">
+            <ng-container>
+                <button *ngIf="congVanYeuCau.TrangThai === 2 && PhanCongTC && PhanCongTC.TRANG_THAI === 0" type="button" [disabled]="formGroup.invalid || (submited| async)" (click)="save()"
+                    class="btn btn-success btn-elevate">Xác nhận</button>
+                    <button *ngIf="congVanYeuCau.TrangThai === 3 &&PhanCongTC && PhanCongTC.TRANG_THAI !== 0" type="button" [disabled]="formGroup.invalid || (submited| async)" (click)="cancel()"
+                    class="btn btn-danger btn-elevate">Phân công lại</button>
+            </ng-container>
+        </div>
+    </div>
+</ng-template>

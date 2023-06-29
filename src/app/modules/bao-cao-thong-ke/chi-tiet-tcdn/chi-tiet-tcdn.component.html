@@ -1,0 +1,176 @@
+<div class="card card-custom gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label">CHI TIẾT TIẾP CẬN ĐIỆN NĂNG</h3>
+        </div>        
+    </div>
+    <div class="card-body">
+        <!-- begin: Filtration form -->
+        <div class="form form-label-right">
+            <div class="form-group row">
+                
+                <div class="col-lg-3" [formGroup]="filterGroup">
+                    <label>Đơn vị quản lý</label>
+                    <select class="form-control" name="maDViQLy" formControlName="maDViQLy">
+                        <option value="">--Đơn vị quản lý--</option>
+                        <option [value]="item.orgCode"
+                            *ngFor="let item of organizations">
+                            {{item.orgCode}} - {{item.orgName}}
+                        </option>
+                    </select>  
+                </div>
+
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <label>Mã yêu cầu</label>
+                    <input type="text" class="form-control" name="searchText" placeholder="Mã số" value=""
+                        formControlName="keyword" />
+                </div>
+                <!-- <div class="col-lg-2" [formGroup]="filterGroup">
+                    <label>Trạng thái</label>
+                    <select class="form-control" name="status" placeholder="Trạng thái" formControlName="status">
+                        <option selected="selected" value="-1">-- Tất cả --</option>
+                        <option value="0">Yêu cầu mới</option>
+                        <option value="1">Tiếp nhận</option>
+                        <option value="2">Phân công khảo sát</option>
+                        <option value="3">Ghi nhận khảo sát</option>
+                        <option value="4">Lập biên bản khảo sát</option>
+                        <option value="5">Dự thảo thỏa thuận</option>
+                        <option value="6">Ký số thỏa thuận</option>
+                        <option value="7">Hoàn thành</option>
+                        <option value="13">Bị trả lại</option>
+                    </select>
+                </div> -->
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <label>Từ ngày</label>
+                    <div class="input-group input-group-solid">
+                        <div class="input-group-append" (click)="fromdate.toggle()">
+                            <span class="input-group-text">
+                                <i class="text-dark-50 flaticon-calendar"></i>
+                            </span>
+                        </div>
+                        <input type="text" name="fromdate" class="form-control form-control-solid"
+                            autocomplete="off" placeholder="Từ ngày" ngbDatepicker
+                            #fromdate="ngbDatepicker" formControlName="fromdate" />
+                    </div>
+                </div>
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <label>Đến ngày</label>
+                    <div class="input-group input-group-solid">
+                        <div class="input-group-append" (click)="todate.toggle()">
+                            <span class="input-group-text">
+                                <i class="text-dark-50 flaticon-calendar"></i>
+                            </span>
+                        </div>
+                        <input type="text" name="todate" class="form-control form-control-solid"
+                            autocomplete="off" placeholder="Đến ngày" ngbDatepicker
+                            #todate="ngbDatepicker" formControlName="todate" />
+                    </div>
+                </div>
+               
+            </div>
+            <div class="form-group row">
+                <button type="button" class="btn btn-primary mr-2" (click)="filter()"><i class="fa fa-search"></i> 
+                    Tìm kiếm
+                </button>
+                <button type="button" class="btn btn-success mr-2" (click)="exportExcel()"><i class="fa fa-download"></i>
+                    Xuất excel
+                </button>
+            </div>
+        </div>    
+        <!-- end: Filtration form -->
+   
+        <!-- begin:Table -->
+        <div class="table-responsive angular-bootstrap-table">
+            <table class="table table-head-custom table-vertical-center overflow-hidden">
+                <thead>
+                    <tr>
+                        <th style="width: 40px;text-align: center;" rowspan="2">
+                            STT
+                        </th>
+                        <th style="width: 110px" rowspan="2">
+                            Đơn vị
+                        </th>
+                        <th rowspan="2">
+                            Tên chủ đầu tư 
+                        </th>
+                        <th rowspan="2">
+                            Tên công trình
+                        </th>
+                        <th rowspan="2">
+                            Địa chỉ công trình
+                        </th>
+                        <th rowspan="2">
+                            Mã yêu cầu 
+                        </th>
+                        <th style="width: 110px" rowspan="2">
+                            Tổng công suất (kVA)
+                        </th>
+                        <th style="width: 110px;text-align: center;" rowspan="2">
+                            Tổng chiều dài đường dây: cáp ngầm và đường dây nổi (km)
+                        </th>
+                        <th colspan="2">
+                            Thỏa thuận đấu nối
+                        </th>
+                        <th colspan="2">
+                            Kiểm tra điều kiện đóng điện điểm đấu nối
+                        </th>
+                        <th colspan="2">
+                            Nghiệm thu và ký HĐMBĐ
+                        </th>
+                        <th rowspan="2">
+                            Tổng số ngày tiếp cận điện năng
+                        </th>
+                    </tr>
+                    <tr>
+                        <th >
+                            Trở ngại
+                        </th>
+                        <th >
+                            Tổng số ngày thực hiện TTĐN 
+                        </th>
+                        <th >
+                            Trở ngại
+                        </th>
+                        <th >
+                            Số ngày kiểm tra điều kiện ĐĐĐĐN 
+                        </th>
+                        <th >
+                            Trở ngại
+                        </th>
+                        <th >
+                            Số ngày nghiệm thu và ký HĐMBĐ
+                        </th>
+                       
+                    </tr>
+                    
+ 
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of service.items$ | async; let i=index;">
+                        <td>{{ i + paginator.pageSize * (paginator.page - 1) + 1 }}</td>
+                        <td>{{item.MaDViQLy}}</td>
+                        <td>{{item.TenKH}}</td>
+                        <td>{{item.TenCT}}</td>
+                        <td>{{item.DCCT}}</td>
+                        <td>{{item.MaYC}}</td>
+                        <td>{{item.TongCS}}</td>
+                        <td>{{item.TongChieuDaiDD}}</td>
+                        <td>{{item.TroNgaiTTDN}}</td>
+                        <td>{{item.TongSoNgayTTDN}}</td>
+                        <td>{{item.TroNgaiKTDK}}</td>
+                        <td>{{item.TongSoNgayKTDK}}</td>
+                        <td>{{item.TroNgaiNT}}</td>
+                        <td>{{item.TongSoNgayNT}}</td>
+                        <td>{{item.TongSoNgayTCDN}}</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <app-paginator class="d-flex justify-content-between align-items-center flex-wrap" [paginator]="paginator"
+            [isLoading]="isLoading" (paginate)="paginate($event)"></app-paginator>
+    </div>
+</div>
+
+
+

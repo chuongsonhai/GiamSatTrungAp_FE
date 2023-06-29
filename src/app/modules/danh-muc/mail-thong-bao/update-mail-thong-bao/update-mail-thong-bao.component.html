@@ -1,0 +1,39 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            Thông tin email
+        </div>
+    </div>
+    <div class="overlay overlay-block cursor-default modal-body" style="min-height: 404px;">   
+        <ng-container>
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                
+                <div class="form-group row">
+                    <div class="col-lg-6">
+                        <label>Email <span style="color:red">*</span></label>
+                        <input type="text" class="form-control" name="EMAIL" formControlName="EMAIL" 
+                        [class.is-invalid]="isControlInvalid('EMAIL')"/>
+                    </div>
+                    <div class="col-lg-6">
+                        <label>Tiêu dề <span style="color:red">*</span></label>
+                        <input readonly type="text" class="form-control" name="TIEUDE" formControlName="TIEUDE" 
+                        [class.is-invalid]="isControlInvalid('TIEUDE')"/>
+                    </div>                    
+                </div> 
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        <label>Nội dung <span style="color:red">*</span></label>
+                        <ckeditor readonly tagName="textarea" name="NOIDUNG" formControlName="NOIDUNG"></ckeditor>
+                    </div>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container>
+            <button type="submit" [disabled]="formGroup.invalid" class="btn btn-primary btn-elevate" (click)="send()">Gửi Email</button>
+        </ng-container>
+    </div>
+</div>
+

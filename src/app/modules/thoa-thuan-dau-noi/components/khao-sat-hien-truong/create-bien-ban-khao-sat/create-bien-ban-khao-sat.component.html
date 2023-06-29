@@ -1,0 +1,248 @@
+<ng-container *ngIf="isLoadingForm$ | async; else showData">
+    <div class="overlay-layer bg-transparent">
+        <div class="spinner spinner-lg spinner-success"><span style="padding-left:35px;">Đang tải dữ liệu, vui lòng
+                chờ</span></div>
+    </div>
+</ng-container>
+<ng-template #showData>
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="modal-title h4" id="example-modal-sizes-title-lg">
+                Biên bản khảo sát
+            </div>
+        </div>
+        <div class="overlay overlay-block cursor-default modal-body" style="min-height: 404px;">
+
+            <ng-container>
+                <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                    <div class="form-group row">
+                        <div class="col-lg-6">
+                            <label>Tên công trình</label>
+                            <input type="text" class="form-control" autocomplete="off" placeholder="Tên công trình"
+                                name="TenCongTrinh" formControlName="TenCongTrinh" />
+                        </div>
+
+                        <div class="col-lg-6">
+                            <label>Địa điểm xây dựng </label>
+                            <input type="text" class="form-control" autocomplete="off" placeholder="Địa điểm xây dựng"
+                                name="DiaDiemXayDung" formControlName="DiaDiemXayDung" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-lg-12">
+                            <label>Tên khách hàng </label>
+                            <input type="text" class="form-control" autocomplete="off" placeholder="Tên khách hàng "
+                                name="KHTen" formControlName="KHTen" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-lg-12">
+                            <label>Đại diện khách hàng </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="table-responsive angular-bootstrap-table">
+                            <table class="table">
+                                <tr>
+                                    <th style="width: 50px; max-width: 50px;"> STT </th>
+                                    <th> Tên đại diện </th>
+                                    <th> Chức vụ </th>
+                                    <th></th>
+                                </tr>
+                                <tbody [formGroup]="dataTable">
+                                    <ng-container formArrayName="tableKHDD"
+                                        *ngFor="let group of getFormControlsKH.controls ; let i=index">
+                                        <tr [formGroupName]="i">
+                                            <td style="width: 50px; max-width: 50px;">
+                                                {{i + 1}}
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control form-control-solidl"
+                                                    style="padding: 0.2rem 0.5rem;" autocomplete="off" name="DaiDien"
+                                                    formControlName="DaiDien" />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control form-control-solidl"
+                                                    style="padding: 0.2rem 0.5rem;" autocomplete="off" name="ChucVu"
+                                                    formControlName="ChucVu" />
+                                            </td>
+                                            <td>
+
+                                                <a title="Xóa"
+                                                    class="btn btn-icon btn-light btn-hover-primary btn-sm mx-2"
+                                                    (click)="deleteRowKH(i,group)">
+                                                    <span [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'"
+                                                        cacheSVG="true" class="svg-icon svg-icon-md svg-icon-danger">
+                                                    </span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </ng-container>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <div class="col-lg-12">
+                            <label>Đơn vị </label>
+                            <input type="text" class="form-control" autocomplete="off" placeholder="Đơn vị"
+                                name="EVNDonVi" formControlName="EVNDonVi" />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-lg-12">
+                            <label>Đại diện công ty điện </label>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="table-responsive angular-bootstrap-table">
+                            <table class="table">
+                                <tr>
+                                    <th style="width: 50px; max-width: 50px;"> STT </th>
+                                    <th> Tên đại diện </th>
+                                    <th> Chức vụ </th>
+                                    <th></th>
+                                </tr>
+                                <tbody [formGroup]="dataTable">
+                                    <ng-container formArrayName="tableEVNDD"
+                                        *ngFor="let group of getFormControlsEVN.controls ; let i=index">
+                                        <tr [formGroupName]="i">
+                                            <td style="width: 50px; max-width: 50px;">
+                                                {{i + 1}}
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control form-control-solidl"
+                                                    style="padding: 0.2rem 0.5rem;" autocomplete="off" name="DaiDien"
+                                                    formControlName="DaiDien" />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control form-control-solidl"
+                                                    style="padding: 0.2rem 0.5rem;" autocomplete="off" name="ChucVu"
+                                                    formControlName="ChucVu" />
+                                            </td>
+                                            <td>
+
+                                                <a title="Xóa"
+                                                    class="btn btn-icon btn-light btn-hover-primary btn-sm mx-2"
+                                                    (click)="deleteRowEVN(i,group)">
+                                                    <span [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'"
+                                                        cacheSVG="true" class="svg-icon svg-icon-md svg-icon-danger">
+                                                    </span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </ng-container>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-lg-3">
+                            <label>Ngày được giao</label>
+                            <div class="input-group input-group-solid">
+                                <div class="input-group-append" (click)="NgayDuocGiao.toggle()">
+                                    <span class="input-group-text">
+                                        <i class="text-dark-50 flaticon-calendar"></i>
+                                    </span>
+                                </div>
+                                <input type="text" name="NgayDuocGiao" class="form-control form-control-solid"
+                                    autocomplete="off" placeholder="dd/mm/yyyy" ngbDatepicker
+                                    #NgayDuocGiao="ngbDatepicker" formControlName="NgayDuocGiao" />
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <label>Ngày khảo sát</label>
+                            <div class="input-group input-group-solid">
+                                <div class="input-group-append" (click)="NgayKhaoSat.toggle()">
+                                    <span class="input-group-text">
+                                        <i class="text-dark-50 flaticon-calendar"></i>
+                                    </span>
+                                </div>
+                                <input type="text" name="NgayKhaoSat" class="form-control form-control-solid"
+                                    autocomplete="off" placeholder="dd/mm/yyyy" ngbDatepicker
+                                    #NgayKhaoSat="ngbDatepicker" formControlName="NgayKhaoSat" />
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <label>Kết quả </label>
+                            <label *ngIf="BienBanKS.ThuanLoi" class="form-control">Thuận lợi</label>
+                            <select *ngIf="!BienBanKS.ThuanLoi" class="form-control" name="MaTroNgai" formControlName="MaTroNgai">
+                                <option value="" selected>--- Trở ngại ---</option>
+                                <option [value]="item.MA_TNGAI" *ngFor="let item of commonService.trongais$ | async">
+                                    {{item.TEN_TNGAI}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-lg-6">
+                            <label>Cấp điện áp đấu nối (kV)</label>
+                            <input type="text" class="form-control" autocomplete="off"
+                                placeholder="Cấp điện áp đấu nối (kV)" name="CapDienAp" formControlName="CapDienAp" />
+                        </div>
+                        <div class="col-lg-6">
+                            <label>Tên lộ đường dây dự kiến đấu nối</label>
+                            <input type="text" class="form-control" autocomplete="off"
+                                placeholder="Tên lộ đường dây dự kiến đấu nối" name="TenLoDuongDay"
+                                formControlName="TenLoDuongDay" />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-lg-12">
+                            <label>Điểm đấu dự kiến</label>
+                            <ckeditor tagName="textarea" name="DiemDauDuKien" formControlName="DiemDauDuKien">
+                            </ckeditor>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-lg-8">
+                            <label>Dây dẫn</label>
+                            <input type="text" class="form-control" autocomplete="off" placeholder="Dây dẫn"
+                                name="DayDan" formControlName="DayDan" />
+                        </div>
+                        <div class="col-lg-4">
+                            <label>Tổng số trạm biến áp (trạm)</label>
+                            <input type="number" class="form-control" autocomplete="off"
+                                placeholder="Tổng số trạm biến áp (trạm)" name="SoTramBienAp"
+                                formControlName="SoTramBienAp" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-lg-6">
+                            <label>Tổng số máy biến áp (máy) </label>
+                            <input type="number" class="form-control" autocomplete="off"
+                                placeholder="Tổng số máy biến áp (máy) " name="SoMayBienAp"
+                                formControlName="SoMayBienAp" />
+                        </div>
+                        <div class="col-lg-6">
+                            <label>Tổng công suất các trạm biến áp (kVA)</label>
+                            <input type="number" class="form-control" autocomplete="off"
+                                placeholder="Tổng công suất các trạm biến áp  (kVA)" name="TongCongSuat"
+                                formControlName="TongCongSuat" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-lg-12">
+                            <label>Các thỏa thuận kỹ thuật khác</label>
+                            <ckeditor tagName="textarea" name="ThoaThuanKyThuat" formControlName="ThoaThuanKyThuat">
+                            </ckeditor>
+
+                        </div>
+                    </div>
+                </form>
+            </ng-container>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+            <ng-container>
+                <button type="submit" class="btn btn-primary btn-elevate" (click)="save()">Lưu</button>
+            </ng-container>
+        </div>
+    </div>
+</ng-template>

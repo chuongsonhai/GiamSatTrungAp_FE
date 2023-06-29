@@ -1,0 +1,47 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            Thông tin cấu hình đồng bộ
+        </div>
+    </div>
+    <div class="overlay overlay-block cursor-default modal-body" style="min-height: 404px;">
+        <ng-container>
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+
+                <div class="form-group row">
+                    <div class="col-lg-3">
+                        <label>Mã số <span style="color:red">*</span></label>
+                        <input readonly type="text" class="form-control" name="MA" formControlName="MA"
+                            [class.is-invalid]="isControlInvalid('MA')" />
+                    </div>
+                    <div class="col-lg-3">
+                        <label>Mô tả <span style="color:red">*</span></label>
+                        <input type="text" class="form-control" name="MO_TA" formControlName="MO_TA"
+                            [class.is-invalid]="isControlInvalid('MO_TA')" />
+                    </div>
+                    <div class="col-lg-3">
+                        <label>Ngày kết thúc <span style="color:red">*</span></label>
+                        <div class="input-group input-group-solid">
+                            <div class="input-group-append" (click)="NGAY_KTHUC.toggle()">
+                                <span class="input-group-text">
+                                    <i class="text-dark-50 flaticon-calendar"></i>
+                                </span>
+                            </div>
+                            <input type="text" name="NGAY_KTHUC" class="form-control form-control-solid"
+                                autocomplete="off" placeholder="dd/mm/yyyy" ngbDatepicker #NGAY_KTHUC="ngbDatepicker"
+                                formControlName="NGAY_KTHUC" [class.is-invalid]="isControlInvalid('NGAY_KTHUC')" />
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container>
+            <button type="submit" [disabled]="formGroup.invalid" class="btn btn-primary btn-elevate"
+                (click)="save()">Lưu thông tin</button>
+        </ng-container>
+    </div>
+</div>

@@ -1,0 +1,78 @@
+<div class="card card-custom gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label">Mail thông báo khách hàng</h3>
+        </div>        
+    </div>
+    <div class="card-body">
+        <div class="form form-label-right">
+            <div class="form-group row">
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <input type="text" class="form-control" name="maYCau" placeholder="Mã yêu cầu" value=""
+                        formControlName="maYCau" />
+                </div>
+                <div class="col-lg-3" [formGroup]="filterGroup">
+                    <input type="text" class="form-control" name="searchText" placeholder="Email/Tiêu đề" value=""
+                        formControlName="keyword" />
+                </div>
+                <div class="col-lg-3" [formGroup]="filterGroup">
+                    <select class="form-control" name="status" placeholder="Trạng thái" formControlName="status">
+                        <option selected="selected" value="-1">-- Tất cả --</option>
+                        <option value="0">Chưa gửi</option>
+                        <option value="1">Đã gửi</option>
+                        <option value="2">Gửi lỗi</option>
+                        <option value="3">Chờ gửi lại</option>                        
+                    </select>
+                </div>
+                <button type="button" class="btn btn-primary mr-2" (click)="filter()"><i class="fa fa-search"></i> 
+                    Tìm kiếm
+                </button>
+            </div>
+        </div>
+        <!-- begin:Table -->
+        <div class="table-responsive angular-bootstrap-table">
+            <table class="table table-head-custom table-vertical-center overflow-hidden">
+                <thead>                    
+                    <th style="width: 40px;">
+                        STT
+                    </th>
+                    <th>
+                        Email
+                    </th>
+                    <th>
+                        Tiêu đề
+                    </th>
+                    <th>
+                        Mã yêu cầu
+                    </th>
+                    <th>
+                        Mã đơn vị
+                    </th>                                                            
+                    <th style="width: 110px;text-align: center;">
+                        Ngày gửi
+                    </th>
+                    <th style="width: 110px;text-align: center;">
+                        Trạng thái
+                    </th>
+                    <th style="width: 100px;text-align: center;">Thao tác</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of service.items$ | async; let i=index;">
+                        <td>{{ i + paginator.pageSize * (paginator.page - 1) + 1 }}</td>
+                        <td>{{item.EMAIL}}</td>
+                        <td>{{item.TIEUDE}}</td>
+                        <td>{{item.MA_YCAU_KNAI}}</td>
+                        <td>{{item.MA_DVIQLY}}</td>                        
+                        <td style="text-align: center;">{{ item.TRANG_THAI === 1 ? item.NGAY_GUI : item.NGAY_TAO }}</td> 
+                        <td style="text-align: center;">{{ item.TRANG_THAI === 0 ? "Chưa gửi" : item.TRANG_THAI === 1 ? "Đã gửi" : item.TRANG_THAI === 2 ? "Gửi lỗi" : "Chờ gửi lại"}}</td>                        
+                        <td style="text-align: center;">
+                            <a (click)="update(item.ID)"> <i class="fa fa-edit text-primary"></i></a>
+                        </td>                                                
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <app-paginator class="d-flex justify-content-between align-items-center flex-wrap" [paginator]="paginator"
+            [isLoading]="isLoading" (paginate)="paginate($event)"></app-paginator>
+    </div>
+</div>

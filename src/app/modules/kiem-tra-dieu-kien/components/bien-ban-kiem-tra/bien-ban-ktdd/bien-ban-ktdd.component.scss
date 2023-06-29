@@ -1,0 +1,21 @@
+.label.label-inline {
+    width: auto;
+   
+    font-size: large;
+}
+
+.label.label-pill {
+    border-radius: none;
+}
+.label.label-inline {
+    width: auto;
+    padding: 0.15rem 0.75rem;
+    border-radius: 0.42rem;
+}
+.label.label-light-danger {
+    color: #F64E60;
+    background-color: #FFE2E5;
+}
+::ng-deep.label {
+    height: 45px;
+}

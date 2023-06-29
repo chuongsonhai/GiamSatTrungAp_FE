@@ -1,0 +1,102 @@
+<div class="card card-custom gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label">System Log</h3>
+        </div>        
+    </div>
+    <div class="card-body">
+        <!-- begin: Filtration form -->
+        <div class="form form-label-right">
+            <div class="form-group row">
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <select class="form-control" name="maDonVi" formControlName="maDonVi">
+                        <option value="">--Đơn vị quản lý--</option>
+                        <option [value]="item.orgCode" *ngFor="let item of organizations">
+                            {{item.orgCode}} - {{item.orgName}}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <input type="text" class="form-control" name="maYCau" placeholder="Mã yêu cầu" value=""
+                        formControlName="maYCau" />
+                </div>
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <input type="text" class="form-control" name="userName" placeholder="Tên người dùng" value=""
+                        formControlName="userName" />
+                </div>
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <input type="text" class="form-control" name="searchText" placeholder="Từ khoá" value=""
+                        formControlName="keyword" />
+                </div>
+
+
+
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <div class="input-group input-group-solid">
+                        <div class="input-group-append" (click)="fromdate.toggle()">
+                            <span class="input-group-text">
+                                <i class="text-dark-50 flaticon-calendar"></i>
+                            </span>
+                        </div>
+                        <input type="text" name="fromdate" class="form-control form-control-solid" autocomplete="off"
+                            placeholder="Từ ngày" ngbDatepicker #fromdate="ngbDatepicker" formControlName="fromdate" />
+                    </div>
+                </div>
+
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <div class="input-group input-group-solid">
+                        <div class="input-group-append" (click)="todate.toggle()">
+                            <span class="input-group-text">
+                                <i class="text-dark-50 flaticon-calendar"></i>
+                            </span>
+                        </div>
+                        <input type="text" name="todate" class="form-control form-control-solid" autocomplete="off"
+                            placeholder="Đến ngày" ngbDatepicker #todate="ngbDatepicker" formControlName="todate" />
+                    </div>
+                </div>
+              
+            </div>
+            <div class="form-group row">
+                <button type="button" class="btn btn-primary mr-2" (click)="filter()"><i class="fa fa-search"></i> 
+                    Tìm kiếm
+                </button>
+            </div>
+        </div>
+        <!-- end: Filtration form -->
+        <!-- begin:Table -->
+        <div class="table-responsive angular-bootstrap-table">
+            <table class="table table-head-custom table-vertical-center overflow-hidden">
+                <thead>                    
+                    <th style="width: 40px;">
+                        STT
+                    </th>
+                    <th>
+                        Mã yêu cầu
+                    </th>  
+                    <th>
+                        Tên người dùng
+                    </th> 
+                    <th>
+                        Ngày
+                    </th>                   
+                    <th>
+                        Hành động
+                    </th>
+             
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of service.items$ | async; let i=index;">                        
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ item.MaYeuCau }}</td> 
+                        <td>{{ item.UserName }}</td>
+                        <td>{{ item.NgayUpdate }}</td>
+                        <td>{{ item.DataLoggingDetail }}</td>
+                     
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <app-paginator class="d-flex justify-content-between align-items-center flex-wrap" [paginator]="paginator"
+            [isLoading]="isLoading" (paginate)="paginate($event)"></app-paginator>
+    </div>
+</div>

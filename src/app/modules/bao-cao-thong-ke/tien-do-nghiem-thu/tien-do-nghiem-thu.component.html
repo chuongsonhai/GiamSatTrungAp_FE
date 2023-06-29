@@ -1,0 +1,213 @@
+<div class="card card-custom gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label">CHI TIẾT KIỂM TRA ĐIỀU KIỆN ĐÓNG ĐIỆN VÀ NGHIỆM THU</h3>
+        </div>        
+    </div>
+    <div class="card-body">
+        <!-- begin: Filtration form -->
+        <div class="form form-label-right">
+            <div class="form-group row">
+              
+                <div class="col-lg-3" [formGroup]="filterGroup">
+                    <label>Đơn vị quản lý</label>
+                    <select class="form-control" name="maDViQLy" formControlName="maDViQLy">
+                        <option value="">--Đơn vị quản lý--</option>
+                        <option [value]="item.orgCode"
+                            *ngFor="let item of organizations">
+                            {{item.orgCode}} - {{item.orgName}}
+                        </option>
+                    </select>  
+                </div>
+
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <label>Mã yêu cầu</label>
+                    <input type="text" class="form-control" name="searchText" placeholder="Mã số" value=""
+                        formControlName="keyword" />
+                </div>
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <label>Trạng thái</label>
+                    <select class="form-control" name="status" placeholder="Trạng thái" formControlName="status">
+                        <option value="-1">-- Tất cả --</option>
+                        <option value="0">Yêu cầu mới</option>
+                        <option value="1">Tiếp nhận</option>
+                        <option value="2">Ghi nhận kết quả</option>
+                        <option value="3">Lập biên bản kiểm tra</option>
+                        <option value="4">Dự thảo hợp đồng</option>
+                        <option value="5">Phân công thi công</option> 
+                        <option value="6">Ghi nhận thi công</option>                       
+                        <option value="7">Biên bản treo tháo</option>
+                        <option value="8">Nghiệm thu, đóng điện</option>
+                        <option value="9">Hoàn thành hợp đồng</option>
+                        <option value="10">Hoàn thành</option>
+                        <option value="13">Trả lại hồ sơ</option>
+                    </select>
+                </div>
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <label>Từ ngày</label>
+                    <div class="input-group input-group-solid">
+                        <div class="input-group-append" (click)="fromdate.toggle()">
+                            <span class="input-group-text">
+                                <i class="text-dark-50 flaticon-calendar"></i>
+                            </span>
+                        </div>
+                        <input type="text" name="fromdate" class="form-control form-control-solid"
+                            autocomplete="off" placeholder="Từ ngày" ngbDatepicker
+                            #fromdate="ngbDatepicker" formControlName="fromdate" />
+                    </div>
+                </div>
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <label>Đến ngày</label>
+                    <div class="input-group input-group-solid">
+                        <div class="input-group-append" (click)="todate.toggle()">
+                            <span class="input-group-text">
+                                <i class="text-dark-50 flaticon-calendar"></i>
+                            </span>
+                        </div>
+                        <input type="text" name="todate" class="form-control form-control-solid"
+                            autocomplete="off" placeholder="Đến ngày" ngbDatepicker
+                            #todate="ngbDatepicker" formControlName="todate" />
+                    </div>
+                </div>
+             
+            </div>
+            <div class="form-group row">
+                <button type="button" class="btn btn-primary mr-2" (click)="filter()"><i class="fa fa-search"></i> 
+                    Tìm kiếm
+                </button>
+                <button type="button" class="btn btn-success mr-2" (click)="exportExcel()"><i class="fa fa-download"></i>
+                    Xuất excel
+                </button>
+            </div>
+        </div>    
+        <!-- end: Filtration form -->
+   
+        <!-- begin:Table -->
+        <div class="table-responsive angular-bootstrap-table">
+            <table class="table table-head-custom table-vertical-center overflow-hidden">
+                <thead>
+                    <tr>
+                        <th style="width: 40px;text-align: center;" rowspan="2">
+                            STT
+                        </th>
+                        <th style="width: 110px" rowspan="2">
+                            Đơn vị
+                        </th>
+                        <th rowspan="2">
+                            Tên chủ đầu tư 
+                        </th>
+                        <th rowspan="2">
+                            Tên công trình
+                        </th>
+                        <th rowspan="2">
+                            Địa chỉ công trình
+                        </th>
+                        <th rowspan="2">
+                            Mã yêu cầu 
+                        </th>
+                        <th style="width: 110px" rowspan="2">
+                            Tổng công suất (kVA)
+                        </th>
+                        <th style="width: 110px;text-align: center;" rowspan="2">
+                            Tổng chiều dài đường dây: cáp ngầm và đường dây nổi (km)
+                        </th>
+                        <th colspan="5">
+                            Tiếp nhận hồ sơ
+                        </th>
+                        <th colspan="6">
+                            Kiểm tra điều kiện đóng điện điểm đấu nối
+                        </th>
+                        <th colspan="4">
+                            Nghiệm thu và ký HĐMBĐ
+                        </th>
+                        <th rowspan="2">
+                            Tổng số ngày kiểm tra điều kiện ĐĐĐĐN và nghiệm thu
+                        </th>
+                    </tr>
+                    <tr>
+                        <th >
+                            Thời gian tiếp nhận hồ sơ 
+                        </th>
+                        <th >
+                            Thời gian trả lại hồ sơ
+                        </th>
+                        <th >
+                            Trở ngại
+                        </th>
+                        <th >
+                            Thời gian chuyển hồ sơ sang kiểm tra điều kiện ĐĐĐĐN
+                        </th>
+                        <th >
+                            Số ngày thực hiện tiếp nhận hồ sơ
+                        </th>
+                        <th >
+                            Thời gian kiểm tra thực tế
+                        </th>
+                        <th >
+                            Trở ngại
+                        </th>
+                        <th >
+                            Thời gian yêu cầu KH hoàn thành tồn tại
+                        </th>
+                        <th >
+                            Thời gian lập và duyệt Biên bản kiểm tra  ĐĐĐĐN
+                        </th>
+                        <th >
+                            Thời gian chuyển Biên bản kiểm tra điều kiện ĐĐĐĐN đến khách hàng
+                        </th>
+                        <th >
+                            Số ngày kiểm tra điều kiện ĐĐĐĐN 
+                        </th>
+                        <th >
+                            Thời gian tiếp nhận đề nghị nghiệm thu
+                        </th>
+                        <th >
+                            Trở ngại
+                        </th>
+                        <th >
+                            Thời gian nghiệm thu đóng điện và ký HĐMBĐ
+                        </th>
+                        <th >
+                            Số ngày nghiệm thu và ký HĐMBĐ
+                        </th>
+                    </tr>
+                    
+ 
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of service.items$ | async; let i=index;">
+                        <td>{{ i + paginator.pageSize * (paginator.page - 1) + 1 }}</td>
+                        <td>{{item.MaDViQLy}}</td>
+                        <td>{{item.TenKH}}</td>
+                        <td>{{item.TenCT}}</td>
+                        <td>{{item.DCCT}}</td>
+                        <td>{{item.MaYC}}</td>
+                        <td>{{item.TongCS}}</td>
+                        <td>{{item.TongChieuDaiDD}}</td>
+                        <td>{{item.ThoiGianTNHS}}</td>
+                        <td>{{item.ThoiGianTLHS}}</td>
+                        <td>{{item.TroNgaiTNHS}}</td>
+                        <td>{{item.ThoiGianChuyenHSSangKT}}</td>
+                        <td>{{item.SoNgayTNHS}}</td>
+                        <td>{{item.ThoiGianKTThucTe}}</td>
+                        <td>{{item.TroNgaiKT}}</td>
+                        <td>{{item.ThoiGianYeuCauKHHoanThanhTonTai}}</td>
+                        <td>{{item.ThoiGianLapVaDuyetBBKT}}</td>
+                        <td>{{item.ThoiGianChuyenBBKTDenKH}}</td>
+                        <td>{{item.SoNgayKTDK}}</td>
+                        <td>{{item.ThoiGianTNDNNT}}</td>
+                        <td>{{item.TroNgaiNT}}</td>
+                        <td>{{item.ThoiGianNTDDVaKyHD}}</td>
+                        <td>{{item.SoNgayNTVaKyHD}}</td>
+                        <td>{{item.TongSoNgayYCNT}}</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <app-paginator class="d-flex justify-content-between align-items-center flex-wrap" [paginator]="paginator"
+            [isLoading]="isLoading" (paginate)="paginate($event)"></app-paginator>
+    </div>
+</div>
+
+

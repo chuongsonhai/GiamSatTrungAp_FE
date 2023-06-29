@@ -1,0 +1,116 @@
+<div class="card card-custom gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label">Báo cáo theo quý</h3>
+        </div>        
+    </div>
+    <div class="card-body">
+        <!-- begin: Filtration form -->
+        <div class="form form-label-right">
+            <div class="form-group row">
+                <div class="col-lg-3" [formGroup]="filterGroup">
+                    <label>Đơn vị quản lý</label>
+                    <select class="form-control" name="maDViQLy" formControlName="maDViQLy">
+                        <option value="">--Đơn vị quản lý--</option>
+                        <option [value]="item.orgCode"
+                            *ngFor="let item of organizations">
+                            {{item.orgCode}} - {{item.orgName}}
+                        </option>
+                    </select>  
+                </div>
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <label>Quý</label>
+                    <select class="form-control" name="quater" placeholder="Quý" formControlName="quater">
+                        <option [value]="item"
+                            *ngFor="let item of quaters">
+                            {{item}}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <label>Năm</label>
+                    <select class="form-control" name="year" placeholder="Năm" formControlName="year">
+                        <option [value]="item"
+                            *ngFor="let item of years">
+                            {{item}}
+                        </option>
+                    </select>
+                </div>
+           
+                <div class="col-lg-2">
+                    <button type="button" class="btn btn-primary mr-2" style="height: 60%;bottom: 0;position: absolute;"
+                        (click)="filter()"><i class="fa fa-search"></i>
+                        Tổng hợp
+                    </button>
+
+                </div>
+               
+            </div>
+        </div>    
+        <!-- end: Filtration form -->
+   
+        <!-- begin:Table -->
+        <div class="table-responsive angular-bootstrap-table">
+            <table class="table table-head-custom table-vertical-center overflow-hidden">
+                <thead>                    
+                    <th style="width: 40px;">
+                        STT
+                    </th>
+                    <th>
+                        Tổng thời gian
+                    </th>
+                    <th>
+                        Ngày tiếp nhận
+                    </th>
+                    <th>
+                        Ngày khảo sát
+                    </th>
+                    <th style="text-align: center;">
+                        Người yêu cầu
+                    </th>                                        
+                    <th>
+                        Mã yêu cầu
+                    </th>
+                    <th>Ngày thỏa thuận</th>
+                    <th>Ngày dự thảo HĐ</th>
+                    <th>Ngày TVB</th>
+                    <th>Ngày nghiệm thu</th>
+                    <th>TG nghiệm thu</th>
+                    <th style="text-align: center;">
+                        Đơn vị quản lý
+                    </th>
+                    <th>Trạng thái</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of service.items$ | async; let i=index;">
+                        <td style="text-align: center;">{{ i + 1 }}</td>
+                        <td style="text-align: center;">{{item.TONG_TGIAN}}</td>
+                        <td>{{item.NGAY_TNHAN}}</td>
+                        <td>{{item.NGAY_KSAT}}</td>
+                        <td>{{item.TEN_NGUOIYCAU}}</td>
+                        <td>{{item.MA_YCAU_KNAI}}</td>
+                        <td>{{item.NGAY_BDN}}</td>
+                        <td>{{item.NGAY_DT_TDN}}</td>
+                        <td>{{item.NGAY_TH_TVB}}</td>
+                        <td>{{item.NGAY_NT_TVB}}</td>
+
+                        <td *ngIf="item.TGIAN_NTHU>0" style="text-align: center;">{{item.TGIAN_NTHU}}</td>
+                        <td *ngIf="item.TGIAN_NTHU==0" style="text-align: center;"></td>
+
+                        <td style="text-align: center;">
+                            {{item.MA_DVIQLY}} - {{item.TEN_DVIQLY}}
+                        </td>
+                        <td>{{item.TRANGTHAIHOSO}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <app-paginator class="d-flex justify-content-between align-items-center flex-wrap" [paginator]="paginator"
+            [isLoading]="isLoading" (paginate)="paginate($event)"></app-paginator>
+    </div>
+    <div class="card-footer text-right">
+        <button class="btn btn-success mr-2" (click)="exportExcel()"><i class="fa fa-download"></i>Xuất excel</button>
+    </div>
+</div>
+
+
