@@ -1,0 +1,66 @@
+<ng-container *ngIf="isLoadingForm$ | async; else showData">
+    <div class="overlay-layer bg-transparent">
+        <div class="spinner spinner-lg spinner-success"><span style="padding-left:35px;">Đang tải dữ liệu, vui lòng
+                chờ</span></div>
+    </div>
+</ng-container>
+<ng-template #showData>
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="modal-title h4" id="example-modal-sizes-title-lg">
+                Biên bản treo tháo
+            </div>
+        </div>
+        <div *ngIf="BienBanTT" class="overlay overlay-block cursor-default modal-body" style="min-height: 404px;">
+            <ng-container>
+                <ul ngbNav #nav="ngbNav" [(activeId)]="activeTabId" [destroyOnHide]="false" class="nav nav-tabs"  role="tablist">
+                    <li [ngbNavItem]="tabs.ThongTinKhachHang" class="nav-item" (click)="changeTab(tabs.ThongTinKhachHang)"
+                        [class.active]="activeTabId === tabs.ThongTinKhachHang">
+                        <a ngbNavLink class="nav-link" data-toggle="tab" role="button"
+                            [attr.aria-selected]="activeTabId === tabs.ThongTinKhachHang"
+                            [class.active]="activeTabId === tabs.ThongTinKhachHang">
+                            <span class="menu-text">1. Thông tin chung</span>
+                        </a>
+                        <ng-template ngbNavContent>
+                            <app-thong-tin-khach-hang [bienbantreothao]="BienBanTT"></app-thong-tin-khach-hang>
+                          </ng-template>
+                    </li>
+
+                    <!-- <li class="nav-item" (click)="changeTab(tabs.ChiTietThietBiThao)"
+                        [class.active]="activeTabId === tabs.ChiTietThietBiThao">
+                        <a class="nav-link" data-toggle="tab" role="button"
+                            [attr.aria-selected]="activeTabId === tabs.ChiTietThietBiThao"
+                            [class.active]="activeTabId === tabs.ChiTietThietBiThao">
+                            <span class="menu-text">2. Thiết bị tháo</span>
+                        </a>
+                    </li> -->
+                    <li [ngbNavItem]="tabs.ChiTietThietBiTreo" class="nav-item" (click)="changeTab(tabs.ChiTietThietBiTreo)"
+                        [class.active]="activeTabId === tabs.ChiTietThietBiTreo">
+                        <a ngbNavLink class="nav-link" data-toggle="tab" role="button"
+                            [attr.aria-selected]="activeTabId === tabs.ChiTietThietBiTreo"
+                            [class.active]="activeTabId === tabs.ChiTietThietBiTreo">
+
+                            <span class="menu-text">2. Thiết bị treo</span>
+                        </a>
+                        <ng-template ngbNavContent>
+                            <app-chi-tiet-thiet-bi-treo [chitiettreo]="BienBanTT.ChiTietThietBiTreo" [maDVQL]="BienBanTT.MA_DVIQLY">
+                            </app-chi-tiet-thiet-bi-treo>
+                          </ng-template>
+                    </li>
+                </ul>
+                <div [ngbNavOutlet]="nav" class="tab-content mt-5"></div>
+          
+
+            </ng-container>
+        </div>
+        <div class="modal-footer" *ngIf="BienBanTT">
+            <ng-container>
+                <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+                <!-- <button type="button"  [disabled]="service.BienBanTTForm.invalid || service.ChiTietThietBiTreoForm.invalid || (submited| async)" (click)="saveDraft()"
+                    class="btn btn-primary btn-elevate">Lưu biên bản</button> -->
+                <!-- <button type="button" *ngIf="BienBanTT.ID > 0 && BienBanTT.TRANG_THAI == 0" [disabled]="submited| async" (click)="approve()"
+                    class="btn btn-success btn-elevate">Xác nhận</button> -->
+            </ng-container>
+        </div>
+    </div>
+</ng-template>

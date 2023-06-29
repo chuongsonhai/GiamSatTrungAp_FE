@@ -1,0 +1,24 @@
+.tabs {
+    border-top: 1px #eee solid;
+  }
+  
+  .nav-item {
+    width: 100%;
+  }
+  
+  .nav-item .active {
+    background-color: #2780d1 !important;
+    color: #fff !important;
+  }
+  
+  .form .form-group {
+    padding-top: 0px !important;
+  }
+
+  pdf-viewer {
+    display: block;
+    height: 100vh;
+  }
+  .card-toolbar{
+    margin-right:-30px
+  }

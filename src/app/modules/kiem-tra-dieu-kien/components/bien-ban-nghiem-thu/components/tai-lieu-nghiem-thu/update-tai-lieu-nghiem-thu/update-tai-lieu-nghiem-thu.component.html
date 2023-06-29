@@ -1,0 +1,46 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            Tài liệu nghiệm thu
+        </div>
+    </div>
+    <div class="overlay overlay-block cursor-default modal-body" style="min-height: 404px;">
+
+        <ng-container>
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                <div class="form-group row">
+                    <div class="col-lg-6">
+                        <label>Tên tài liệu</label>
+                        <input type="text" class="form-control" autocomplete="off" placeholder="Tên tài liệu"
+                            name="TenHoSo" formControlName="TenHoSo" />
+                    </div>
+                    <div class="col-lg-6">
+                        <label>Trạng thái </label>
+                        <select class="form-control selectpicker" name="TrangThai" formControlName="TrangThai">
+                            <option value="0">Mới tạo</option>
+                            <option value="1">Khách hàng ký</option>
+                            <option value="2">
+                                EVN ký
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        <label>Chọn file</label>
+                        <input placeholder="Chọn file" class="form-control" formControlName="File" type="file"
+                            name="File" accept=".pdf" (change)="upload($event)" />
+
+                    </div>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" (click)="modal.dismiss()" class="btn btn-light btn-elevate mr-2">Thoát</button>
+        <ng-container>
+            <button type="button" (click)="save()" class="btn btn-primary btn-elevate">Lưu</button>
+        </ng-container>
+    </div>
+</div>
+

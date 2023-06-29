@@ -1,0 +1,242 @@
+<ng-container *ngIf="isLoadingForm$ | async; else showData">
+    <div class="overlay-layer bg-transparent">
+        <div class="spinner spinner-lg spinner-success"><span style="padding-left:35px;">Đang tải dữ liệu, vui lòng
+                chờ</span></div>
+    </div>
+</ng-container>
+<ng-template #showData>
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="modal-title h4" id="example-modal-sizes-title-lg">
+                Biên bản kiểm tra
+            </div>
+        </div>
+        <div class="overlay overlay-block cursor-default modal-body" style="min-height: 404px;">
+            <ng-container>
+                <div class="row">
+                    <div class="col-lg-3">
+                        <ul class="nav menu-nav tabs">
+                            <li class="nav-item" (click)="changeTab(tabs.ThongTinChung)"
+                                [class.active]="activeTabId === tabs.ThongTinChung">
+                                <a class="nav-link" data-toggle="tab" role="button"
+                                    [attr.aria-selected]="activeTabId === tabs.ThongTinChung"
+                                    [class.active]="activeTabId === tabs.ThongTinChung">
+                                    <span class="menu-text">Thông tin chung</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-item" (click)="changeTab(tabs.NoiDungKiemTra)"
+                                [class.active]="activeTabId === tabs.NoiDungKiemTra">
+                                <a class="nav-link" data-toggle="tab" role="button"
+                                    [attr.aria-selected]="activeTabId === tabs.NoiDungKiemTra"
+                                    [class.active]="activeTabId === tabs.NoiDungKiemTra">
+                                    <span class="menu-text">Nội dung kiểm tra</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-9" [formGroup]="formGroup">
+                        <ng-container *ngIf="activeTabId === tabs.ThongTinChung">
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label>Đơn vị phân phối </label>
+                                    <label class="form-control">{{bienBanKT.MaSoThue}} - {{bienBanKT.DonVi}}</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label>Đại diện công ty điện </label>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="table-responsive angular-bootstrap-table">
+                                    <table class="table">
+                                        <tr>
+                                            <th style="width: 50px; max-width: 50px;"> STT </th>
+                                            <th> Tên đại diện </th>
+                                            <th> Chức vụ </th>
+                                            <th></th>
+
+                                        </tr>
+                                        <tbody [formGroup]="dataTable">
+                                            <ng-container formArrayName="tableEVNDD"
+                                                *ngFor="let group of getFormControlsEVN.controls ; let i=index">
+                                                <tr [formGroupName]="i">
+                                                    <td style="width: 50px; max-width: 50px;">
+                                                        {{i + 1}}
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control form-control-solidl"
+                                                            style="padding: 0.2rem 0.5rem;" autocomplete="off"
+                                                            name="DaiDien" formControlName="DaiDien" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control form-control-solidl"
+                                                            style="padding: 0.2rem 0.5rem;" autocomplete="off"
+                                                            name="ChucVu" formControlName="ChucVu" />
+                                                    </td>
+                                                    <td>
+
+                                                        <a title="Xóa"
+                                                            class="btn btn-icon btn-light btn-hover-primary btn-sm mx-2"
+                                                            (click)="deleteRowEVN(i,group)">
+                                                            <span
+                                                                [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'"
+                                                                cacheSVG="true"
+                                                                class="svg-icon svg-icon-md svg-icon-danger">
+                                                            </span>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </ng-container>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label>Đại diện khách hàng </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="table-responsive angular-bootstrap-table">
+                                    <table class="table">
+                                        <tr>
+                                            <th style="width: 50px; max-width: 50px;"> STT </th>
+                                            <th> Tên đại diện </th>
+                                            <th> Chức vụ </th>
+                                            <th></th>
+
+                                        </tr>
+                                        <tbody [formGroup]="dataTable">
+                                            <ng-container formArrayName="tableKHDD"
+                                                *ngFor="let group of getFormControlsKH.controls ; let i=index">
+                                                <tr [formGroupName]="i">
+                                                    <td style="width: 50px; max-width: 50px;">
+                                                        {{i + 1}}
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control form-control-solidl"
+                                                            style="padding: 0.2rem 0.5rem;" autocomplete="off"
+                                                            name="DaiDien" formControlName="DaiDien" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control form-control-solidl"
+                                                            style="padding: 0.2rem 0.5rem;" autocomplete="off"
+                                                            name="ChucVu" formControlName="ChucVu" />
+                                                    </td>
+                                                    <td>
+
+                                                        <a title="Xóa"
+                                                            class="btn btn-icon btn-light btn-hover-primary btn-sm mx-2"
+                                                            (click)="deleteRowKH(i,group)">
+                                                            <span
+                                                                [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'"
+                                                                cacheSVG="true"
+                                                                class="svg-icon svg-icon-md svg-icon-danger">
+                                                            </span>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </ng-container>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label>Thỏa thuận đấu nối</label>
+                                    <input type="text" class="form-control" autocomplete="off" placeholder="Thỏa thuận đấu nối"
+                                        name="ThoaThuanDauNoi" formControlName="ThoaThuanDauNoi" />
+                                </div>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="activeTabId === tabs.NoiDungKiemTra">
+                            <div class="form-group row">
+                                <div class="col-lg-6">
+                                    <label>Tên công trình <span style="color:red">*</span></label>
+                                    <input type="text" class="form-control" autocomplete="off"
+                                        placeholder="Tên công trình" name="TenCongTrinh" formControlName="TenCongTrinh"
+                                        [class.is-invalid]="isControlInvalid('TenCongTrinh')" />
+                                </div>
+                                <div class="col-lg-6">
+                                    <label>Địa điểm xây dựng công trình <span style="color:red">*</span></label>
+                                    <input type="text" class="form-control" autocomplete="off"
+                                        placeholder="Địa điểm xây dựng công trình" name="DiaDiemXayDung"
+                                        formControlName="DiaDiemXayDung"
+                                        [class.is-invalid]="isControlInvalid('DiaDiemXayDung')" />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label>Quy mô xây dựng và các thông số kỹ thuật chủ yếu <span
+                                            style="color:red">*</span></label>
+                                    <ckeditor tagName="textarea" name="QuyMo" formControlName="QuyMo"
+                                        [class.is-invalid]="isControlInvalid('QuyMo')"></ckeditor>
+                                </div>
+                            </div>                            
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label>Kết quả kiểm tra <span style="color:red">*</span></label>
+                                    <input type="text" class="form-control" autocomplete="off"
+                                        placeholder="Kết quả kiểm tra" name="KetQuaKiemTra"
+                                        formControlName="KetQuaKiemTra"
+                                        [class.is-invalid]="isControlInvalid('KetQuaKiemTra')" />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label>Các tồn tại</label>
+                                    <input type="text" class="form-control" autocomplete="off" placeholder="Các tồn tại"
+                                        name="TonTai" formControlName="TonTai"
+                                        [class.is-invalid]="isControlInvalid('TonTai')" />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label>Kiến nghị</label>
+                                    <input type="text" class="form-control" autocomplete="off" placeholder="Kiến nghị"
+                                        name="KienNghi" formControlName="KienNghi"
+                                        [class.is-invalid]="isControlInvalid('KienNghi')" />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label>Các ý kiến khác</label>
+                                    <input type="text" class="form-control" autocomplete="off"
+                                        placeholder="Các ý kiến khác" name="YKienKhac" formControlName="YKienKhac"
+                                        [class.is-invalid]="isControlInvalid('YKienKhac')" />
+                                </div>
+
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label>Kết luận <span style="color:red">*</span></label>
+                                    <ckeditor tagName="textarea" name="KetLuan" formControlName="KetLuan"
+                                        [class.is-invalid]="isControlInvalid('KetLuan')"></ckeditor>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label>Thời hạn dự kiến đóng điện đấu nối <span style="color:red">*</span></label>
+                                    <input type="text" class="form-control" autocomplete="off"
+                                        placeholder="Thời hạn dự kiến đóng điện đấu nối" name="ThoiHanDongDien"
+                                        formControlName="ThoiHanDongDien"
+                                        [class.is-invalid]="isControlInvalid('ThoiHanDongDien')" />
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+        <div class="modal-footer" *ngIf="activeTabId === tabs.NoiDungKiemTra">
+            <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+            <ng-container>
+                <button type="submit" class="btn btn-primary btn-elevate" (click)="save()">Lưu</button>
+            </ng-container>
+        </div>
+    </div>
+</ng-template>

@@ -1,0 +1,53 @@
+<ng-container *ngIf="isLoadingForm$ | async; else showData">
+  <div class="overlay-layer bg-transparent">
+      <div class="spinner spinner-lg spinner-success"><span style="padding-left:35px;">Đang tải dữ liệu, vui lòng
+              chờ</span></div>
+  </div>
+</ng-container>
+<ng-template #showData>
+    <div class="card card-custom gutter-b">
+      <div class="card-header">
+        <div class="card-title">
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" (click)="changeTab(tabs.TiepNhanHoSo)"
+              [class.active]="activeTabId === tabs.TiepNhanHoSo">
+              <a class="nav-link" data-toggle="tab" role="button" [attr.aria-selected]="activeTabId === tabs.TiepNhanHoSo"
+                [class.active]="activeTabId === tabs.TiepNhanHoSo">
+                <span class="menu-text">1) Tiếp nhận hồ sơ</span>
+              </a>
+            </li>
+  
+            <li class="nav-item" (click)="changeTab(tabs.BienBanKiemTra)"
+              [class.active]="activeTabId === tabs.BienBanKiemTra">
+              <a class="nav-link" data-toggle="tab" role="button"
+                [attr.aria-selected]="activeTabId === tabs.BienBanKiemTra"
+                [class.active]="activeTabId === tabs.BienBanKiemTra">
+                <span class="menu-text">2) Kiểm tra điều kiện</span>
+              </a>
+            </li>
+            <li class="nav-item" (click)="changeTab(tabs.NghiemThuDongDien)" [class.active]="activeTabId === tabs.NghiemThuDongDien">
+              <a class="nav-link" data-toggle="tab" role="button" [attr.aria-selected]="activeTabId === tabs.NghiemThuDongDien"
+                [class.active]="activeTabId === tabs.NghiemThuDongDien">
+                <span class="menu-text">3) Nghiệm thu đóng điện</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="col-xl-12 col-xxl-12">
+          <div class="tab-content mt-5" id="myTabContent">
+            <ng-container *ngIf="activeTabId === tabs.TiepNhanHoSo && congVanYeuCau">
+              <app-kiem-tra-ho-so [congVanYeuCau]="congVanYeuCau" (reloadForm)="reloadForm($event)"></app-kiem-tra-ho-so>
+            </ng-container>
+            <ng-container *ngIf="activeTabId === tabs.BienBanKiemTra && congVanYeuCau">
+              <app-bien-ban-kiem-tra [congVanYeuCau]="congVanYeuCau" (reloadForm)="reloadForm($event)"></app-bien-ban-kiem-tra>
+            </ng-container>
+            <ng-container *ngIf="activeTabId === tabs.NghiemThuDongDien && congVanYeuCau">
+              <app-bien-ban-nghiem-thu  [congVanYeuCau]="congVanYeuCau" (reloadForm)="reloadForm($event)"></app-bien-ban-nghiem-thu>
+            </ng-container>            
+          </div>
+        </div>
+      </div>
+    </div>
+</ng-template>

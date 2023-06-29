@@ -1,0 +1,402 @@
+<ng-container *ngIf="isLoadingForm$ | async; else showData">
+    <div class="overlay-layer bg-transparent">
+        <div class="spinner spinner-lg spinner-success"><span style="padding-left:35px;">Đang tải dữ liệu, vui lòng
+                chờ</span></div>
+    </div>
+</ng-container>
+<ng-template #showData>
+    <form action="#" class="form form-label-right" [formGroup]="service.ChiTietThietBiTreoForm">
+        <div class="form-group">
+            <div class="checkbox-list">
+                <label class="checkbox">
+                    <input type="checkbox" required name="IsCongTo" formControlName="IsCongTo"
+                        [class.is-invalid]="isControlInvalid('IsCongTo')" />
+                    <span></span>Công tơ <em style="color:red">*</em> </label> 
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-lg-4">
+                <label>Số công tơ</label>
+                <input type="text" class="form-control" autocomplete="off" placeholder="Số công tơ" name="SO_CT"
+                    formControlName="SO_CT" (keyup.enter)="getCongTo($event.target.value)" [class.is-invalid]="isControlInvalid('SO_CT')" />
+            </div>
+            <div class="col-lg-4">
+                <label>Năm SX </label>
+                <input type="text" class="form-control" autocomplete="off" placeholder="Năm SX " name="NAMSX_CTO"
+                    formControlName="NAMSX_CTO" [class.is-invalid]="isControlInvalid('NAMSX_CTO')" />
+            </div>
+            <div class="col-lg-4">
+                <label>Mã hiệu </label>
+                <input type="text" class="form-control" autocomplete="off" placeholder="Mã hiệu " name="MAHIEU_CTO"
+                    formControlName="MAHIEU_CTO" [class.is-invalid]="isControlInvalid('MAHIEU_CTO')" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-lg-6">
+                <label>Loại công tơ :</label>
+                <div class="radio-inline">
+                    <label class="radio radio-rounded">
+                        <input type="radio" name="PHA_CTO" formControlName="PHA_CTO" value="1">
+                        <span></span>1 pha </label>
+                    <label class="radio radio-rounded">
+                        <input type="radio" name="PHA_CTO" formControlName="PHA_CTO" value="3">
+                        <span></span>3 pha</label>
+    
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <label> </label>
+                <div class="radio-inline">
+                    <label class="radio radio-rounded">
+                        <input type="radio" name="LOAI_CTO" formControlName="LOAI_CTO" value="HC">
+                        <span></span>Cơ khí </label>
+                    <label class="radio radio-rounded">
+                        <input type="radio" name="LOAI_CTO" formControlName="LOAI_CTO" value="DT">
+                        <span></span>Điện tử</label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-lg-4">
+                <label>Số biểu giá :</label>
+                <div class="radio-inline">
+                    <label class="radio radio-rounded">
+                        <input type="radio" name="SO_BIEUGIA" formControlName="SO_BIEUGIA" value="1">
+                        <span></span>1 giá </label>
+                    <label class="radio radio-rounded">
+                        <input type="radio" name="SO_BIEUGIA" formControlName="SO_BIEUGIA" value="3">
+                        <span></span>3 giá</label>
+    
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <label>Chiều đo đếm </label>
+                <div class="radio-inline">
+                    <label class="radio radio-rounded">
+                        <input type="radio" name="CHIEU_DODEM" formControlName="CHIEU_DODEM" value="1">
+                        <span></span>1 chiều </label>
+                    <label class="radio radio-rounded">
+                        <input type="radio" name="CHIEU_DODEM" formControlName="CHIEU_DODEM" value="2">
+                        <span></span>2 chiều</label>
+    
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <label>Đo xa</label>
+                <div class="radio-inline">
+                    <label class="radio radio-rounded">
+                        <input type="radio" name="DO_XA" formControlName="DO_XA" value="Có">
+                        <span></span>Có </label>
+                    <label class="radio radio-rounded">
+                        <input type="radio" name="DO_XA" formControlName="DO_XA" value="Không">
+                        <span></span>Không</label>
+    
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-lg-6">
+                <label>Đơn vị hiển thị</label>
+                <div class="radio-inline">
+                    <label class="radio radio-rounded">
+                        <input type="radio" name="DONVI_HIENTHI" formControlName="DONVI_HIENTHI" value="kWh">
+                        <span></span>kWh </label>
+                    <label class="radio radio-rounded">
+                        <input type="radio" name="DONVI_HIENTHI" formControlName="DONVI_HIENTHI" value="MWh">
+                        <span></span>MWh</label>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <label>Hệ số nhân màn hình  <span style="color:red">*</span></label>
+                <input type="text" class="form-control" autocomplete="off" placeholder="Hệ số nhân màn hình"
+                    name="HSO_MHINH" formControlName="HSO_MHINH" [class.is-invalid]="isControlInvalid('HSO_MHINH')" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="table-responsive angular-bootstrap-table">
+                <table class="table">
+                    <tr>
+                        <th> Chỉ số </th>
+                        <th> Tổng (P) </th>
+                        <th> Tổng (Q)</th>
+                        <th> Bình thường </th>
+                        <th> Cao điểm </th>
+                        <th> Thấp điểm </th>
+                    </tr>
+                    <tbody [formGroup]="service.dataTableTreo">
+                        <ng-container formArrayName="tableChiSo"
+                            *ngFor="let group of getFormControlsChiSo.controls ; let i=index">
+                            <tr [formGroupName]="i">
+                                <td>
+                                    <input type="text" class="form-control form-control-solidl"
+                                        style="padding: 0.2rem 0.5rem;" autocomplete="off" name="LOAI_CHISO"
+                                        formControlName="LOAI_CHISO" />
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control form-control-solidl"
+                                        style="padding: 0.2rem 0.5rem;" autocomplete="off" name="P" formControlName="P" />
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control form-control-solidl"
+                                        style="padding: 0.2rem 0.5rem;" autocomplete="off" name="Q" formControlName="Q" />
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control form-control-solidl"
+                                        style="padding: 0.2rem 0.5rem;" autocomplete="off" name="BT" formControlName="BT" />
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control form-control-solidl"
+                                        style="padding: 0.2rem 0.5rem;" autocomplete="off" name="CD" formControlName="CD" />
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control form-control-solidl"
+                                        style="padding: 0.2rem 0.5rem;" autocomplete="off" name="TD" formControlName="TD" />
+                                </td>
+    
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-lg-6">
+                <label>Tỷ số biến dòng cài đặt </label>
+                <input type="text" class="form-control" autocomplete="off" placeholder="Tỷ số biến dòng cài đặt"
+                    name="TSO_BIENDONG" formControlName="TSO_BIENDONG"
+                    [class.is-invalid]="isControlInvalid('TSO_BIENDONG')" />
+            </div>
+            <div class="col-lg-6">
+                <label>Tỷ số biến điện áp cài đặt </label>
+                <input type="text" class="form-control" autocomplete="off" placeholder="Tỷ số biến điện áp cài đặt"
+                    name="TSO_BIENAP" formControlName="TSO_BIENAP" [class.is-invalid]="isControlInvalid('TSO_BIENAP')" />
+            </div>
+    
+        </div>
+        <div class="form-group row">
+            <div class="col-lg-4">
+                <label>Ngày kiểm định </label>
+                <div class="input-group input-group-solid">
+                    <div class="input-group-append" (click)="ngayHen.toggle()">
+                        <span class="input-group-text">
+                            <i class="text-dark-50 flaticon-calendar"></i>
+                        </span>
+                    </div>
+                    <input type="text" name="NGAY_KDINH" class="form-control form-control-solid" autocomplete="off"
+                        placeholder="dd/mm/yyyy" ngbDatepicker #ngayHen="ngbDatepicker" formControlName="NGAY_KDINH"
+                        [class.is-invalid]="isControlInvalid('NGAY_KDINH')" />
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <label>Thời điểm lập trình cuối </label>
+                <input type="text" class="form-control" autocomplete="off" placeholder="Thời điểm lập trình cuối"
+                    name="TDIEN_LTRINH" formControlName="TDIEN_LTRINH"
+                    [class.is-invalid]="isControlInvalid('TDIEN_LTRINH')" />
+            </div>
+            <div class="col-lg-4">
+                <label>Số lần lập trình</label>
+                <input type="text" class="form-control" autocomplete="off" placeholder="Số lần lập trình"
+                    name="SOLAN_LTRINH" formControlName="SOLAN_LTRINH"
+                    [class.is-invalid]="isControlInvalid('SOLAN_LTRINH')" />
+            </div>
+    
+        </div>
+        <div class="form-group row">
+    
+            <div class="col-lg-3">
+                <label>Mã hộp chì đấu dây </label>
+                <input type="text" class="form-control" autocomplete="off" placeholder="Mã hộp chì đấu dây "
+                    name="MA_CHIHOP" formControlName="MA_CHIHOP" [class.is-invalid]="isControlInvalid('MA_CHIHOP')" />
+            </div>
+            <div class="col-lg-3">
+                <label>Số viên</label>
+                <input type="text" class="form-control" autocomplete="off" placeholder="Số viên" name="SO_VIENHOP"
+                    formControlName="SO_VIENHOP" [class.is-invalid]="isControlInvalid('SO_VIENHOP')" />
+            </div>
+            <div class="col-lg-3">
+                <label>Dấu/Tem kiểm định </label>
+                <input type="text" class="form-control" autocomplete="off" placeholder="Dấu/Tem kiểm định" name="MA_CHITEM"
+                    formControlName="MA_CHITEM" [class.is-invalid]="isControlInvalid('MA_CHITEM')" />
+            </div>
+            <div class="col-lg-3">
+                <label>Số viên</label>
+                <input type="text" class="form-control" autocomplete="off" placeholder="Số viên" name="SO_VIENTEM"
+                    formControlName="SO_VIENTEM" [class.is-invalid]="isControlInvalid('SO_VIENTEM')" />
+            </div>
+    
+        </div>
+        <div class="form-group">
+            <div class="checkbox-list">
+                <label class="checkbox">
+                    <input type="checkbox" name="IsMBD" formControlName="IsMBD"
+                        [class.is-invalid]="isControlInvalid('IsMBD')" />
+                    <span></span>Máy biến dòng</label>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-lg-4">
+                <label>Số TI</label>
+                <input type="text" class="form-control" autocomplete="off" placeholder="Số TI" 
+                 (keyup.enter)="addMBD($event.target.value)"  />
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="table-responsive angular-bootstrap-table">
+                <table class="table">
+                    <tr>
+                        <th style="width: 50px; max-width: 50px;"> STT </th>
+                        <th> Số thiết bị </th>
+                        <th> Năm sản xuất </th>
+                        <th> Ngày kiểm định </th>
+    
+                        <th> Tỷ số biến </th>
+                        <th> Số viên hộp chì </th>
+                        <th> Số viên tem kiểm định </th>
+                        <th></th>
+    
+                    </tr>
+                    <tbody [formGroup]="service.dataTableTreo">
+                        <ng-container formArrayName="tableMBD"
+                            *ngFor="let group of getFormControlsMBD.controls ; let i=index">
+                            <tr [formGroupName]="i">
+                                <td style="width: 50px; max-width: 50px;">
+                                    {{i + 1}}
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control form-control-solidl"
+                                        style="padding: 0.2rem 0.5rem;" autocomplete="off" name="SO_TBI"
+                                        formControlName="SO_TBI" />
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control form-control-solidl"
+                                        style="padding: 0.2rem 0.5rem;" autocomplete="off" name="NAM_SX"
+                                        formControlName="NAM_SX" />
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control form-control-solidl"
+                                        style="padding: 0.2rem 0.5rem;" autocomplete="off" name="NGAY_KDINH"
+                                        formControlName="NGAY_KDINH" />
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control form-control-solidl"
+                                        style="padding: 0.2rem 0.5rem;" autocomplete="off" name="TYSO_TI"
+                                        formControlName="TYSO_TI" />
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control form-control-solidl"
+                                        style="padding: 0.2rem 0.5rem;" autocomplete="off" name="CHIHOP_VIEN"
+                                        formControlName="CHIHOP_VIEN" />
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control form-control-solidl"
+                                        style="padding: 0.2rem 0.5rem;" autocomplete="off" name="TEM_KD_VIEN"
+                                        formControlName="TEM_KD_VIEN" />
+                                </td>
+                                <td>
+    
+                                    <a title="Xóa" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-2"
+                                        (click)="deleteRowMBD(i,group)">
+                                        <span [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'" cacheSVG="true"
+                                            class="svg-icon svg-icon-md svg-icon-danger">
+                                        </span>
+                                    </a>
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="checkbox-list">
+                <label class="checkbox">
+                    <input type="checkbox" name="IsMBDA" formControlName="IsMBDA"
+                        [class.is-invalid]="isControlInvalid('IsMBDA')" />
+                    <span></span>Máy biến điện áp</label>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-lg-4">
+                <label>Số TU</label>
+                <input type="text" class="form-control" autocomplete="off" placeholder="Số TU" 
+                 (keyup.enter)="addMBDA($event.target.value)"  />
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="table-responsive angular-bootstrap-table">
+                <table class="table">
+                    <tr>
+                        <th style="width: 50px; max-width: 50px;"> STT </th>
+                        <th> Số thiết bị </th>
+                        <th> Năm sản xuất </th>
+                        <th> Ngày kiểm định </th>
+    
+                        <th> Tỷ số biến </th>
+                        <th> Số viên hộp chì </th>
+                        <th> Số viên tem kiểm định </th>
+                        <th></th>
+    
+                    </tr>
+                    <tbody [formGroup]="service.dataTableTreo">
+                        <ng-container formArrayName="tableMBDA"
+                            *ngFor="let group of getFormControlsMBDA.controls ; let i=index">
+                            <tr [formGroupName]="i">
+                                <td style="width: 50px; max-width: 50px;">
+                                    {{i + 1}}
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control form-control-solidl"
+                                        style="padding: 0.2rem 0.5rem;" autocomplete="off" name="SO_TBI"
+                                        formControlName="SO_TBI" />
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control form-control-solidl"
+                                        style="padding: 0.2rem 0.5rem;" autocomplete="off" name="NAM_SX"
+                                        formControlName="NAM_SX" />
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control form-control-solidl"
+                                        style="padding: 0.2rem 0.5rem;" autocomplete="off" name="NGAY_KDINH"
+                                        formControlName="NGAY_KDINH" />
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control form-control-solidl"
+                                        style="padding: 0.2rem 0.5rem;" autocomplete="off" name="TYSO_T"
+                                        formControlName="TYSO_TU" />
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control form-control-solidl"
+                                        style="padding: 0.2rem 0.5rem;" autocomplete="off" name="CHIHOP_VIEN"
+                                        formControlName="CHIHOP_VIEN" />
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control form-control-solidl"
+                                        style="padding: 0.2rem 0.5rem;" autocomplete="off" name="TEM_KD_VIEN"
+                                        formControlName="TEM_KD_VIEN" />
+                                </td>
+                                <td>
+    
+                                    <a title="Xóa" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-2"
+                                        (click)="deleteRowMBDA(i,group)">
+                                        <span [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'" cacheSVG="true"
+                                            class="svg-icon svg-icon-md svg-icon-danger">
+                                        </span>
+                                    </a>
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    
+        <div class="form-group row">
+            <div class="col-lg-4">
+                <label>Hệ số nhân hệ thống đo đếm  <span style="color:red">*</span></label>
+                <input type="text" class="form-control" autocomplete="off" placeholder="Hệ số nhân tổng của hệ thống đo đếm"
+                    name="HSO_HTDODEM" formControlName="HSO_HTDODEM" [class.is-invalid]="isControlInvalid('HSO_HTDODEM')" />
+            </div>
+        </div>
+    </form>
+</ng-template>
+

@@ -1,0 +1,35 @@
+<ng-container *ngIf="isLoadingForm$ | async; else showData">
+    <div class="overlay-layer bg-transparent">
+        <div class="spinner spinner-lg spinner-success"><span style="padding-left:35px;">Đang tải dữ liệu, vui lòng
+                chờ</span></div>
+    </div>
+</ng-container>
+<ng-template #showData>
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="modal-title h4" id="example-modal-sizes-title-lg">
+                Thông tin yêu cầu
+            </div>
+        </div>
+        <div class="overlay overlay-block cursor-default modal-body" style="min-height: 300px;">
+            <ng-container>
+                <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                    <div class="form-group row">
+                        <div class="col-lg-12">
+                            <label>Lý do hủy<span style="color:red">*</span></label>
+                            <textarea type="text" class="form-control" autocomplete="off" placeholder="Lý do"
+                                name="noiDung" formControlName="noiDung"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </ng-container>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-light btn-elevate mr-2" (click)="closeModal()">Thoát</button>
+            <ng-container>
+                <button type="submit" [disabled]="formGroup.invalid || (submited| async)" class="btn btn-primary btn-elevate"
+                    (click)="save()">Xác nhận</button>
+            </ng-container>
+        </div>
+    </div>
+</ng-template>

@@ -1,0 +1,53 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div class="modal-title h4" id="example-modal-sizes-title-lg">
+      Tiến độ thực hiện mã yêu cầu
+    </div>
+  </div>
+  <div class="overlay overlay-block cursor-default modal-body" style="min-height: 404px;">
+    <ng-container *ngIf="isLoadingForm$ | async">
+      <div class="overlay-layer bg-transparent">
+        <div class="spinner spinner-lg spinner-success"></div>
+      </div>
+    </ng-container>
+    <ng-container>
+      <div class="table-responsive angular-bootstrap-table">
+        <table class="table table-head-custom table-vertical-center overflow-hidden">
+          <thead>            
+            <th>
+              Công việc
+            </th>
+            <th>
+              Ngày bắt đầu
+            </th>
+            <th>
+              Ngày hẹn
+            </th>
+            <th>
+              Ngày kết thúc
+            </th>
+            <th style="width: 120px;text-align: center;">Tổng thời gian</th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of service.tientrinhs$ | async; let i=index;">              
+              <td>
+                {{ item.MA_CVIEC }} - {{ item.NDUNG_XLY }}</td>
+              <td>
+                {{item.NGAY_BDAU}}
+              </td>
+              <td>
+                {{item.NGAY_HEN}}
+              </td>
+              <td>
+                {{ item.NGAY_KTHUC }}
+              </td>
+              <td style="width: 120px;text-align: center;">
+                {{item.SO_NGAY_LVIEC}} (ngày)
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ng-container>
+  </div>
+</div>

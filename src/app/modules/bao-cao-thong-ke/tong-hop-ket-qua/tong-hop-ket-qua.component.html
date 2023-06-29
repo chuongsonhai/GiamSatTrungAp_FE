@@ -1,0 +1,166 @@
+<div class="card card-custom gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label">TỔNG HỢP KẾT QUẢ</h3>
+        </div>        
+    </div>
+    <div class="card-body">
+        <!-- begin: Filtration form -->
+        <div class="form form-label-right">
+            <div class="form-group row">
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <label>Từ ngày</label>
+                    <div class="input-group input-group-solid">
+                        <div class="input-group-append" (click)="fromdate.toggle()">
+                            <span class="input-group-text">
+                                <i class="text-dark-50 flaticon-calendar"></i>
+                            </span>
+                        </div>
+                        <input type="text" name="fromdate" class="form-control form-control-solid"
+                            autocomplete="off" placeholder="Từ ngày" ngbDatepicker
+                            #fromdate="ngbDatepicker" formControlName="fromdate" />
+                    </div>
+                </div>
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <label>Đến ngày</label>
+                    <div class="input-group input-group-solid">
+                        <div class="input-group-append" (click)="todate.toggle()">
+                            <span class="input-group-text">
+                                <i class="text-dark-50 flaticon-calendar"></i>
+                            </span>
+                        </div>
+                        <input type="text" name="todate" class="form-control form-control-solid"
+                            autocomplete="off" placeholder="Đến ngày" ngbDatepicker
+                            #todate="ngbDatepicker" formControlName="todate" />
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <button type="button" class="btn btn-primary mr-2" style="height: 60%;bottom: 0;position: absolute;"
+                        (click)="getbaocao()"><i class="fa fa-search"></i>
+                        Tìm kiếm
+                    </button>
+                    <button type="button" class="btn btn-success mr-2" style="height: 60%;bottom: 0;position: absolute;margin-left:130px;"
+                        (click)="exportExcel()"><i class="fa fa-download"></i>
+                        Xuất excel
+                    </button>
+                </div>                
+            </div>
+        </div>    
+        <!-- end: Filtration form -->
+        <ng-container *ngIf="isLoadingForm$ | async; else showData">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"><span style="padding-left:35px;">Đang tải dữ liệu, vui lòng
+                        chờ</span></div>
+            </div>
+        </ng-container>
+        <ng-template #showData>
+        <!-- begin:Table -->
+        <div class="table-responsive angular-bootstrap-table">
+            <table class="table table-head-custom table-vertical-center overflow-hidden">
+                <thead>
+                    <tr>
+                        <th style="width: 40px;text-align: center;" rowspan="2">
+                            STT
+                        </th>
+                        <th style="width: 110px" rowspan="2">
+                            CTĐL
+                        </th>
+                        <th colspan="4">
+                            Thỏa thuận đấu nối
+                        </th>
+                        <th colspan="4">
+                            Kiểm tra điều kiện đóng điện điểm đấu nối
+                        </th>
+                        <th colspan="4">
+                            Nghiệm thu và ký HĐMBĐ
+                        </th>
+                       
+                       
+                    </tr>
+                    <tr>
+                        <th >
+                            Tổng số công trình tiếp nhận
+                        </th>
+                        <th >
+                            Tổng số công trình có trở ngại
+                        </th>
+                        <th >
+                            Tổng số công trình đã hoàn thành
+                        </th>
+                        <th >
+                            Tổng số công trình chưa hoàn thành
+                        </th>
+                        <th >
+                            Tổng số công trình tiếp nhận
+                        </th>
+                        <th >
+                            Tổng số công trình có trở ngại
+                        </th>
+                        <th >
+                            Tổng số công trình đã hoàn thành
+                        </th>
+                        <th >
+                            Tổng số công trình chưa hoàn thành
+                        </th>
+                        <th >
+                            Tổng số công trình tiếp nhận
+                        </th>
+                        <th >
+                            Tổng số công trình có trở ngại
+                        </th>
+                        <th >
+                            Tổng số công trình đã hoàn thành
+                        </th>
+                        <th >
+                            Tổng số công trình chưa hoàn thành
+                        </th>
+                       
+                    </tr>
+                    
+ 
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of baocao.ListItem; let i=index;">
+                        <td>{{ i + 1 }}</td>
+                        <td>{{item.TenDV}}</td>
+                        <td>{{item.TongSoCTTiepNhanTTDN}}</td>
+                        <td>{{item.TongSoCTCoTroNgaiTTDN}}</td>
+                        <td>{{item.TongSoCTDaHoanThanhTTDN}}</td>
+                        <td>{{item.TongSoCTChuaHoanThanhTTDN}}</td>
+                        <td>{{item.TongSoCTTiepNhanKTDK}}</td>
+                        <td>{{item.TongSoCTCoTroNgaiKTDK}}</td>
+                        <td>{{item.TongSoCTDaHoanThanhKTDK}}</td>
+                        <td>{{item.TongSoCTChuaHoanThanhKTDK}}</td>
+                        <td>{{item.TongSoCTTiepNhanNT}}</td>
+                        <td>{{item.TongSoCTCoTroNgaiNT}}</td>
+                        <td>{{item.TongSoCTDaHoanThanhNT}}</td>
+                        <td>{{item.TongSoCTChuaHoanThanhNT}}</td>
+                    </tr>
+                    <tr >
+                        <td></td>
+                        <td>Tổng công ty</td>
+                        <td>{{baocao.TongSoCTTiepNhanTTDN}}</td>
+                        <td>{{baocao.TongSoCTCoTroNgaiTTDN}}</td>
+                        <td>{{baocao.TongSoCTDaHoanThanhTTDN}}</td>
+                        <td>{{baocao.TongSoCTChuaHoanThanhTTDN}}</td>
+                        <td>{{baocao.TongSoCTTiepNhanKTDK}}</td>
+                        <td>{{baocao.TongSoCTCoTroNgaiKTDK}}</td>
+                        <td>{{baocao.TongSoCTDaHoanThanhKTDK}}</td>
+                        <td>{{baocao.TongSoCTChuaHoanThanhKTDK}}</td>
+                        <td>{{baocao.TongSoCTTiepNhanNT}}</td>
+                        <td>{{baocao.TongSoCTCoTroNgaiNT}}</td>
+                        <td>{{baocao.TongSoCTDaHoanThanhNT}}</td>
+                        <td>{{baocao.TongSoCTChuaHoanThanhNT}}</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+        </ng-template>
+    </div>
+</div>
+
+
+
+
+

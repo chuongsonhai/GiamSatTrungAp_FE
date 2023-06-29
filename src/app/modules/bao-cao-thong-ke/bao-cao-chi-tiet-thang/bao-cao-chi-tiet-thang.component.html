@@ -1,0 +1,127 @@
+<div class="card card-custom gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label">BÁO CÁO CHI TIẾT THỜI GIAN THỰC HIỆN TIẾP CẬN ĐIỆN NĂNG TRONG THÁNG</h3>
+        </div>
+    </div>
+    <div class="card-body">
+        <!-- begin: Filtration form -->
+        <div class="form form-label-right">
+            <div class="form-group row">
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <label>Tháng</label>
+                    <select class="form-control" name="thang" placeholder="Chọn tháng"
+                        formControlName="thang">
+                        <option [value]=0>--- Chọn tháng ---</option>
+                        <option [value]=1>Tháng 1</option>
+                        <option [value]=2>Tháng 2</option>
+                        <option [value]=3>Tháng 3</option>
+                        <option [value]=4>Tháng 4</option>
+                        <option [value]=5>Tháng 5</option>
+                        <option [value]=6>Tháng 6</option>
+                        <option [value]=7>Tháng 7</option>
+                        <option [value]=8>Tháng 8</option>
+                        <option [value]=9>Tháng 9</option>
+                        <option [value]=10>Tháng 10</option>
+                        <option [value]=11>Tháng 11</option>
+                        <option [value]=12>Tháng 12</option>
+                    </select>
+                </div>
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <label>Năm</label>
+                    <input type="number" class="form-control" name="nam" placeholder="Năm" value=""
+                    formControlName="nam" />
+                </div>
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <label>Trạng thái</label>
+                    <select class="form-control" name="isHoanTat" placeholder="Chọn trạng thái"
+                        formControlName="isHoanTat">
+                        <option [value]="true">Đã hoàn thành</option>
+                        <option [value]="false">Chưa hoàn thành</option>
+
+                    </select>
+                </div>
+                <div class="col-lg-4">
+                    <button type="button" class="btn btn-primary mr-2" style="height: 60%;bottom: 0;position: absolute;"
+                        (click)="getbaocao()"><i class="fa fa-search"></i>
+                        Tìm kiếm
+                    </button>
+                    <button type="button" class="btn btn-success mr-2" style="height: 60%;bottom: 0;position: absolute;margin-left:130px;"
+                        (click)="exportExcel()"><i class="fa fa-download"></i>
+                        Xuất excel
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- end: Filtration form -->
+        <ng-container *ngIf="isLoadingForm$ | async; else showData">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"><span style="padding-left:35px;">Đang tải dữ liệu, vui
+                        lòng
+                        chờ</span></div>
+            </div>
+        </ng-container>
+        <ng-template #showData>
+            <!-- begin:Table -->
+            <div *ngIf="baocao" class="table-responsive angular-bootstrap-table">
+                <table class="table table-head-custom table-vertical-center overflow-hidden">
+                    <thead>
+                        <tr>
+                            <th style="width: 40px;">
+                                STT
+                            </th>
+                            <th style="width: 500px;text-align: center;">
+                                Đơn vị
+                            </th>
+                            <th>
+                                Số công trình
+                            </th>
+                            <th>
+                                Thời gian tiếp nhận trung bình (ngày)
+                            </th>
+                            <th>
+                                Thời gian khảo sát trung bình (ngày)
+                            </th>
+                            <th>
+                                Thời gian TTĐN trung bình (ngày)
+                            </th>
+                            <th>
+                                Thời gian nghiệm thu và ký HĐMBĐ trung bình (ngày)
+                            </th>
+                            <th>
+                                Thời gian thực hiện TB của ngành điện (ngày)
+                            </th>
+                        </tr>
+
+                    </thead>
+
+                    <tr>
+                        <td colspan="2">Toàn TCT </td>
+                        <td>{{baocao.TongSoCTTrongThang}}</td>
+                        <td>{{baocao.TongTGTiepNhanTrongThang}} </td>
+                        <td>{{baocao.TongTGKhaoSatTrongThang}} </td>
+                        <td>{{baocao.TongTGTTDNTrongThang}} </td>
+                        <td>{{baocao.TongTGNTTrongThang}} </td>
+                        <td>{{baocao.TongTGTrongThang}} </td>
+                    </tr>
+                    <tbody>
+                        <tr *ngFor="let item of baocao.baoCaoTongHopChiTietDataModels ; let i=index;">
+                            <td>{{ i + 1 }}</td>
+                            <td>{{item.TenDonVi}}</td>
+                            <td>{{item.SoCTTrongThang}}</td>
+                            <td>{{item.TGTiepNhanTrongThang}} </td>
+                            <td>{{item.TGKhaoSatTrongThang}} </td>
+                            <td>{{item.TGTTDNTrongThang}} </td>
+                            <td>{{item.TGNTTrongThang}} </td>
+                            <td>{{item.TGTrongThang}} </td>
+                        </tr>
+                    </tbody>
+            
+                </table>
+            </div>
+        </ng-template>
+
+
+
+    </div>
+</div>

@@ -1,0 +1,60 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            Thông tin mail
+        </div>
+    </div>
+    <div class="overlay overlay-block cursor-default modal-body" style="min-height: 404px;">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="MailCanhBaoTCT">
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                <div class="form-group row">
+                    <div class="col-lg-4">
+                        <label>Emai</label>
+                       
+                        <input type="text" class="form-control" autocomplete="off" placeholder="Email"
+                            name="EMAIL"
+                            [class.is-invalid]="isControlInvalid('EMAIL')" [class.is-valid]="isControlValid('EMAIL')"
+                            formControlName="EMAIL" maxlength="200" minlength="3" />
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'EMAIL')">
+                            Không được bỏ trống
+                        </div>
+                        <div class="invalid-feedback" *ngIf="controlHasError('minlength', 'EMAIL')">
+                            Tối thiểu 3 kí tự
+                        </div>
+                        <div class="invalid-feedback" *ngIf="controlHasError('maxLength', 'EMAIL')">
+                            Không vượt quá 200
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <label>Tên</label>
+                        <input type="text" class="form-control input-sm" autocomplete="off" placeholder="Tên"
+                            name="TENNHANVIEN" [class.is-invalid]="isControlInvalid('TENNHANVIEN')"
+                            [class.is-valid]="isControlValid('TENNHANVIEN')" formControlName="TENNHANVIEN" maxlength="200"
+                            minlength="3" />
+                        <div class="invalid-feedback" *ngIf="controlHasError('minlength', 'TENNHANVIEN')">
+                            Tối thiểu 3 kí tự
+                        </div>
+                        <div class="invalid-feedback" *ngIf="controlHasError('maxLength', 'TENNHANVIEN')">
+                            Không vượt quá 200
+                        </div>
+                    </div>
+                </div>
+
+                
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container *ngIf="MailCanhBaoTCT">
+            <button type="submit" class="btn btn-primary btn-elevate" (click)="save()"
+                [disabled]="formGroup.invalid">Lưu</button>
+        </ng-container>
+    </div>
+</div>

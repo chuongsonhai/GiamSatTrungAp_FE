@@ -1,0 +1,132 @@
+<div class="card card-custom gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label">BÁO CÁO CHI TIẾT THỜI GIAN THỰC HIỆN TIẾP CẬN ĐIỆN NĂNG LŨY KẾ</h3>
+        </div>        
+    </div>
+    <div class="card-body">
+        <!-- begin: Filtration form -->
+        <div class="form form-label-right">
+            <div class="form-group row">
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <label>Từ ngày</label>
+                    <div class="input-group input-group-solid">
+                        <div class="input-group-append" (click)="fromdate.toggle()">
+                            <span class="input-group-text">
+                                <i class="text-dark-50 flaticon-calendar"></i>
+                            </span>
+                        </div>
+                        <input type="text" name="fromdate" class="form-control form-control-solid"
+                            autocomplete="off" placeholder="Từ ngày" ngbDatepicker
+                            #fromdate="ngbDatepicker" formControlName="fromdate" />
+                    </div>
+                </div>
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <label>Đến ngày</label>
+                    <div class="input-group input-group-solid">
+                        <div class="input-group-append" (click)="todate.toggle()">
+                            <span class="input-group-text">
+                                <i class="text-dark-50 flaticon-calendar"></i>
+                            </span>
+                        </div>
+                        <input type="text" name="todate" class="form-control form-control-solid"
+                            autocomplete="off" placeholder="Đến ngày" ngbDatepicker
+                            #todate="ngbDatepicker" formControlName="todate" />
+                    </div>
+                </div>
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <label>Trạng thái</label>
+                    <select class="form-control" name="isHoanTat" placeholder="Chọn trạng thái" formControlName="isHoanTat">
+                        <option [value]="true">Đã hoàn thành</option>
+                        <option [value]="false">Chưa hoàn thành</option>  
+                      
+                    </select>
+                </div>
+                <div class="col-lg-4">
+                    <button type="button" class="btn btn-primary mr-2" style="height: 60%;bottom: 0;position: absolute;"
+                        (click)="getbaocao()"><i class="fa fa-search"></i>
+                        Tìm kiếm
+                    </button>
+                    <button type="button" class="btn btn-success mr-2" style="height: 60%;bottom: 0;position: absolute;margin-left:130px;"
+                        (click)="exportExcel()"><i class="fa fa-download"></i>
+                        Xuất excel
+                    </button>
+                </div>                
+            </div>
+        </div>    
+        <!-- end: Filtration form -->
+   
+        <ng-container *ngIf="isLoadingForm$ | async; else showData">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"><span style="padding-left:35px;">Đang tải dữ liệu, vui lòng
+                        chờ</span></div>
+            </div>
+        </ng-container>
+        <ng-template #showData>
+       <!-- begin:Table -->
+       <div *ngIf="baocao" class="table-responsive angular-bootstrap-table">
+        <table class="table table-head-custom table-vertical-center overflow-hidden">
+            <thead>
+                <tr >                    
+                    <th  style="width: 40px;">
+                        STT
+                    </th>
+                    <th style="width: 500px;text-align: center;">
+                        Đơn vị
+                    </th>
+                    <th >
+                        Số công trình
+                    </th>
+                    <th >
+                        Thời gian tiếp nhận trung bình (ngày)
+                    </th>
+                    <th >
+                        Thời gian khảo sát trung bình (ngày)
+                    </th>
+                    <th >
+                        Thời gian TTĐN trung bình (ngày)
+                    </th>
+                    <th >
+                        Thời gian nghiệm thu và ký HĐMBĐ trung bình (ngày)
+                    </th>
+                    <th >
+                        Thời gian  thực hiện TB của ngành điện (ngày)
+                    </th>
+                </tr>
+                
+            </thead>
+           
+            <tr>
+                <td colspan="2">Toàn TCT </td>
+                <td>{{baocao.TongSoCTLuyKe}}</td>
+                <td>{{baocao.TongTGTiepNhanLuyKe}} </td>
+                <td>{{baocao.TongTGKhaoSatLuyKe}} </td>
+                <td>{{baocao.TongTGTTDNLuyKe}} </td>
+                <td>{{baocao.TongTGNTLuyKe}} </td>
+                <td>{{baocao.TongTGLuyKe}} </td>
+            </tr>
+            <tbody>
+                <tr *ngFor="let item of baocao.baoCaoTongHopChiTietDataModels ; let i=index;">
+                    <td>{{ i  + 1 }}</td>
+                    <td>{{item.TenDonVi}}</td>
+                    <td>{{item.SoCTLuyKe}}</td>
+                    <td>{{item.TGTiepNhanLuyKe}} </td>
+                    <td>{{item.TGKhaoSatLuyKe}} </td>
+                    <td>{{item.TGTTDNLuyKe}} </td>
+                    <td>{{item.TGNTLuyKe}} </td>
+                    <td>{{item.TGLuyKe}} </td>
+                </tr>
+            </tbody>
+    
+        </table>
+    </div>
+        </ng-template>
+ 
+        
+    </div>
+</div>
+
+
+
+
+

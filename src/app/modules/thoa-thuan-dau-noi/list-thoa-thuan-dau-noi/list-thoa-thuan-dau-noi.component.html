@@ -1,0 +1,161 @@
+<div class="card card-custom gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label">Danh sách yêu cầu</h3>
+        </div>
+    </div>
+    <div class="card-body">
+        <!-- begin: Filtration form -->
+        <div class="form form-label-right">
+            <div class="form-group row">
+                <div class="col-lg-4" [formGroup]="filterGroup">
+                    <label>Đơn vị quản lý</label>
+                    <select class="form-control" name="maDViQLy" formControlName="maDViQLy">
+                        <ng-container *ngIf="allowGetAll | async">
+                            <option  value="">-- Chọn tất cả --</option>
+                          </ng-container>
+                        <option [value]="item.orgCode" *ngFor="let item of organizations">
+                            {{item.orgCode}} - {{item.orgName}}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-lg-3" [formGroup]="filterGroup">
+                    <label>Từ khoá</label>
+                    <input type="text" class="form-control" name="keyword" placeholder="Từ khóa tìm kiếm" value=""
+                        formControlName="keyword" />
+                </div>
+                <div class="col-lg-3" [formGroup]="filterGroup">
+                    <label>Tên khách hàng</label>
+                    <input type="text" class="form-control" name="khachhang" placeholder="Tên khách hàng" value=""
+                        formControlName="khachhang" />
+                </div>
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <label>Trạng thái</label>
+                    <select class="form-control" name="status" placeholder="Trạng thái" formControlName="status">
+                        <option selected="selected" value="-1">-- Tất cả --</option>
+                        <option value="0">Chưa tiếp nhận</option>
+                        <option value="1">Tiếp nhận</option>
+                        <option value="2">Phân công khảo sát</option>
+                        <option value="3">Ghi nhận khảo sát</option>
+                        <option value="4">Biên bản khảo sát</option>
+                        <option value="5">Dự thảo thỏa thuận</option>
+                        <option value="6">Gửi khách hàng</option>
+                        <option value="7">Ký số thỏa thuận</option>
+                        <option value="8">Hoàn thành</option>
+                        <option value="9">Chuyển tiếp</option>
+                        <option value="13">Bị trả lại</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <label>Từ ngày</label>
+                    <div class="input-group input-group-solid">
+                        <div class="input-group-append" (click)="fromdate.toggle()">
+                            <span class="input-group-text">
+                                <i class="text-dark-50 flaticon-calendar"></i>
+                            </span>
+                        </div>
+                        <input type="text" name="fromdate" class="form-control form-control-solid" autocomplete="off"
+                            placeholder="dd/mm/yyyy" ngbDatepicker #fromdate="ngbDatepicker"
+                            formControlName="fromdate" />
+                    </div>
+                </div>
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <label>Đến ngày</label>
+                    <div class="input-group input-group-solid">
+                        <div class="input-group-append" (click)="todate.toggle()">
+                            <span class="input-group-text">
+                                <i class="text-dark-50 flaticon-calendar"></i>
+                            </span>
+                        </div>
+                        <input type="text" name="todate" class="form-control form-control-solid" autocomplete="off"
+                            placeholder="dd/mm/yyyy" ngbDatepicker #todate="ngbDatepicker" formControlName="todate" />
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <button type="button" class="btn btn-primary mr-2" style="height: 60%;bottom: 0;position: absolute;"
+                        (click)="filter()">
+                        <i class="fa fa-search"></i>
+                        Tìm kiếm
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive angular-bootstrap-table">
+            <table class="table table-head-custom table-vertical-center overflow-hidden">
+                <thead>
+                    <th style="width: 40px;text-align: center;">
+                        STT
+                    </th>
+                    <th style="width: 110px">
+                        Mã yêu cầu
+                    </th>
+                    <th>
+                        Bên gửi
+                    </th>
+                    <th>
+                        Công trình điện
+                    </th>
+                    <th>
+                        Địa chỉ xây dựng
+                    </th>
+                    <th>
+                        Bên nhận
+                    </th>
+                    <th style="width: 110px">
+                        Ngày lập
+                    </th>
+                    <th>
+                        Trở ngại
+                    </th>
+                    <th style="width: 110px;text-align: center;">
+                        Trạng thái
+                    </th>
+                    <th style="text-align: center;width:110px">Thao tác</th>
+                    <th style="width: 110px;text-align: center;">Hợp đồng</th>
+                    <th style="width: 110px;text-align: center;">Nhân bản y/c</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of service.items$ | async; let i=index;">
+                        <td>{{ i + paginator.pageSize * (paginator.page - 1) + 1 }}</td>
+                        <td>{{item.MaYeuCau}}</td>
+                        <td>{{item.TenKhachHang !== "" ? item.TenKhachHang : item.NguoiYeuCau}}</td>
+                        <td>{{item.DuAnDien}}</td>
+                        <td>{{item.DiaChiDungDien}}</td>
+                        <td>{{item.BenNhan}}</td>
+                        <td>{{item.NgayYeuCau}}</td>
+                        <td>{{item.TroNgai}}</td>
+                        <td style="text-align: center;">
+                            <span *ngIf="item.TrangThai==0">Chưa tiếp nhận </span>
+                            <span *ngIf="item.TrangThai==1">Tiếp nhận </span>
+                            <span *ngIf="item.TrangThai==2">Phân công khảo sát </span>
+                            <span *ngIf="item.TrangThai==3">Ghi nhận khảo sát </span>
+                            <span *ngIf="item.TrangThai==4">Biên bản khảo sát </span>
+                            <span *ngIf="item.TrangThai==5">Dự thảo thỏa thuận</span>
+                            <span *ngIf="item.TrangThai==6">Gửi khách hàng</span>
+                            <span *ngIf="item.TrangThai==7">Ký số thỏa thuận</span>
+                            <span *ngIf="item.TrangThai==8">Hoàn thành</span>
+                            <span *ngIf="item.TrangThai==9">Chuyển tiếp</span>
+                            <span *ngIf="item.TrangThai==13">Bị trả lại </span>
+                        </td>
+                        <td style="text-align: center;">
+                            <a [routerLink]="'update/' + item.ID" style="padding-right: 10px;"> <i
+                                    class="fa fa-eye text-primary"></i></a>
+                            <a (click)="histories(item.MaYeuCau)" title="Xem lịch sử xử lý yêu cầu"> <i class="fa fa-history text-primary"></i></a>
+                        </td>
+                        <td style="text-align: center;">
+                            <a *ngIf="item.TrangThai == 8" (click)="contract(item.MaDViQLy, item.MaYeuCau)"> <i class="fa fa-file-pdf text-primary"></i></a>
+                        </td>
+                        <td style="text-align: center;">
+                            <a *ngIf="item.TrangThai == 8" (click)="duplicate(item.MaYeuCau)"> <i class="fa fa-clone text-primary"></i></a>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <app-paginator class="d-flex justify-content-between align-items-center flex-wrap" [paginator]="paginator"
+            [isLoading]="isLoading" (paginate)="paginate($event)"></app-paginator>
+    </div>
+</div>

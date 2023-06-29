@@ -1,0 +1,90 @@
+<ng-container *ngIf="isLoadingForm$ | async; else showData">
+    <div class="overlay-layer bg-transparent">
+        <div class="spinner spinner-lg spinner-success"><span style="padding-left:35px;">Đang tải dữ liệu, vui lòng
+                chờ</span></div>
+    </div>
+</ng-container>
+<ng-template #showData>
+    <div class="card card-custom gutter-b">
+        <div class="card-header">
+            <div class="card-title">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" (click)="changeTab(tabs.KetQuaKS)"
+                        [class.active]="activeTabId === tabs.KetQuaKS">
+                        <a class="nav-link" data-toggle="tab" role="button"
+                            [attr.aria-selected]="activeTabId === tabs.KetQuaKS"
+                            [class.active]="activeTabId === tabs.KetQuaKS">
+                            <span class="menu-text">Kết quả khảo sát</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" (click)="changeTab(tabs.BienBanKS)"
+                        [class.active]="activeTabId === tabs.BienBanKS">
+                        <a class="nav-link" data-toggle="tab" role="button"
+                            [attr.aria-selected]="activeTabId === tabs.BienBanKS"
+                            [class.active]="activeTabId === tabs.BienBanKS">
+                            <span class="menu-text">Biên bản khảo sát</span>
+                        </a>
+                    </li>
+                </ul>
+                
+            </div>
+            <span *ngIf="BienBanKSData.BienBanKS.TroNgai && (BienBanKSData.BienBanKS.MaTroNgai !== '' && BienBanKSData.BienBanKS.MaTroNgai !== null)" style="float: right;" class="label label-light-danger label-pill label-inline mr-2">{{BienBanKSData.BienBanKS.MaTroNgai}} -
+                {{BienBanKSData.BienBanKS.TroNgai}}</span>
+                <span *ngIf="BienBanKSData.BienBanKS.TroNgai && (BienBanKSData.BienBanKS.MaTroNgai === '' || BienBanKSData.BienBanKS.MaTroNgai === null)" style="float: right;" class="label label-light-danger label-pill label-inline mr-2">Khách hàng y/c chỉnh sửa : 
+                    {{BienBanKSData.BienBanKS.TroNgai}}</span>
+        </div>
+        <div class="card-body">
+            <div class="col-xl-12 col-xxl-12">
+                <div class="tab-content mt-5" id="myTabContent">
+                    <ng-container *ngIf="activeTabId === tabs.KetQuaKS && BienBanKSData">
+                        <app-ket-qua-khao-sat [KetQuaKS]="BienBanKSData.KetQuaKS" (reloadYCau)="reloadYCau($event)">
+                        </app-ket-qua-khao-sat>
+                    </ng-container>
+                    <ng-container *ngIf="activeTabId === tabs.BienBanKS && congVanYeuCau">
+                        <ng-container>
+                            <div class="pdf-container">
+                                <ng-container *ngIf="!(isLoadingForm$ | async) && safeSrc !== null">
+                                    <iframe width="100%" onload="this.style.height=(window.outerHeight / 2) +'px';"
+                                        frameBorder="0" [src]="getUrl()"></iframe>
+                                </ng-container>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-right" *ngIf="activeTabId === tabs.BienBanKS && 13 > congVanYeuCau.TrangThai">
+            <ng-container>
+                <!-- <button type="button"
+                    *ngIf="(allowCancel | async) && BienBanKSData && BienBanKSData.BienBanKS.ID > 0 && 3 > BienBanKSData.BienBanKS.TrangThai"
+                    class="btn btn-danger mr-2 text-uppercase" (click)="huyKQua()">
+                    <i class="fa fa-trash"></i> Hủy biên bản
+                </button> -->
+
+                <button type="button"
+                    *ngIf="(allowCancel | async) && BienBanKSData && BienBanKSData.BienBanKS.ID > 0 && 5 > congVanYeuCau.TrangThai && BienBanKSData.BienBanKS.TrangThai !== 0 && BienBanKSData.BienBanKS.TrangThai !== 2"
+                    class="btn btn-warning mr-2 text-uppercase" (click)="cancel()">
+                    <i class="fa fa-trash"></i> Khảo sát lại
+                </button>
+
+                <!-- <button type="button" [disabled]="submited | async"
+                    *ngIf="(allowApprove | async) && BienBanKSData && BienBanKSData.BienBanKS.ID > 0 && BienBanKSData.BienBanKS.TrangThai === 0"
+                    class="btn btn-primary mr-2 text-uppercase" (click)="approve()">
+                    <i class="fa fa-pencil"></i> Duyệt biên bản
+                </button> -->
+                <!-- <button type="button" [disabled]="submited | async"
+                    *ngIf="(allowSign | async) && BienBanKSData && BienBanKSData.BienBanKS.TrangThai === 2"
+                    class="btn btn-success mr-2 text-uppercase" (click)="signremote()">
+                    <i class="fa fa-check"></i> Chuyển tiếp
+                </button> -->
+            
+                <button type="button" [disabled]="submited | async"
+                    *ngIf="(allowSign | async) && BienBanKSData && BienBanKSData.BienBanKS.TrangThai === 2"
+                    class="btn btn-success mr-2 text-uppercase" (click)="kySoNhanVien()">
+                    <i class="fa fa-check"></i> Chuyển tiếp
+                </button>
+            </ng-container>
+        </div>
+    </div>
+</ng-template>
+<input id="txtFileBase64Sign" hidden class="form-control"  name="txtFileBase64Sign"   type="text" />

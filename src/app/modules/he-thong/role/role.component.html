@@ -1,0 +1,49 @@
+<div class="card card-custom gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label">Danh sách vai trò</h3>
+            <button type="button" class="btn btn-sm btn-primary mr-2 text-right" (click)="create()">Thêm mới</button>  
+        </div>       
+    </div>
+    <div class="card-body">        
+        <!-- begin:Table -->
+        <div class="table-responsive angular-bootstrap-table">
+            <table class="table table-head-custom table-vertical-center overflow-hidden">
+                <thead>                    
+                    <th style="width: 40px;">
+                        STT
+                    </th>
+                    <th>
+                        Mã
+                    </th>
+                    <th>
+                        Tên
+                    </th>
+                    <th style="width: 100px;text-align: center;">
+                        ?Quản trị
+                    </th>                    
+                    <th style="width: 100px;text-align: center;">Thao tác</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of RoleService.items$ | async; let i=index;">                        
+                        <td>{{ i + paginator.pageSize * (paginator.page - 1) + 1 }}</td>
+                        <td>{{ item.groupName }}</td>
+                        <td>{{ item.description }}</td>                        
+                        <td style="text-align: center;">
+                            <i class="ki ki-check" *ngIf="item.isSysadmin" style="color: chartreuse;"></i>
+                            <i class="ki ki-bold-close" *ngIf="!item.isSysadmin" style="color:firebrick;"></i>
+                        </td>
+                        <td style="text-align: center;">
+                            <a title="Sửa" class="btn btn-icon btn-hover-primary btn-xs"
+                                (click)="edit(item.groupId)">
+                                <i class="fa fa-edit text-primary"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <app-paginator class="d-flex justify-content-between align-items-center flex-wrap" [paginator]="paginator"
+            [isLoading]="isLoading" (paginate)="paginate($event)"></app-paginator>
+    </div>
+</div>

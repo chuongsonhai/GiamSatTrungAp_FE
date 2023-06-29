@@ -1,0 +1,66 @@
+<!-- <ng-container *ngIf="isLoading$ | async">
+<div class="overlay-layer">
+    <div class="spinner spinner-lg spinner-primary"></div>
+</div>
+</ng-container> -->
+<ng-container *ngIf="isLoading$ | async; else notloading">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+
+<!-- 
+    <div class="progress progress-modal">
+        <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar"
+            style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+    </div> -->
+</ng-container>
+<ng-template #notloading let-user>
+</ng-template>
+<div [style.width.px]="width">
+    <div class="footer_1" [style.width.px]="width">
+        <div class="row" style="margin-left: 0px;">
+            <div class="col-lg-7" style="float: left">
+                <a (click)="backPage()" class="btn btn-md btn-hover-primary " style="float: left"><i
+                        class="fa fa-chevron-left" aria-hidden="true"></i></a>
+                <div class="btn btn-md"
+                    style=" text-align: center; margin-left: 10px; margin-right: 10px; float: left;">
+                    {{ pageVariable }}
+                </div>
+                <a (click)="nextPage()" class="btn btn-md btn-hover-primary " style="float: left"><i
+                        class="fa fa-chevron-right" aria-hidden="true"></i></a>
+            </div>
+            <div class="col-lg-5" style="text-align: right">
+                <div class="btn btn-md" style="padding-left: 100px; float: left">
+                    Tổng số trang: {{ totalNumber }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="boundary">
+
+    <div class="dangnb">
+
+
+        <div class="dangnb2" [style.width.px]="width" [style.height.px]="height">
+
+            <div class="rectangle" *ngIf="currentPage == pageVariable" [ngStyle]="style" [style.width.px]="widthSign"
+                [style.height.px]="heightSign" mwlResizable [validateResize]="validate" [enableGhostResize]="true"
+                cdkDragBoundary=".dangnb2" [cdkDragFreeDragPosition]="dragPosition" (cdkDragEnded)="onDragEnded($event)"
+                (cdkDragMoved)="dragMoved($event)" cdkDrag [resizeSnapGrid]="{ left: 1, right: 1 }"
+                (resizeEnd)="onResizeEnd($event)" style="font-size: 9px;">
+                {{signName}}
+                <div class="resize-handle-top" mwlResizeHandle [resizeEdges]="{ top: true }"></div>
+                <div class="resize-handle-left" mwlResizeHandle [resizeEdges]="{ left: true }"></div>
+
+                <div class="resize-handle-right" mwlResizeHandle [resizeEdges]="{ right: true }"></div>
+                <div class="resize-handle-bottom" mwlResizeHandle [resizeEdges]="{ bottom: true }"></div>
+            </div>
+        </div>
+    </div>
+    <div class="viewer" [style.height.px]="heightViewer">
+        <pdf-viewer #viewer [src]="urlImage" [show-all]="false" [(page)]="pageVariable"
+            [render-text]="false" [original-size]="true" [zoom-scale]="'page-fit'" [autoresize]="false"
+            (after-load-complete)="afterLoadComplete($event)" (text-layer-rendered)="textLayerRendered($event)"
+            [zoom]="0.70" (cdkDragMoved)="dragMoved($event)" [stick-to-page]="true">
+        </pdf-viewer>
+    </div>
+</div>

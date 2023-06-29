@@ -1,0 +1,97 @@
+<ng-container *ngIf="isLoadingForm$ | async; else showData">
+    <div class="overlay-layer bg-transparent">
+        <div class="spinner spinner-lg spinner-success"><span style="padding-left:35px;">Đang tải dữ liệu, vui lòng
+                chờ</span></div>
+    </div>
+</ng-container>
+<ng-template #showData>
+    <div class="col-xl-12 col-xxl-12" style="min-height: 404px;">
+        <ng-container>
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                <div class="form-group row" *ngIf="KetQuaKS.NGUYEN_NHAN">
+                    <div class="col-lg-12">
+                        <span class="label label-lg label-light-danger label-inline font-weight-bold py-4">
+                            {{KetQuaKS.NGUYEN_NHAN}}
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-4">
+                        <label>Kết quả</label>
+                        <select class="form-control" [attr.disabled]="KetQuaKS.ID > 0 ? '': null" #thuanLoi
+                            (change)="showTroNgais(thuanLoi.value)" name="THUAN_LOI" formControlName="THUAN_LOI">
+                            <option value="1">Thuận lợi</option>
+                            <option value="0">Trở ngại</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-8">
+                        <label>Trở ngại </label>
+                        <select class="form-control"
+                            [attr.disabled]="KetQuaKS.ID > 0 || hasTroNgai === false ? '': null" #troNgai
+                            (change)="loadCViecs(troNgai.value)" name="MA_TNGAI" formControlName="MA_TNGAI">
+                            <option value="" selected>--- Trở ngại ---</option>
+                            <option [value]="item.MA_TNGAI" *ngFor="let item of commonService.trongais$ | async">
+                                {{item.TEN_TNGAI}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        <label>Kết quả khảo sát</label>
+                        <input type="text" [attr.disabled]="KetQuaKS.ID > 0 ? '': null" class="form-control"
+                            autocomplete="off" placeholder="Kết quả khảo sát" name="NDUNG_XLY"
+                            formControlName="NDUNG_XLY" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-8">
+                        <label>Công việc</label>
+                        <select class="form-control" [attr.disabled]="KetQuaKS.ID > 0 ? '': null"
+                            name="MA_CVIEC" formControlName="MA_CVIEC"
+                            [class.is-invalid]="isControlInvalid('MA_CVIEC')">
+                            <option [value]="item.MaCViecTiep" *ngFor="let item of congViecs">
+                                {{item.MaCViecTiep}} - {{item.TenCongViecTiep}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-lg-4">
+                        <label>Ngày hẹn</label>
+                        <div class="input-group input-group-solid">
+                            <div class="input-group-append" (click)="ngayHen.toggle()">
+                                <span class="input-group-text">
+                                    <i class="text-dark-50 flaticon-calendar"></i>
+                                </span>
+                            </div>
+                            <input type="text" name="NGAY_HEN" class="form-control form-control-solid"
+                                autocomplete="off" placeholder="dd/mm/yyyy" ngbDatepicker #ngayHen="ngbDatepicker"
+                                formControlName="NGAY_HEN" [class.is-invalid]="isControlInvalid('NGAY_HEN')" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-6">
+                        <label>Bộ phận tiếp nhận</label>
+                        <select class="form-control" [attr.disabled]="KetQuaKS.ID > 0 ? '': null"
+                            name="MA_BPHAN_NHAN" formControlName="MA_BPHAN_NHAN" #deptId
+                            [class.is-invalid]="isControlInvalid('MA_BPHAN_NHAN')" (change)="loadStaffs(deptId.value)">
+                            <option [value]="item.MA_BPHAN" *ngFor="let item of tienTrinhData.boPhans">
+                                {{item.MA_BPHAN}} - {{item.TEN_BPHAN}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-lg-6">
+                        <label>Nhân viên tiếp nhận</label>
+                        <select class="form-control" [attr.disabled]="KetQuaKS.ID > 0 ? '': null"
+                            name="MA_NVIEN_NHAN" formControlName="MA_NVIEN_NHAN"
+                            [class.is-invalid]="isControlInvalid('MA_NVIEN_NHAN')">
+                            <option [value]="item.MA_NVIEN" *ngFor="let item of tienTrinhData.nhanViens">
+                                {{item.MA_NVIEN}} - {{item.TEN_NVIEN}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+</ng-template>

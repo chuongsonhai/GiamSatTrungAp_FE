@@ -1,0 +1,85 @@
+<ng-container *ngIf="isLoadingForm$ | async; else showData">
+    <div class="overlay-layer bg-transparent">
+        <div class="spinner spinner-lg spinner-success"><span style="padding-left:35px;">Đang tải dữ liệu, vui lòng
+                chờ</span></div>
+    </div>
+</ng-container>
+<ng-template #showData>
+    <form action="#" class="form form-label-right">
+        <div class="pb-5">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label>{{congVanYeuCau.DuAnDien}}</label>
+                    </div>
+                    <div class="form-group">
+                        <label>Chủ đầu tư: {{congVanYeuCau.NguoiYeuCau}}</label>
+                    </div>
+                    <div class="form-group">
+                        <label>Mã yêu cầu: {{congVanYeuCau.MaYeuCau}}</label>
+                    </div>
+                    <div class="aside-menu">
+                        <ul class="nav menu-nav tabs">
+                            <li class="nav-item" (click)="changeTab(tabs.CongVan)"
+                                [class.active]="activeTabId === tabs.CongVan">
+                                <a class="nav-link" data-toggle="tab" role="button"
+                                    [attr.aria-selected]="activeTabId === tabs.CongVan"
+                                    [class.active]="activeTabId === tabs.CongVan">
+
+                                    <span class="menu-text">1. Công văn đề nghị</span>
+                                </a>
+                            </li>
+                            <li class="nav-item" (click)="changeTab(tabs.HoSoCongTrinhDien)"
+                                [class.active]="activeTabId === tabs.HoSoCongTrinhDien">
+                                <a class="nav-link" data-toggle="tab" role="button"
+                                    [attr.aria-selected]="activeTabId === tabs.HoSoCongTrinhDien"
+                                    [class.active]="activeTabId === tabs.HoSoCongTrinhDien">
+                                    <span class="menu-text">2. Hồ sơ công trình điện</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-9" style="border: 1px #eee solid;">
+                    <ng-container *ngIf="activeTabId === tabs.CongVan">
+                        <div class="pdf-container">
+                            <ng-container *ngIf="!(isLoadingForm$ | async) && safeSrc">
+                                <iframe width="100%" onload="this.style.height=(window.outerHeight / 2) +'px';"
+                                    frameBorder="0" [src]="getUrl()"></iframe>
+                            </ng-container>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="activeTabId === tabs.HoSoCongTrinhDien && congVanYeuCau">
+                        <app-ho-so-dang-ky [congVanYeuCau]="congVanYeuCau"></app-ho-so-dang-ky>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="card-footer container-fluid" *ngIf="13 > congVanYeuCau.TrangThai">
+        <div class="row" style="text-align: right;">
+            <div class="col-md-6"></div>
+            <div class="col-md-6">
+                <button *ngIf="congVanYeuCau.TrangThai === 0 || congVanYeuCau.TrangThai === 1"
+                    class="btn btn-light-warning btn-sm font-weight-bold text-uppercase px-9 py-4 mr-2 right"
+                    (click)="traHoSo()">
+                    Trả lại hồ sơ
+                </button>
+                <button *ngIf="congVanYeuCau.TrangThai === 0 && (allowTiepNhan | async)" [disabled]="submited| async" (click)="duyetHoSo()"
+                    class="btn btn-primary btn-sm font-weight-bold text-uppercase px-9 py-4 mr-2 right">
+                    Tiếp nhận yêu cầu
+                </button>
+                <button *ngIf="congVanYeuCau.TrangThai === 1 && (allowApprove | async)" [disabled]="submited| async"
+                    (click)="xacNhanHoSo()"
+                    class="btn btn-success btn-sm font-weight-bold text-uppercase px-9 py-4 mr-2 right">
+                    Yêu cầu khảo sát
+                </button>
+                <button *ngIf="congVanYeuCau.TrangThai === 2 && (allowApprove | async)" [disabled]="submited| async"
+                    (click)="xacNhanHoSoLai()"
+                    class="btn btn-success btn-sm font-weight-bold text-uppercase px-9 py-4 mr-2 right">
+                    Yêu cầu khảo sát lại
+                </button>
+            </div>
+        </div>
+    </div>
+</ng-template>

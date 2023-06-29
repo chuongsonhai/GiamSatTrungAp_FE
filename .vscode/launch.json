@@ -1,0 +1,30 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+    {
+        "name": "Attach to Chrome",
+        "port": 9222,
+        "request": "attach",
+        "type": "pwa-chrome",
+        "webRoot": "${workspaceFolder}"
+    },
+        // Based on: https://github.com/microsoft/vscode-recipes/tree/master/Angular-CLI
+        {
+            "name": "Launch ng serve & Chrome",
+            "type": "pwa-chrome",
+            "request": "launch",
+            "preLaunchTask": "npm: start",
+            "url": "http://localhost:4201/",
+            // Note: The ./client directory
+            "webRoot": "${workspaceFolder}/",
+            "sourceMaps": true,
+            "sourceMapPathOverrides": {
+                "webpack:/*": "${webRoot}/*",
+                "/./*": "${webRoot}/*",
+                "/src/*": "${webRoot}/*",
+                "/*": "*",
+                "/./~/*": "${webRoot}/node_modules/*"
+            }
+        },
+    ]
+}

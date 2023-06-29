@@ -1,0 +1,54 @@
+<div class="card card-custom gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label">Cấu hình công việc</h3>
+        </div>        
+    </div>
+    <div class="card-body">
+        <!-- begin:Table -->
+        <div class="table-responsive angular-bootstrap-table">
+            <table class="table table-head-custom table-vertical-center overflow-hidden">
+                <thead>                    
+                    <th style="width: 40px;">
+                        STT
+                    </th>
+                    <th>
+                        Mã CViec trước
+                    </th>
+                    <th>
+                        Mã CViec tiếp
+                    </th>
+                    <th>
+                        Trạng thái tiếp
+                    </th>
+                    <th>
+                        Mã loại YCau
+                    </th>                                                            
+                    <th style="width: 110px;text-align: center;">
+                        Số thứ tự
+                    </th>
+                    <th style="width: 110px;text-align: center;">
+                        Loại
+                    </th>
+                    <th style="width: 100px;text-align: center;">Thao tác</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of service.items$ | async; let i=index;">
+                        <td>{{ i + paginator.pageSize * (paginator.page - 1) + 1 }}</td>
+                        <td>{{item.MA_CVIEC_TRUOC}}</td>
+                        <td>{{item.MA_CVIEC_TIEP}}</td>
+                        <td>{{item.TRANG_THAI_TIEP}}</td>
+                        <td>{{item.MA_LOAI_YCAU}}</td>                        
+                        <td style="text-align: center;">{{item.ORDERNUMBER}}</td> 
+                        <td style="text-align: center;">{{item.LOAI === 0? "Yêu cầu đấu nối" : "Yêu cầu nghiệm thu"}}</td>                        
+                        <td style="text-align: center;">
+                            <a (click)="update(item.ID)"> <i class="fa fa-edit text-primary"></i></a>
+                        </td>                                                
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- <app-paginator class="d-flex justify-content-between align-items-center flex-wrap" [paginator]="paginator"
+            [isLoading]="isLoading" (paginate)="paginate($event)"></app-paginator> -->
+    </div>
+</div>

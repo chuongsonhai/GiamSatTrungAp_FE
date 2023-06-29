@@ -1,0 +1,135 @@
+<form action="#" class="form form-label-right" [formGroup]="service.BienBanTTForm">
+ 
+    <div class="form-group row">
+        <div class="col-lg-6">
+            <label>Tên khách hàng <span style="color:red">*</span></label>
+            <input type="text" class="form-control" required autocomplete="off" placeholder="Tên khách hàng"
+                name="TEN_KHACHHANG" formControlName="TEN_KHACHHANG"
+                [class.is-invalid]="isControlInvalid('TEN_KHACHHANG')" />
+        </div>
+        <div class="col-lg-6">
+            <label>Số điện thoại </label>
+            <input type="text" class="form-control" autocomplete="off" placeholder="Số điện thoại" name="SDT_KHACHHANG"
+                formControlName="SDT_KHACHHANG" [class.is-invalid]="isControlInvalid('SDT_KHACHHANG')" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-lg-6">
+            <label>Tên người đại diện<span style="color:red">*</span></label>
+            <input type="text" class="form-control" required autocomplete="off" placeholder="Tên người đại diện"
+                name="NGUOI_DDIEN" formControlName="NGUOI_DDIEN" [class.is-invalid]="isControlInvalid('NGUOI_DDIEN')" />
+        </div>
+        <div class="col-lg-6">
+            <label>Địa chỉ sử dụng điện <span style="color:red">*</span> </label>
+            <input type="text" class="form-control" required autocomplete="off" placeholder="Địa chỉ sử dụng điện"
+                name="DIA_DIEM" formControlName="DIA_DIEM" [class.is-invalid]="isControlInvalid('DIA_DIEM')" />
+        </div>
+    </div>
+   
+    <div class="form-group row">
+        <div class="col-lg-4">
+            <label>Mã điểm đo <span style="color:red">*</span> </label>
+            <input type="text" class="form-control" required autocomplete="off" placeholder="Mã điểm đo " name="MA_DDO"
+                formControlName="MA_DDO" [class.is-invalid]="isControlInvalid('MA_DDO')" />
+        </div>
+        <div class="col-lg-4">
+            <label>Mã trạm <span style="color:red">*</span></label>
+            <input type="text" class="form-control" required autocomplete="off" placeholder="Mã trạm " name="MA_TRAM"
+                formControlName="MA_TRAM" [class.is-invalid]="isControlInvalid('MA_TRAM')" />
+        </div>
+        <div class="col-lg-4">
+            <label>Mã số GCS <span style="color:red">*</span></label>
+            <input type="text" class="form-control" required autocomplete="off" placeholder="Mã số GCS" name="MA_GCS"
+                formControlName="MA_GCS" [class.is-invalid]="isControlInvalid('MA_GCS')" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-lg-4">
+            <label>Tên người treo tháo  <span style="color:red">*</span> </label>
+            <ng-select2 [data]="commonService.select2nhanvientts$ | async" required name="NVIEN_TTHAO"
+                formControlName="NVIEN_TTHAO" [options]="optionsNV"
+                [class.is-invalid]="isControlInvalid('NVIEN_TTHAO')">
+            </ng-select2>
+        </div>
+        <div class="col-lg-4">
+            <label> &#160; </label>
+            <ng-select2 [data]="commonService.select2nhanvientts$ | async"  name="NVIEN_TTHAO2"
+                formControlName="NVIEN_TTHAO2" [options]="optionsNV"
+                [class.is-invalid]="isControlInvalid('NVIEN_TTHAO2')">
+            </ng-select2>
+        </div>
+        <div class="col-lg-4">
+            <label> &#160; </label>
+            <ng-select2 [data]="commonService.select2nhanvientts$ | async"  name="NVIEN_TTHAO3"
+                formControlName="NVIEN_TTHAO3" [options]="optionsNV"
+                [class.is-invalid]="isControlInvalid('NVIEN_TTHAO3')">
+            </ng-select2>
+        </div>
+
+    </div>
+    <div class="form-group row">
+        <div class="col-lg-6">
+            <label>Tên người niêm phong  <span style="color:red">*</span> </label>
+            <ng-select2 [data]="commonService.select2nhanvientts$ | async" required name="NVIEN_NPHONG"
+                formControlName="NVIEN_NPHONG" [options]="optionsNV"
+                [class.is-invalid]="isControlInvalid('NVIEN_NPHONG')">
+            </ng-select2>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-lg-6">
+                <label>Vị trí lắp đặt:  <span style="color:red">*</span></label>
+                <div class="radio-inline">
+                    <label class="radio radio-rounded">
+                        <input type="radio" name="VTRI_LDAT" formControlName="VTRI_LDAT" value="0" (click)="showDetail(0)">
+                        <span></span>Trong nhà </label>
+                    <label class="radio radio-rounded">
+                        <input type="radio" name="VTRI_LDAT" formControlName="VTRI_LDAT" value="1" (click)="showDetail(1)">
+                        <span></span>Ngoài nhà</label>
+                    <label class="radio radio-rounded">
+                        <input type="radio" name="VTRI_LDAT" formControlName="VTRI_LDAT" value="2" (click)="showDetail(2)">
+                        <span></span>Trên cột</label>
+                </div>
+            </div>
+            <!-- <div class="col-lg-3" *ngIf="showCTietLDat">
+                <label>Số cột</label>
+                <input type="text" class="form-control" autocomplete="off" placeholder="Số cột"
+                    name="SO_COT" formControlName="SO_COT"
+                    [class.is-invalid]="isControlInvalid('SO_COT')" />
+            </div>
+            <div class="col-lg-3" *ngIf="showCTietLDat">
+                <label>Số hộp</label>
+                <input type="text" class="form-control" autocomplete="off" placeholder="Số hộp"
+                    name="SO_HOP" formControlName="SO_HOP"
+                    [class.is-invalid]="isControlInvalid('SO_HOP')" />
+            </div> -->
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-lg-6">
+            <label>Loại biên bản</label>
+            <div class="radio-inline">
+                <label class="radio radio-rounded">
+                    <input type="radio" name="LY_DO" formControlName="LY_DO" value="TreoMoi">
+                    <span></span>Lắp mới </label>
+            </div>
+        </div>
+        
+    </div>
+    <div class="form-group row">
+        <div class="col-lg-6">
+            <label>Lý do treo tháo</label>
+            <ng-select2 [data]="commonService.lydos$ | async" name="MA_LDO" formControlName="MA_LDO"
+                [options]="optionsLD">
+            </ng-select2>
+        </div>
+        <div class="col-lg-6">
+            <label>Mô tả<span style="color:red">*</span></label>
+            <input type="text" class="form-control" required autocomplete="off" placeholder="Mô tả" name="MO_TA"
+                formControlName="MO_TA" [class.is-invalid]="isControlInvalid('MO_TA')" />
+        </div>
+    </div>
+   
+</form>

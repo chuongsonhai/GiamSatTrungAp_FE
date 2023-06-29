@@ -1,0 +1,54 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            Thông tin mẫu
+        </div>
+    </div>
+    <div class="overlay overlay-block cursor-default modal-body" style="min-height: 404px;">   
+        <ng-container>
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                <div class="form-group row">
+                    <div class="col-lg-6">
+                        <label>Mã <span style="color:red">*</span></label>
+                        <label *ngIf="template.Code" class="form-control">{{template.Code}}</label>  
+                        <input *ngIf="!template.Code" type="text" class="form-control" autocomplete="off"
+                                    name="Code" formControlName="Code"
+                                    maxlength="50" minlength="3" />                  
+                    </div>
+                    <div class="col-lg-6">
+                        <label>Tên <span style="color:red">*</span></label>
+                        <input type="text" class="form-control" autocomplete="off"
+                                    name="Name" formControlName="Name" [class.is-invalid]="isControlInvalid('Name')"/>                  
+                    </div>
+                </div>   
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        <label>Chức vụ ký</label>
+                        <input type="text" class="form-control" name="ChucVuKy" formControlName="ChucVuKy" 
+                        [class.is-invalid]="isControlInvalid('ChucVuKy')"/>
+                    </div>                                     
+                </div>             
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        <label>Xslt <span style="color:red">*</span></label>
+                        <textarea type="text" class="form-control" name="XsltData" formControlName="XsltData" 
+                        [class.is-invalid]="isControlInvalid('XsltData')"></textarea>
+                    </div>                                       
+                </div>                                
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        <label>Xml</label>
+                        <textarea type="text" class="form-control" name="XmlData" formControlName="XmlData" 
+                        [class.is-invalid]="isControlInvalid('XmlData')"></textarea>
+                    </div>                                     
+                </div>                
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container>
+            <button type="submit" [disabled]="formGroup.invalid" class="btn btn-primary btn-elevate" (click)="save()">Lưu thông tin</button>
+        </ng-container>
+    </div>
+</div>

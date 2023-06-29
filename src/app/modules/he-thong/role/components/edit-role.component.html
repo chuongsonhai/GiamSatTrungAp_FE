@@ -1,0 +1,104 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            Thông tin vai trò
+        </div>
+    </div>
+    <div class="overlay overlay-block cursor-default modal-body" style="min-height: 404px;">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="Role">
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                <div class="form-group row">
+                    <div class="col-lg-4">
+                        <label>Mã</label>
+                        <label *ngIf="Role.groupId > 0 && Role.groupName" class="form-control">{{Role.groupName}}</label>
+                        <input type="text" class="form-control" autocomplete="off"
+                            *ngIf="!Role.groupId || !Role.groupName" name="groupName"
+                            [class.is-invalid]="isControlInvalid('groupName')" [class.is-valid]="isControlValid('groupName')"
+                            formControlName="groupName" maxlength="50" minlength="3" />
+                        <div class="invalid-feedback" *ngIf="controlHasError('required', 'groupName')">
+                            Không được bỏ trống
+                        </div>
+                        <div class="invalid-feedback" *ngIf="controlHasError('minlength', 'groupName')">
+                            Tối thiểu 3 kí tự
+                        </div>
+                        <div class="invalid-feedback" *ngIf="controlHasError('maxLength', 'groupName')">
+                            Không vượt quá 50
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <label>Tên</label>
+                        <input type="text" class="form-control input-sm" autocomplete="off" placeholder="Tên"
+                            name="description" [class.is-invalid]="isControlInvalid('description')"
+                            [class.is-valid]="isControlValid('description')" formControlName="description" maxlength="150"
+                            minlength="3" />
+                        <div class="invalid-feedback" *ngIf="controlHasError('minlength', 'description')">
+                            Tối thiểu 3 kí tự
+                        </div>
+                        <div class="invalid-feedback" *ngIf="controlHasError('maxLength', 'description')">
+                            Không vượt quá 150
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <p style="clear: both;">&#160;</p>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefaultIsSysadmin"
+                                formControlName="isSysadmin">
+                            <label class="form-check-label" for="flexCheckDefaultIsSysadmin">
+                                Quản trị cấp cao
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-12">
+                    <label>Danh sách quyền</label>
+                    <table class="table table-head-custom table-vertical-center overflow-hidden">
+                        <thead>
+                            <th style="width: 40px;">
+                                STT
+                            </th>
+                            <th style="width: 150px;">
+                                Chức năng
+                            </th>
+                            <th>
+                                Thao tác
+                            </th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of CommonService.modules$ | async; let i=index;">
+                                <td>{{ i + 1 }}</td>
+                                <td>{{item.Name}}</td>
+                                <td>
+                                    <div class="form-group row">
+                                        <div class="col-lg-4" *ngFor="let permission of item.Permissions">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox"
+                                                (click)="selectRow(permission.Code)" [checked]="isRowSelected(permission.Code)" [id]="permission.PermissionID">
+                                                <label class="form-check-label" for="permission.PermissionID">
+                                                    {{permission.Name}}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container *ngIf="Role">
+            <button type="submit" class="btn btn-primary btn-elevate" (click)="save()"
+                [disabled]="formGroup.invalid">Lưu</button>
+        </ng-container>
+    </div>
+</div>
