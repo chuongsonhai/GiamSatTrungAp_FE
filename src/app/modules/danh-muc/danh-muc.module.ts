@@ -98,7 +98,6 @@ import { EditMailComponent } from './mail-canh-bao-tct/edit-mail/edit-mail.compo
         NgbModalModule,
         NgSelect2Module,
         //TreetableModule
-
     ],
     exports: [
     ],
