@@ -23,7 +23,17 @@ export const DynamicAsideMenuConfig = {
           permission: 'HT-CauHinh',
           title: 'Cấu hình hệ thống',
           page: '/qtht/systemconfig'
-        },        
+        },    
+        {
+          permission: 'HT-CauHinh',
+          title: 'Cấu hình cảnh báo',
+          page: '/qtht/cauhinhcanhbao'
+        },     
+        {
+          permission: 'HT-CauHinh',
+          title: 'Log cảnh báo',
+          page: '/qtht/logcanhbao'
+        },   
         {
           permission: 'HT-DonVi',
           title: 'Đơn vị',
@@ -163,6 +173,23 @@ export const DynamicAsideMenuConfig = {
           page: '/ktdk/hopdong'
         }
       ]      
+    },
+    {
+      title: 'Giám sát cấp điện',
+      bullet: 'dot',
+      icon: 'flaticon2-list-2',
+      svg: './assets/media/svg/icons/Code/Settings4.svg',
+      root: true,
+      permission: 'HT-Group,HT-NguoiDung,HT-CauHinh,HT-DonVi,HT-PhongBan',
+      page: '',
+      submenu: [  
+        {
+          permission: 'HT-Group',
+          title: 'Danh sách cảnh báo',
+          page: '/gscd/filter'
+        },      
+        
+      ]
     },
     {
       title: 'Báo cáo, thống kê',

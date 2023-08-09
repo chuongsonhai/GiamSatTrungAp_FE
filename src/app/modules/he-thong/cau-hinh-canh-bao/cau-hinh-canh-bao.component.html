@@ -1,0 +1,85 @@
+<div class="card card-custom gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label">Danh sách cấu hình cảnh báo</h3>
+            <button type="button" class="btn btn-sm btn-primary mr-2 text-right" (click)="create()">Thêm mới</button>  
+        </div>        
+    </div>
+    <div class="card-body">
+        <!-- begin:Table -->
+        <div class="form form-label-right">
+            <div class="form-group row">
+                <div class="col-lg-4" [formGroup]="filterGroup">
+                    <label>Mã loại cảnh báo</label>
+                    <!-- <input type="text" class="form-control" name="maLoaiCanhBao" placeholder="Mã loại cảnh báo" value=""
+                        formControlName="maLoaiCanhBao" /> -->
+                    <select class="form-control" name="maLoaiCanhBao" placeholder="Mã loại cảnh báo" formControlName="maLoaiCanhBao">
+                        <option selected="selected" value="-1">-- Tất cả --</option>
+                        <option value="1">1. thời gian tiếp nhận yêu cầu cấp điện lập thỏa thuận đấu nối</option>
+                        <option value="2">2.Thời gian thực hiện lập thỏa thuận đấu nối</option>
+                        <option value="3">3.Thời gian tiếp nhận yêu cầu kiểm tra đóng điện</option>
+                        <option value="4">4.Thời gian dự thảo và ký hợp đồng mua bán điện</option>
+                        <option value="5">5. Thời gian thực hiện kiểm tra điều kiện kỹ thuật điểm đấu nối</option>
+                        <option value="6">6.Giám sát thời gian nghiệm thu yêu cầu cấp điện</option>
+                        <option value="7">7.hồ sơ sắp hết hạn hiệu lực thỏa thuận đấu nối</option>
+                        <option value="8">8.Thời gian thực hiện cấp điện mới trung áp</option>
+                        <option value="9">9. từ chối tiếp nhận yêu cầu cấp điện/thỏa thuận đấu nối</option>
+                        <option value="10">10.trờ ngại khảo sát lập thỏa thuận đấu nối</option>
+                        <option value="11">11.hủy yêu cầu lập thỏa thuận đấu nối</option>
+                        <option value="12">12.từ chối tiếp nhận yêu cầu kiểm tra điều kiện đóng điện điểm đấu nối</option>
+                        <option value="13">13. khách hàng từ chối ký thỏa thuận đấu nối</option>
+                        <option value="14">14. trở ngại khi kiểm tra điều kiện đóng điện điểm đấu nối.</option>
+                        <option value="15">15.trở ngại khi thi công treo tháo</option>
+                        <option value="16">16.khách hàng từ chối ký hợp đồng mua bán điện</option>
+                    </select>
+                </div>
+                <div class="col-lg-3" [formGroup]="filterGroup">
+                    <label>Chu kỳ</label>
+                    <input type="text" class="form-control" name="chuky" placeholder="Tất cả" value=""
+                        formControlName="chuky" />
+                </div>
+                <div class="col-lg-2">
+                    <button type="button" class="btn btn-primary " style="height: 60%;bottom: 0;position: absolute;"
+                        (click)="filter()">
+                        <i class="fa fa-search"></i>
+                        Tìm kiếm
+                    </button>
+                </div>
+            </div>
+            
+        </div>
+        <div class="table-responsive angular-bootstrap-table">
+            <table class="table table-head-custom table-vertical-center overflow-hidden">
+                <thead>                    
+                    <th style="width: 40px;">
+                        STT
+                    </th>
+                    <th style="width: 60px;">
+                        ID
+                    </th>
+                    <th style="width: 200px;text-align: center;">
+                        Chu kỳ thời gian
+                    </th>
+                    <th>
+                        Loại cảnh báo
+                    </th>
+                                  
+                    <th style="width: 100px;text-align: center;">Thao tác</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of service.items$ | async; let i=index;">
+                        <td>{{ i + paginator.pageSize * (paginator.page - 1) + 1 }}</td>
+                        <td>{{item.maLoaiCanhBao}}</td>
+                        <td>{{item.chuKy}}</td>
+                        <td>{{item.tenLoaiCanhbao}}</td>                    
+                        <td style="text-align: center;">
+                            <a (click)="update(item.maLoaiCanhBao)"> <i class="fa fa-edit text-primary"></i></a>
+                        </td>                                                
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- <app-paginator class="d-flex justify-content-between align-items-center flex-wrap" [paginator]="paginator"
+            [isLoading]="isLoading" (paginate)="paginate($event)"></app-paginator> -->
+    </div>
+</div>

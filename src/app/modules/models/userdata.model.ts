@@ -8,6 +8,7 @@ export class Userdata {
     maBPhan: string;
     NotifyId: string;
     password: string;
+    phoneNumber: string;
     isactive: boolean = true;
     Roles: string[];
 }

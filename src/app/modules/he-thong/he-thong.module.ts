@@ -55,6 +55,9 @@ import { EditTroNgaiComponent } from './tro-ngai/components/edit-tro-ngai.compon
 import { SystemLogComponent } from './system-log/system-log.component';
 import { MauHoSoComponent } from './mau-ho-so/mau-ho-so.component';
 import { UpdateMauHoSoComponent } from './mau-ho-so/components/update-mau-ho-so.component';
+import { CauHinhCanhBaoComponent } from './cau-hinh-canh-bao/cau-hinh-canh-bao.component';
+import { UpdateCauHinhCanhBaoComponent } from './cau-hinh-canh-bao/update-cau-hinh-canh-bao/update-cau-hinh-canh-bao.component';
+import { LogCanhBaoComponent } from './log-canh-bao/log-canh-bao.component';
 
 @NgModule({
     declarations: [
@@ -82,7 +85,10 @@ import { UpdateMauHoSoComponent } from './mau-ho-so/components/update-mau-ho-so.
         SystemLogComponent,
 
         MauHoSoComponent,
-        UpdateMauHoSoComponent
+        UpdateMauHoSoComponent,
+        CauHinhCanhBaoComponent,
+        UpdateCauHinhCanhBaoComponent,
+        LogCanhBaoComponent
     ],
     imports: [
         HeThongRoutingModule,

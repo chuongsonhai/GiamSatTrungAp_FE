@@ -11,6 +11,8 @@ import { CauHinhDongBoComponent } from './cau-hinh-dong-bo/cau-hinh-dong-bo.comp
 import { TroNgaiComponent } from './tro-ngai/tro-ngai.component';
 import { SystemLogComponent } from './system-log/system-log.component';
 import { MauHoSoComponent } from './mau-ho-so/mau-ho-so.component';
+import { CauHinhCanhBaoComponent } from './cau-hinh-canh-bao/cau-hinh-canh-bao.component';
+import { LogCanhBaoComponent } from './log-canh-bao/log-canh-bao.component';
 
 const routes: Routes = [
     {
@@ -56,7 +58,15 @@ const routes: Routes = [
             {
                 path: 'systemlog',
                 component: SystemLogComponent
-            },              
+            },
+            {
+                path: 'cauhinhcanhbao',
+                component: CauHinhCanhBaoComponent
+            },    
+            {
+                path: 'logcanhbao',
+                component: LogCanhBaoComponent
+            },             
             { path: '', redirectTo: 'users', pathMatch: 'full' },
             { path: '**', redirectTo: 'users', pathMatch: 'full' },
         ],

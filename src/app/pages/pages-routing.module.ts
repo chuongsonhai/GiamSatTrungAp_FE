@@ -62,6 +62,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('../modules/bao-cao-thong-ke/bao-cao-thong-ke.module').then((m) => m.BaoCaoThongKeModule),
       },
+      {
+        path: 'gscd',
+        loadChildren: () =>
+          import('../modules/giam-sat-cap-dien/giam-sat-cap-dien.module').then((m) => m.GiamSatCapDienModule),
+      },
       { path: '**', redirectTo: '' },
     ],
   },

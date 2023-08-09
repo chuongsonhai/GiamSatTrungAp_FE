@@ -1,0 +1,39 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            Thông tin cấu hình cảnh báo
+        </div>
+    </div>
+    <div class="overlay overlay-block cursor-default modal-body" style="min-height: 404px;">   
+        <ng-container>
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">
+                
+                <div class="form-group row">
+                    <div class="col-lg-6">
+                        <label>Mã loại cảnh báo <span style="color:red">*</span></label>
+                        <label *ngIf="CauHinhCanhBao.maLoaiCanhBao > 0"
+                            class="form-control form-control-solid">{{CauHinhCanhBao.maLoaiCanhBao}}</label>
+                                            
+                    </div>
+                    <div class="col-lg-6">
+                        <label>Chu kỳ<span style="color:red">*</span></label>
+                        <input type="text" class="form-control" name="chuKy" formControlName="chuKy" 
+                        [class.is-invalid]="isControlInvalid('chuKy')"/>
+                    </div> 
+                    <div class="col-lg-12">
+                        <label>Loại cảnh báo<span style="color:red">*</span></label>
+                        <input type="text" class="form-control" name="tenLoaiCanhbao" formControlName="tenLoaiCanhbao" 
+                        [class.is-invalid]="isControlInvalid('tenLoaiCanhbao')"/>
+                    </div>                    
+                </div> 
+              
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container>
+            <button type="submit" [disabled]="formGroup.invalid" class="btn btn-primary btn-elevate" (click)="save()">Lưu thông tin</button>
+        </ng-container>
+    </div>
+</div>

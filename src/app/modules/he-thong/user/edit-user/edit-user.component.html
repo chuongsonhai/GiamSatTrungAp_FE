@@ -74,7 +74,7 @@
                                     Không vượt quá 100
                                 </div>
                             </div>
-                            <div class="col-lg-8">
+                            <div class="col-lg-4">
                                 <label>Tên đầy đủ</label>
                                 <input type="text" class="form-control form-control-solid" autocomplete="off"
                                     placeholder="Tên đầy đủ" name="fullName"
@@ -85,6 +85,19 @@
                                 </div>
                                 <div class="invalid-feedback" *ngIf="controlHasError('maxLength', 'fullName')">
                                     Không vượt quá 150
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <label>Số điện thoại</label>
+                                <input type="text" class="form-control form-control-solid" autocomplete="off"
+                                    placeholder="0000-000-000" name="phoneNumber"
+                                    formControlName="phoneNumber"
+                                    maxlength="10" minlength="10" />
+                                <div class="invalid-feedback" *ngIf="controlHasError('minlength', 'phoneNumber')">
+                                    Tối thiểu 10 kí tự
+                                </div>
+                                <div class="invalid-feedback" *ngIf="controlHasError('maxLength', 'phoneNumber')">
+                                    Không vượt quá 10
                                 </div>
                             </div>
                         </div>

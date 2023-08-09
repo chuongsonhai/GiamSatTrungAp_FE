@@ -1,0 +1,146 @@
+<div class="card card-custom gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label">Chi tiết cảnh báo</h3>
+        </div>
+    </div>
+    <div class="card-body">
+        <ng-container *ngIf="isLoadingForm$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="CanhBaoChiTiet">
+        <!-- begin: Filtration form -->
+        <div class="form form-label-right">
+            <form action="#" class="form form-label-right" [formGroup]="filterGroup">      
+            <div class="row">
+                
+                <div class="col-lg-4" >
+                    <label>Mã Cảnh báo</label>
+                    <input type="text" class="form-control" disabled="disabled" name="idCanhBao" value="{{idCanhBao}}"
+                        formControlName="idCanhBao" />
+                </div>
+                <div class="col-lg-4">
+                    <label>Mã loại cảnh báo</label>
+                    <input type="text" class="form-control" disabled="disabled"  name="maLoaiCanhBao"  value="{{maLoaiCanhBao}}"
+                        formControlName="maLoaiCanhBao" />
+                </div>
+                
+                <div class="col-lg-4"  >
+                    <label>Thời gian gửi</label>
+                    <input type="text" class="form-control" disabled="disabled"  name="thoiGianGui" value="{{thoiGianGui}}"
+                        formControlName="thoiGianGui" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4"  >
+                    <label>Mã YC</label>
+                    <input type="text" class="form-control" disabled="disabled"  name="maYeuCau"  value="{{maYeuCau}}"
+                        formControlName="maYeuCau" />
+                        
+                </div>
+                <div class="col-lg-4" >
+                    <label>Đơn vị quản lý</label>
+                    <select  class="form-control" name="donViQuanLy" formControlName="donViQuanLy">
+                        <option [value]="item.orgCode" *ngFor="let item of organizations" >
+                            {{item.orgCode}} - {{item.orgName}}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-lg-4"  >
+                    <label>Trạng thái cảnh báo</label>
+                    <input type="text" class="form-control" disabled="disabled"  name="trangThai"  value="{{trangThai}}"
+                        formControlName="trangThai" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4"  >
+                    <label>ID Yêu cầu</label>
+                    <input type="text" class="form-control" disabled="disabled"  name="idYeuCau"  value="{{idYeuCau}}"
+                        formControlName="idYeuCau" />
+                        <a target="_blank" href="/ttdn/list/update/{{idYeuCau}}">Xem chi tiết</a>
+                </div>
+                <div class="col-lg-4"  >
+                    <label>Tên Khách hàng</label>
+                    <input type="text" class="form-control" disabled="disabled"  name="tenKhachHang"  value="{{tenKhachHang}}"
+                        formControlName="tenKhachHang" />
+                </div>
+                <div class="col-lg-4"  >
+                    <label>SDT Khách hàng</label>
+                    <input type="text" class="form-control" disabled="disabled"  name="soDienThoai"  value="{{soDienThoai}}"
+                        formControlName="soDienThoai" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4"  >
+                    <label>Trạng thái yêu cầu</label>
+                    <input type="text" class="form-control" disabled="disabled"  name="trangThaiYeuCau"  value="{{trangThaiYeuCau}}"
+                        formControlName="trangThaiYeuCau" />
+                </div>
+                <div class="col-lg-8"  >
+                    <label>Nội dung cảnh báo</label>
+                    <textarea class="form-control" disabled="disabled"  name="noiDungCanhBao" value="{{noiDungCanhBao}}"
+                        formControlName="noiDungCanhBao"></textarea>
+                </div>
+            </div>
+            </form>
+        </div>
+        <div class="row" style="padding: 10px;">
+            <div class="col-lg-6">
+                <button class="btn btn-primary mr-2" (click)="updateStatusCanhBao(id,3)"> xác nhận </button>
+                <button class="btn btn-primary mr-2" (click)="updateStatusCanhBao(id,4)"> chuyển dv</button>
+                <button class="btn btn-primary mr-2" (click)="updateStatusCanhBao(id,6)"> kêt thuc</button>
+          
+            </div>
+            <div class="col-lg-6 text-right">
+                <button class="btn btn-primary mr-2 right" style="float: right;" (click)="createPH(id)"> thêm phản hồi</button>
+            </div>
+        </div>
+      
+        <div class="table-responsive angular-bootstrap-table">
+            <table class="table table-head-custom table-vertical-center overflow-hidden">
+                <thead>
+                    <th style="width: 40px;text-align: center;">
+                        ID phản hồi
+                    </th>
+                    <th style="width: 110px">
+                        Nội dung phản hồi
+                    </th>
+                    <th>
+                       Người gửi
+                    </th>
+                    <th>
+                        Thời gian gửi
+                    </th>
+                    <th>
+                        Đính kèm
+                    </th>
+                    <th>
+                        Tương tác
+                    </th>
+                    
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of phanHoi;">
+                        <td>{{item.ID}}</td>
+                        <!-- <td>{{item.TenKhachHang !== "" ? item.TenKhachHang : item.NguoiYeuCau}}</td> -->
+                        <td>{{item.noiDungPhanHoi}}</td>
+                        <td>{{item.nguoiGui}}</td>
+                        <td>{{item.thoiGianGui}}</td>
+                        <td><a href="https://icdn.dantri.com.vn/thumb_w/680/2023/06/25/b2-1687689985971.jpg" target="_blank">ảnh</a></td>
+                        <td>
+                            <a (click)="edit(item.ID)"><i class="fa fa-edit"></i> </a>
+                            <a (click)="deletePH(item.ID)"><i class="fa fa-trash-alt"></i></a>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <!-- <app-paginator class="d-flex justify-content-between align-items-center flex-wrap" [paginator]="paginator"
+            [isLoading]="isLoading" (paginate)="paginate($event)"></app-paginator> -->
+        </ng-container>
+    </div>
+</div>
