@@ -67,6 +67,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('../modules/giam-sat-cap-dien/giam-sat-cap-dien.module').then((m) => m.GiamSatCapDienModule),
       },
+      {
+        path: 'kskh',
+        loadChildren: () =>
+          import('../modules/khao-sat-khach-hang-gs/khao-sat-khach-hang-gs.module').then((m) => m.KhaoSatKhachHangGsModule),
+      },
       { path: '**', redirectTo: '' },
     ],
   },

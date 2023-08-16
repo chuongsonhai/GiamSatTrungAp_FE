@@ -1,0 +1,58 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            Thêm khảo sát
+        </div>
+    </div>
+    <div class="overlay overlay-block cursor-default modal-body" style="min-height: 404px;">   
+        <ng-container>
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">                
+                <input type="hidden" name="ID" value="{{idKhaoSat}}">
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        <label>Mã cảnh báo</label>
+                        <input type="text"  disabled="disabled" class="form-control" name="CANHBAO_ID" formControlName="CANHBAO_ID" />
+                    </div> 
+                </div> 
+                <div class="form-group row" *ngIf="!isPhanHoiDv">
+                    <div class="col-lg-12">
+                        <label >Nội dung khảo sát<span style="color:red">*</span></label>
+                        <input type="text" class="form-control" name="NOIDUNG_CAUHOI" formControlName="NOIDUNG_CAUHOI" />                   
+                    </div>
+                                   
+                </div>   
+                <div class="form-group row" *ngIf="!isPhanHoiDv">
+                    <div class="col-lg-12">
+                        <label>Phản hồi khách hàng<span style="color:red">*</span></label>
+                        <input type="text" class="form-control" name="PHANHOI_KH" formControlName="PHANHOI_KH" />                   
+                    </div>
+                </div>    
+                <div class="form-group row" *ngIf="isPhanHoiDv">
+                    <div class="col-lg-12">
+                        <label>Phản hồi đơn vị<span style="color:red">*</span></label>
+                        <input type="text" class="form-control" name="PHANHOI_DV" formControlName="PHANHOI_DV" />                   
+                    </div>
+                </div>  
+                <div class="form-group row" *ngIf="!isPhanHoiDv">
+                    <div class="col-lg-12">
+                        <label>Kết quả khảo sát<span style="color:red">*</span></label>
+                        <select class="form-control" name="KETQUA" formControlName="KETQUA">
+                            <option value="hoàn thành yêu cầu">hoàn thành yêu cầu</option>
+                            <option value="hủy yêu cầu">hủy yêu cầu</option>
+                        </select>
+                        <!-- <input type="text" class="form-control" name="KETQUA" formControlName="KETQUA" />                    -->
+                    </div>
+                                   
+                </div>   
+                                         
+                             
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container>
+            <button type="submit" [disabled]="formGroup.invalid" class="btn btn-primary btn-elevate" (click)="save()">Lưu thông tin</button>
+        </ng-container>
+    </div>
+</div>

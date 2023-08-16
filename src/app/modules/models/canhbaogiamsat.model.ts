@@ -10,3 +10,15 @@ export class CanhBaoGiamSat {
     maYeuCau: string
 }
 
+export class KhachHangGiamSat {
+    MaYeuCau: string
+    TenKhachHang: string
+    TrangThai: string
+}
+export class KhaoSatKhachHang {
+    MaYeuCau: string
+    TenKhachHang: string
+    TrangThaiCongVan: string
+    DienThoai:string
+}
+

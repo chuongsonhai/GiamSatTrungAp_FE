@@ -188,7 +188,11 @@ export const DynamicAsideMenuConfig = {
           title: 'Danh sách cảnh báo',
           page: '/gscd/filter'
         },      
-        
+        {
+          permission: 'HT-Group',
+          title: 'Khảo sát khách hàng',
+          page: '/kskh/khachhang/filter'
+        }, 
       ]
     },
     {

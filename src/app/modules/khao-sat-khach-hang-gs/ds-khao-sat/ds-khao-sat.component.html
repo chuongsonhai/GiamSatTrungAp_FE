@@ -1,0 +1,120 @@
+<div class="card card-custom gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label">Chi tiết khảo sát</h3>
+        </div>
+    </div>
+    <div class="card-body">
+        <ng-container *ngIf="isLoadingForm$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="CanhBaoChiTiet">
+        <!-- begin: Filtration form -->
+        <div class="form form-label-right">
+            <form action="#" class="form form-label-right" [formGroup]="filterGroup">      
+            
+            <div class="row">
+                <div class="col-lg-4"  >
+                    <label>Mã YC</label>
+                    <input type="text" class="form-control" disabled="disabled"  name="maYeuCau"  value="{{maYeuCau}}"
+                        formControlName="maYeuCau" />
+                        
+                </div>
+                <div class="col-lg-4"  >
+                    <label>Trạng thái yêu cầu</label>
+                    <input type="text" class="form-control" disabled="disabled"  name="trangThai"  value="{{trangThai}}"
+                        formControlName="trangThai" />
+                </div>
+                <div class="col-lg-4"  >
+                    <label>Id Cảnh báo</label><a href="/gscd/detail/{{idCanhBao}}">(Xem chi tiết)</a>
+                    <input type="text" class="form-control" disabled="disabled"  name="idCanhBao"  value="{{idCanhBao}}"
+                        formControlName="idCanhBao" />
+                        
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6"  >
+                    <label>Tên Khách hàng</label>
+                    <input type="text" class="form-control" disabled="disabled"  name="tenKhachHang"  value="{{tenKhachHang}}"
+                        formControlName="tenKhachHang" />
+                </div>
+                <div class="col-lg-6"  >
+                    <label>SDT Khách hàng</label>
+                    <input type="text" class="form-control" disabled="disabled"  name="soDienThoai"  value="{{soDienThoai}}"
+                        formControlName="soDienThoai" />
+                </div>
+                
+            </div>
+            
+            </form>
+        </div>
+        <div class="row" style="padding: 10px;">
+            
+            <div class="col-lg-12 text-right">
+                <button class="btn btn-primary mr-2 right" style="float: right;" (click)="createKS(id)"> Thêm khảo sát</button>
+            </div>
+            
+        </div>
+      
+        <div class="table-responsive angular-bootstrap-table">
+            <table class="table table-head-custom table-vertical-center overflow-hidden">
+                <thead>
+                    <th style="width: 40px;text-align: center;">
+                        ID khảo sát
+                    </th>
+                    <th>
+                        Nội dung câu hỏi
+                    </th>
+                    <th>
+                       Khách hàng trả lời
+                    </th>
+                    <th>
+                        Thời gian khảo sát
+                    </th>
+                    <th>
+                        Người khảo sát
+                    </th>
+                    <th>
+                        Kết quả khảo sát
+                    </th>
+                    <th>
+                        Phản hồi đơn vị
+                    </th>
+                    <th>
+                        Trạng thái khảo sát
+                    </th>
+                    <th>
+                        Tương tác
+                    </th>
+                    
+                    
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of khaoSat;">
+                        <td>{{item.ID}}</td>
+                        <!-- <td>{{item.TenKhachHang !== "" ? item.TenKhachHang : item.NguoiYeuCau}}</td> -->
+                        <td>{{item.NOIDUNG_CAUHOI}}</td>
+                        <td>{{item.PHANHOI_KH}}</td>
+                        <td>{{item.THOIGIAN_KHAOSAT}}</td>
+                        <td>{{item.NGUOI_KS}}</td>
+                        <td>{{item.KETQUA}}</td>
+                        <td>{{item.PHANHOI_DV}}</td>
+                        <td>{{item.TRANGTHAI}}</td>
+                        <td>
+                            <a (click)="edit(item.ID)"class="btn btn-primary">Sửa khảo sát </a>
+                            <a (click)="createPHDV(idCanhBao, item.ID)" class="btn btn-primary">Đơn vị phản hồi</a>
+                            <a (click)="updateStatus(item.ID, 6)" class="btn btn-primary">Kết thúc khảo sát</a>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <!-- <app-paginator class="d-flex justify-content-between align-items-center flex-wrap" [paginator]="paginator"
+            [isLoading]="isLoading" (paginate)="paginate($event)"></app-paginator> -->
+        </ng-container>
+    </div>
+</div>

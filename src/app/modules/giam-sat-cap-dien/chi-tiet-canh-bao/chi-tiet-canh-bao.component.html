@@ -129,7 +129,7 @@
                         <td>{{item.noiDungPhanHoi}}</td>
                         <td>{{item.nguoiGui}}</td>
                         <td>{{item.thoiGianGui}}</td>
-                        <td><a href="https://icdn.dantri.com.vn/thumb_w/680/2023/06/25/b2-1687689985971.jpg" target="_blank">ảnh</a></td>
+                        <td><a (click)="view(item.FILE_DINHKEM)" target="_blank">Xem ảnh đính kèm</a></td>
                         <td>
                             <a (click)="edit(item.ID)"><i class="fa fa-edit"></i> </a>
                             <a (click)="deletePH(item.ID)"><i class="fa fa-trash-alt"></i></a>

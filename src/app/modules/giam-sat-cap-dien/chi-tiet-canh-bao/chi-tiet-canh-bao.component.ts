@@ -17,6 +17,8 @@ import { CanhBaoChiTiet, PhanHoi } from '../../models/canhbaochitiet.model';
 import { ActivatedRoute } from '@angular/router';
 import { PhanHoiCanhBaoComponent } from '../phan-hoi-canh-bao/phan-hoi-canh-bao.component';
 import { ResponseModel } from '../../models/response.model';
+import { ViewPdfComponent } from '../../share-component/view-pdf/view-pdf.component';
+import { ViewImageComponent } from '../../share-component/view-image/view-image.component';
 
 @Component({
   selector: 'app-chi-tiet-canh-bao',
@@ -297,6 +299,35 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
             })
         }
       });
+  }
+
+  view(path: string) {
+    this.isLoadingForm$.next(true);
+    this.commonService.getPDF(path).subscribe((response) => {
+      var filetype=path.split(".")[1];
+      if (filetype === 'pdf') {
+        const modalRef = this.modalService.open(ViewPdfComponent, { size: 'xl' });
+        modalRef.componentInstance.response = response;
+        modalRef.result.then(
+          () => {
+            this.isLoadingForm$.next(false);
+          }
+        );
+      }
+      else {
+        const modalRef = this.modalService.open(ViewImageComponent, { size: 'xl' });
+        modalRef.componentInstance.response = response;
+        modalRef.result.then(
+          () => {
+            this.isLoadingForm$.next(false);
+          }
+        );
+      }
+    }), finalize(() => {
+      setTimeout(() => {
+        this.isLoadingForm$.next(false);
+      }, 2000);
+    })
   }
 
   
