@@ -13,6 +13,7 @@ import { SystemLogComponent } from './system-log/system-log.component';
 import { MauHoSoComponent } from './mau-ho-so/mau-ho-so.component';
 import { CauHinhCanhBaoComponent } from './cau-hinh-canh-bao/cau-hinh-canh-bao.component';
 import { LogCanhBaoComponent } from './log-canh-bao/log-canh-bao.component';
+import { CauHinhNhanCanhBaoComponent } from './cau-hinh-canh-bao/cau-hinh-nhan-canh-bao/cau-hinh-nhan-canh-bao.component';
 
 const routes: Routes = [
     {
@@ -62,7 +63,11 @@ const routes: Routes = [
             {
                 path: 'cauhinhcanhbao',
                 component: CauHinhCanhBaoComponent
-            },    
+            }, 
+            {
+                path: 'cauhinhcanhbao/nguoinhan',
+                component: CauHinhNhanCanhBaoComponent
+            },       
             {
                 path: 'logcanhbao',
                 component: LogCanhBaoComponent

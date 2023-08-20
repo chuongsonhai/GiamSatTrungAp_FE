@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { DsKhachHangComponent } from './ds-khach-hang/ds-khach-hang.component';
 import { DsKhaoSatComponent } from './ds-khao-sat/ds-khao-sat.component';
 import { KhaoSatKhachHangGsComponent } from './khao-sat-khach-hang-gs.component';
+import { DsLogKhaoSatComponent } from './ds-log-khao-sat/ds-log-khao-sat.component';
 
 const routes: Routes = [
     {
@@ -16,6 +17,10 @@ const routes: Routes = [
             {
                 path: 'detail/:ID',
                 component: DsKhaoSatComponent
+            },
+            {
+                path: 'log/filter/:ID',
+                component: DsLogKhaoSatComponent
             },
             
         ],

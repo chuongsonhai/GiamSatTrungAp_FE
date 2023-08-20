@@ -91,6 +91,9 @@
                         Trạng thái yêu cầu
                     </th>
                     <th>
+                        Mã loại cảnh báo
+                    </th>
+                    <th>
                         Trạng thái cảnh báo
                     </th>
                     <th>Điện thoại</th>
@@ -105,6 +108,7 @@
                         <!-- <td>{{item.TenKhachHang !== "" ? item.TenKhachHang : item.NguoiYeuCau}}</td> -->
                         <td>{{item.TenKhachHang}}</td>
                         <td>{{item.TrangThai}}</td>
+                        <td>{{item.CanhBao.LOAI_CANHBAO_ID}}</td>
                         <td>{{item.CanhBao.TRANGTHAI_CANHBAO}}</td>
                         <td>{{item.DienThoai}}</td>
                         <td><a href="/gscd/detail/{{item.CanhBao.ID}}" >{{item.CanhBao.ID}}</a></td>

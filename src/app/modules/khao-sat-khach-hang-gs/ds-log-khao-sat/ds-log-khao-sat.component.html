@@ -1,0 +1,97 @@
+<div class="card card-custom gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label">Danh sách lịch sử tương tác khảo sát</h3>
+        </div>        
+    </div>
+    <div class="card-body">
+        <!-- begin:Table -->
+        <div class="form form-label-right">
+            <div class="form-group row">
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <label>Từ ngày</label>
+                    <div class="input-group input-group-solid">
+                        <div class="input-group-append" (click)="fromdate.toggle()">
+                            <span class="input-group-text">
+                                <i class="text-dark-50 flaticon-calendar"></i>
+                            </span>
+                        </div>
+                        <input type="text" name="fromdate" class="form-control form-control-solid" autocomplete="off"
+                            placeholder="dd/mm/yyyy" ngbDatepicker #fromdate="ngbDatepicker"
+                            formControlName="fromdate" />
+                    </div>
+                </div>
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <label>Đến ngày</label>
+                    <div class="input-group input-group-solid">
+                        <div class="input-group-append" (click)="todate.toggle()">
+                            <span class="input-group-text">
+                                <i class="text-dark-50 flaticon-calendar"></i>
+                            </span>
+                        </div>
+                        <input type="text" name="todate" class="form-control form-control-solid" autocomplete="off"
+                            placeholder="dd/mm/yyyy" ngbDatepicker #todate="ngbDatepicker" formControlName="todate" />
+                    </div>
+                </div>
+                
+                    
+                
+                <div class="col-lg-2">
+                    <button type="button" class="btn btn-primary " style="height: 60%;bottom: 0;position: absolute;"
+                        (click)="filter()">
+                        <i class="fa fa-search"></i>
+                        Tìm kiếm
+                    </button>
+                </div>
+            </div>
+            
+        </div>
+        <div class="table-responsive angular-bootstrap-table">
+            <table class="table table-head-custom table-vertical-center overflow-hidden">
+                <thead>                    
+                    <th style="width: 40px;">
+                        STT
+                    </th>
+                    <th style="width: 60px;">
+                        ID
+                    </th>
+                    <th style="width: 200px;text-align: center;">
+                        khảo sát ID
+                    </th>
+                    <th>
+                        dữ liệu cũ
+                    </th>
+                    <th>
+                        dữ liệu mới
+                    </th>
+                    <th>
+                        người tương tác
+                    </th>
+                    <th>
+                        thời gian
+                    </th>
+                    <th>
+                        trạng thái thay đổi
+                    </th>
+                                  
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of service.items$ | async; let i=index;">
+                        <td>{{ i + paginator.pageSize * (paginator.page - 1) + 1 }}</td>
+                        <td>{{item.ID}}</td>
+                        <td>{{item.KHAOSAT_ID}}</td>
+                        <td>{{item.DATA_CU}}</td>                    
+                        <td>{{item.DATA_MOI}}</td>                    
+                        <td>{{item.NGUOITHUCHIEN}}</td>                    
+                        <td>{{item.THOIGIAN}}</td>                    
+                        <td>{{item.TRANGTHAI_CANHBAO}}</td>                    
+                                          
+                                                                      
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- <app-paginator class="d-flex justify-content-between align-items-center flex-wrap" [paginator]="paginator"
+            [isLoading]="isLoading" (paginate)="paginate($event)"></app-paginator> -->
+    </div>
+</div>

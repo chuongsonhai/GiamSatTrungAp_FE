@@ -24,3 +24,14 @@ export class LogCanhBao {
     NGUOITHUCHIEN: string;
 	
 }
+
+export class LogKhaoSat {
+    ID: number;
+    KHAOSAT_ID: number;
+    TRANGTHAI: number;
+    DATA_CU: string;
+    DATA_MOI: string;
+    THOIGIAN: string;
+    NGUOITHUCHIEN: string;
+	
+}

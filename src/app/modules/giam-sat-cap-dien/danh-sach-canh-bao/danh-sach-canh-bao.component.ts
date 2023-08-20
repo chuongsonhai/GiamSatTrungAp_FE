@@ -86,8 +86,10 @@ export class DanhSachCanhBaoComponent implements
   allowGetAll = new BehaviorSubject<boolean>(false);
   // angular lifecircle hooks
   ngOnInit(): void {
+    debugger;
     this.filterForm();
     this._user$ = this.auth.currentUserValue;
+    console.log(this._user$);
     this.allowGetAll.next(this.auth.isSysAdmin() && this._user$.maDViQLy=='PD');
 
     const sb = this.service.isLoading$.subscribe(res => this.isLoading = res);
@@ -119,7 +121,7 @@ export class DanhSachCanhBaoComponent implements
   // filtration
   filterForm() {
     this.filterGroup = this.fb.group({
-      maDViQLy: [this.orgCode],
+      maDViQLy: -1,
       keyword: [''],
       trangThai: -1,
       SoLanGui: [''],

@@ -22,3 +22,9 @@ export class KhaoSatKhachHang {
     DienThoai:string
 }
 
+export class NguoiNhanCanhBao {
+    MA_DVIQLY: string
+    USER_ID: number
+    TRANG_THAI: number
+}
+

@@ -1,0 +1,69 @@
+<div class="card card-custom gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label">Danh sách người dùng nhận cảnh báo</h3>
+        </div>
+    </div>
+    <div class="card-body">
+        <!-- begin: Filtration form -->
+        <div class="form form-label-right">
+            <div class="form-group row">
+                <div class="col-lg-3" [formGroup]="filterGroup">
+                    <label>Đơn vị quản lý</label>
+                    <select class="form-control" name="maDViQLy" formControlName="maDViQLy">
+                        <ng-container *ngIf="allowGetAll | async">
+                            <option  value="-1">-- Chọn tất cả --</option>
+                          </ng-container>
+                        <option [value]="item.orgCode" *ngFor="let item of organizations">
+                            {{item.orgCode}} - {{item.orgName}}
+                        </option>
+                    </select>
+                </div>
+                
+                
+            </div>
+            
+        </div>
+        <div class="table-responsive angular-bootstrap-table">
+            <table class="table table-head-custom table-vertical-center overflow-hidden">
+                <thead>
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        Mã đơn vị quản lý
+                    </th>
+                    <th>
+                        Tên nhân sự
+                    </th>
+                    <th>
+                        Email
+                    </th>
+                    <th>
+                        Điện thoại
+                    </th>
+                    <th>Tương tác</th>
+                    
+                    
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of service.items$ | async; let i=index;">
+                        <td>{{item.ID}}</td>
+                        <!-- <td>{{item.TenKhachHang !== "" ? item.TenKhachHang : item.NguoiYeuCau}}</td> -->
+                        <td>{{item.MA_DVIQLY}}</td>
+                        <td>{{item.USER_ID}}</td>
+                        <td>text cứng</td>
+                        <td>text cứng</td>
+                        <td style="text-align: center;">
+                            <a  style="padding-right: 10px;"> <i class="fa fa-plus text-primary"></i></a>
+                            <!-- <a (click)="histories(item.MaYeuCau)" title="Xem lịch sử xử lý yêu cầu"> <i class="fa fa-history text-primary"></i></a> -->
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <app-paginator class="d-flex justify-content-between align-items-center flex-wrap" [paginator]="paginator"
+            [isLoading]="isLoading" (paginate)="paginate($event)"></app-paginator>
+    </div>
+</div>

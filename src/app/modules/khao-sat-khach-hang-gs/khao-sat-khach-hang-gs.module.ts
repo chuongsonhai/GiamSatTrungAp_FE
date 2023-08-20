@@ -33,6 +33,7 @@ import { NgbDatepickerModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap'
 import { NgSelect2Module } from 'ng-select2';
 import { KhaoSatKhachHangGsComponent } from './khao-sat-khach-hang-gs.component';
 import { KhaoSatCanhBaoComponent } from './khao-sat-canh-bao/khao-sat-canh-bao.component';
+import { DsLogKhaoSatComponent } from './ds-log-khao-sat/ds-log-khao-sat.component';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import { KhaoSatCanhBaoComponent } from './khao-sat-canh-bao/khao-sat-canh-bao.c
     DsKhachHangComponent,
     DsKhaoSatComponent,
     KhaoSatKhachHangGsComponent,
-    KhaoSatCanhBaoComponent
+    KhaoSatCanhBaoComponent,
+    DsLogKhaoSatComponent
   ],
   imports: [
     CommonModule,

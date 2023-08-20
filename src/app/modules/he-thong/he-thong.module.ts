@@ -58,6 +58,7 @@ import { UpdateMauHoSoComponent } from './mau-ho-so/components/update-mau-ho-so.
 import { CauHinhCanhBaoComponent } from './cau-hinh-canh-bao/cau-hinh-canh-bao.component';
 import { UpdateCauHinhCanhBaoComponent } from './cau-hinh-canh-bao/update-cau-hinh-canh-bao/update-cau-hinh-canh-bao.component';
 import { LogCanhBaoComponent } from './log-canh-bao/log-canh-bao.component';
+import { CauHinhNhanCanhBaoComponent } from './cau-hinh-canh-bao/cau-hinh-nhan-canh-bao/cau-hinh-nhan-canh-bao.component';
 
 @NgModule({
     declarations: [
@@ -88,7 +89,8 @@ import { LogCanhBaoComponent } from './log-canh-bao/log-canh-bao.component';
         UpdateMauHoSoComponent,
         CauHinhCanhBaoComponent,
         UpdateCauHinhCanhBaoComponent,
-        LogCanhBaoComponent
+        LogCanhBaoComponent,
+        CauHinhNhanCanhBaoComponent
     ],
     imports: [
         HeThongRoutingModule,
