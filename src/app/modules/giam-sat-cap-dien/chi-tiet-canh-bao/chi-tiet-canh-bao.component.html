@@ -89,56 +89,122 @@
         </div>
         <div class="row" style="padding: 10px;">
             <div class="col-lg-6">
-                <button class="btn btn-primary mr-2" (click)="updateStatusCanhBao(id,3)"> xác nhận </button>
-                <button class="btn btn-primary mr-2" (click)="updateStatusCanhBao(id,4)"> chuyển dv</button>
-                <button class="btn btn-primary mr-2" (click)="updateStatusCanhBao(id,6)"> kêt thuc</button>
+                <button *ngIf="((allowGSCD | async) && trangThaiHienNut == 2 )" class="btn btn-primary mr-2" (click)="updateStatusCanhBao(id,3)"> Xác nhận cảnh báo </button>
+                <button *ngIf="((allowGSCD | async) && trangThaiHienNut == 3 )"  class="btn btn-primary mr-2" (click)="updateStatusCanhBao(id,4)">Chuyển đơn vị xử lý</button>
+                <button *ngIf="((allowGSCD | async) && trangThaiHienNut != 6 )" class="btn btn-primary mr-2" (click)="updateStatusCanhBao(id,6)">Kết thúc cảnh báo</button>
           
             </div>
             <div class="col-lg-6 text-right">
-                <button class="btn btn-primary mr-2 right" style="float: right;" (click)="createPH(id)"> thêm phản hồi</button>
+                <button *ngIf="((allowPHGS | async) && trangThaiHienNut == 4 )"  class="btn btn-primary mr-2 right" style="float: right;" (click)="createPH(id)"> Thêm phản hồi</button>
             </div>
         </div>
-      
-        <div class="table-responsive angular-bootstrap-table">
-            <table class="table table-head-custom table-vertical-center overflow-hidden">
-                <thead>
-                    <th style="width: 40px;text-align: center;">
-                        ID phản hồi
-                    </th>
-                    <th style="width: 110px">
-                        Nội dung phản hồi
-                    </th>
-                    <th>
-                       Người gửi
-                    </th>
-                    <th>
-                        Thời gian gửi
-                    </th>
-                    <th>
-                        Đính kèm
-                    </th>
-                    <th>
-                        Tương tác
-                    </th>
-                    
-                </thead>
-                <tbody>
-                    <tr *ngFor="let item of phanHoi;">
-                        <td>{{item.ID}}</td>
-                        <!-- <td>{{item.TenKhachHang !== "" ? item.TenKhachHang : item.NguoiYeuCau}}</td> -->
-                        <td>{{item.noiDungPhanHoi}}</td>
-                        <td>{{item.nguoiGui}}</td>
-                        <td>{{item.thoiGianGui}}</td>
-                        <td><a (click)="view(item.FILE_DINHKEM)" target="_blank">Xem ảnh đính kèm</a></td>
-                        <td>
-                            <a (click)="edit(item.ID)"><i class="fa fa-edit"></i> </a>
-                            <a (click)="deletePH(item.ID)"><i class="fa fa-trash-alt"></i></a>
-                        </td>
-                    </tr>
-
-                </tbody>
-            </table>
-        </div>
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" (click)="changeTab(tabs.PhanHoiTraoDoi)"
+              [class.active]="activeTabId === tabs.PhanHoiTraoDoi">
+              <a class="nav-link" data-toggle="tab" role="button" [attr.aria-selected]="activeTabId === tabs.PhanHoiTraoDoi"
+                [class.active]="activeTabId === tabs.PhanHoiTraoDoi">
+                <span class="menu-text">1) Danh sách phản hồi, trao đổi</span>
+              </a>
+            </li>
+  
+            <li class="nav-item" (click)="changeTab(tabs.LichSuTuongTac)"
+              [class.active]="activeTabId === tabs.LichSuTuongTac">
+              <a class="nav-link" data-toggle="tab" role="button"
+                [attr.aria-selected]="activeTabId === tabs.LichSuTuongTac"
+                [class.active]="activeTabId === tabs.LichSuTuongTac">
+                <span class="menu-text">2) Lịch sử tương tác</span>
+              </a>
+            </li>
+  
+            
+          </ul>
+          <div class="tab-content mt-5" id="myTabContent">
+            <ng-container *ngIf="activeTabId === tabs.PhanHoiTraoDoi ">
+                <div class="table-responsive angular-bootstrap-table">
+                    <table class="table table-head-custom table-vertical-center overflow-hidden">
+                        <thead>
+                            <th style="width: 40px;text-align: center;">
+                                ID phản hồi
+                            </th>
+                            <th style="width: 110px">
+                                Nội dung phản hồi
+                            </th>
+                            <th>
+                               Người gửi
+                            </th>
+                            <th>
+                                Thời gian gửi
+                            </th>
+                            <th>
+                                Đính kèm
+                            </th>
+                            <th>
+                                Tương tác
+                            </th>
+                            
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of phanHoi;">
+                                <td>{{item.ID}}</td>
+                                <!-- <td>{{item.TenKhachHang !== "" ? item.TenKhachHang : item.NguoiYeuCau}}</td> -->
+                                <td>{{item.noiDungPhanHoi}}</td>
+                                <td>{{item.nguoiGui}}</td>
+                                <td>{{item.thoiGianGui}}</td>
+                                <td><a (click)="view(item.FILE_DINHKEM)" target="_blank"><i class="fa fa-image"></i></a></td>
+                                <td>
+                                    <a (click)="edit(item.ID)"><i class="fa fa-edit"></i> </a>
+                                    <a (click)="deletePH(item.ID)"><i class="fa fa-trash-alt"></i></a>
+                                </td>
+                            </tr>
+        
+                        </tbody>
+                    </table>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="activeTabId === tabs.LichSuTuongTac">
+                <div class="table-responsive angular-bootstrap-table">
+                    <table class="table table-head-custom table-vertical-center overflow-hidden">
+                        <thead>                    
+                            <!-- <th style="width: 40px;"> STT </th> -->
+                            <th style="width: 60px;">
+                                ID
+                            </th>
+                            <th>
+                                dữ liệu cũ
+                            </th>
+                            <th>
+                                dữ liệu mới
+                            </th>
+                            <th>
+                                người tương tác
+                            </th>
+                            <th>
+                                thời gian
+                            </th>
+                            <th>
+                                trạng thái thay đổi
+                            </th>
+                                          
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of Logservice.items$ | async; let i=index;">
+                                <!-- <td>{{ i + paginator.pageSize * (paginator.page - 1) + 1 }}</td> -->
+                                <td>{{item.ID}}</td>
+                                <td>{{item.DATA_CU}}</td>                    
+                                <td>{{item.DATA_MOI}}</td>                    
+                                <td>{{item.NGUOITHUCHIEN}}</td>                    
+                                <td>{{item.THOIGIAN}}</td>                    
+                                <td>{{item.TRANGTHAI_CANHBAO}}</td>                    
+                                                  
+                                                                              
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </ng-container>
+            
+          </div>
+        
         <!-- <app-paginator class="d-flex justify-content-between align-items-center flex-wrap" [paginator]="paginator"
             [isLoading]="isLoading" (paginate)="paginate($event)"></app-paginator> -->
         </ng-container>

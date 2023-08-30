@@ -65,7 +65,7 @@ export class DsKhachHangComponent implements
   EMPTY: any;
   private subscriptions: Subscription[] = [];
   toDate = new Date();
-  fromDate = new Date(this.toDate.getFullYear(), this.toDate.getMonth(), 1);
+  fromDate = new Date(this.toDate.getFullYear(), this.toDate.getMonth()-8, 1);
   constructor(
     private fb: FormBuilder,
     private modalService: NgbModal,
@@ -119,7 +119,7 @@ export class DsKhachHangComponent implements
   // filtration
   filterForm() {
     this.filterGroup = this.fb.group({
-      maDViQLy: -1,
+      maDViQLy: "",
       fromdate: DateTimeUtil.convertDateToStringVNDefaulDateNow(this.fromDate),
       todate: DateTimeUtil.convertDateToStringVNDefaulDateNow(this.toDate),
       maLoaiCanhBao: -1

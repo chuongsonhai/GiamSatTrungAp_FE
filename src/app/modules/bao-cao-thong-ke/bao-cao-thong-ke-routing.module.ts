@@ -14,6 +14,10 @@ import { TienDoThoaThuanDauNoiComponent } from './tien-do-thoa-thuan-dau-noi/tie
 import { TongHopKetQuaComponent } from './tong-hop-ket-qua/tong-hop-ket-qua.component';
 import { TongHopQuaHanComponent } from './tong-hop-qua-han/tong-hop-qua-han.component';
 import { TongHopTcdnComponent } from './tong-hop-tcdn/tong-hop-tcdn.component';
+import { TongHopGiamSatCapDienComponent } from './tong-hop-giam-sat-cap-dien/tong-hop-giam-sat-cap-dien.component';
+import { ChiTietGiamSatCapDienComponent } from './chi-tiet-giam-sat-cap-dien/chi-tiet-giam-sat-cap-dien.component';
+import { TongHopKhaoSatKhachHangComponent } from './tong-hop-khao-sat-khach-hang/tong-hop-khao-sat-khach-hang.component';
+import { ChiTietKhaoSatKhachHangComponent } from './chi-tiet-khao-sat-khach-hang/chi-tiet-khao-sat-khach-hang.component';
 
 const routes: Routes = [
   {
@@ -71,6 +75,22 @@ const routes: Routes = [
       {
         path: 'thqh',
         component: TongHopQuaHanComponent
+      },
+      {
+        path: 'thgscd',
+        component: TongHopGiamSatCapDienComponent
+      },
+      {
+        path: 'ctgscd',
+        component: ChiTietGiamSatCapDienComponent
+      },
+      {
+        path: 'thkskh',
+        component: TongHopKhaoSatKhachHangComponent
+      },
+      {
+        path: 'ctkskh',
+        component: ChiTietKhaoSatKhachHangComponent
       },
       { path: '', redirectTo: 'bbdn', pathMatch: 'full' },
       { path: '**', redirectTo: 'bbdn', pathMatch: 'full' },

@@ -20,7 +20,7 @@ import { KhaoSatGiamSatService } from '../../services/khaosatgiamsat.service';
 })
 export class KhaoSatCanhBaoComponent implements OnInit {
 
-  @Input() id: number;
+  @Input() maYeuCau: string;
   @Input() idKhaoSat: number;
   @Input() isPhanHoiDv: boolean;
 
@@ -38,6 +38,28 @@ export class KhaoSatCanhBaoComponent implements OnInit {
     formGroup: FormGroup;
     fileToUpload: any;
     File: string;
+
+    DGCD_TH_CHUONGTRINH: number;
+    DGCD_TH_DANGKY: number;
+    DGCD_KH_PHANHOI: number;
+    CHENH_LECH: number;
+    DGYC_DK_DEDANG: number;
+    DGYC_XACNHAN_NCHONG_KTHOI: number;
+    DGYC_THAIDO_CNGHIEP: number;
+    DGKS_TDO_KSAT: number;
+    DGKS_MINH_BACH: number;
+    DGKS_CHU_DAO: number;
+    DGNT_THUAN_TIEN: number;
+    DGNT_MINH_BACH: number;
+    DGNT_CHU_DAO: number;
+    KSAT_CHI_PHI: number;
+    DGHL_CAPDIEN: number;
+    TRANGTHAI_GOI: number;
+    Y_KIEN_KH: string;
+    NOIDUNG: string;
+    PHAN_HOI: string;
+    GHI_CHU: string;
+
     private subscriptions: Subscription[] = [];
 
     constructor(
@@ -88,13 +110,29 @@ export class KhaoSatCanhBaoComponent implements OnInit {
         // debugger;
         if (res) {
           this.formGroup = this.fb.group({
-            CANHBAO_ID : res.data.CANHBAO_ID,
-            NOIDUNG_CAUHOI: res.data.NOIDUNG_CAUHOI,
-            PHANHOI_KH: res.data.PHANHOI_KH,
-            KETQUA: res.data.KETQUA,
             ID: this.idKhaoSat,
+            MA_YCAU: res.data.MA_YCAU,
             NGUOI_KS: this.user.username,
-            PHANHOI_DV: res.data.PHANHOI_DV,
+            DGCD_TH_CHUONGTRINH: res.data.DGCD_TH_CHUONGTRINH,
+            DGCD_TH_DANGKY: res.data.DGCD_TH_DANGKY,
+            DGCD_KH_PHANHOI: res.data.DGCD_KH_PHANHOI,
+            CHENH_LECH: res.data.CHENH_LECH,
+            DGYC_DK_DEDANG: res.data.DGYC_DK_DEDANG,
+            DGYC_XACNHAN_NCHONG_KTHOI: res.data.DGYC_XACNHAN_NCHONG_KTHOI,
+            DGYC_THAIDO_CNGHIEP: res.data.DGYC_THAIDO_CNGHIEP,
+            DGKS_TDO_KSAT: res.data.DGKS_TDO_KSAT,
+            DGKS_MINH_BACH: res.data.DGKS_MINH_BACH,
+            DGKS_CHU_DAO: res.data.DGKS_CHU_DAO,
+            DGNT_THUAN_TIEN: res.data.DGNT_THUAN_TIEN,
+            DGNT_MINH_BACH: res.data.DGNT_MINH_BACH,
+            DGNT_CHU_DAO: res.data.DGNT_CHU_DAO,
+            KSAT_CHI_PHI: res.data.KSAT_CHI_PHI,
+            DGHL_CAPDIEN: res.data.DGHL_CAPDIEN,
+            TRANGTHAI_GOI: res.data.TRANGTHAI_GOI,
+            Y_KIEN_KH: res.data.Y_KIEN_KH,
+            NOIDUNG: res.data.NOIDUNG,
+            PHAN_HOI: res.data.PHAN_HOI,
+            GHI_CHU: res.data.GHI_CHU,
           });
           this.khaoSat = res.data;
           this.isLoadingForm$.next(false);
@@ -103,12 +141,28 @@ export class KhaoSatCanhBaoComponent implements OnInit {
     }
     loadForm() {
       this.formGroup = this.fb.group({
-        CANHBAO_ID: [this.id],
-        NOIDUNG_CAUHOI: [this.noiDungCauHoi, Validators.required],
-        PHANHOI_KH: [this.phanHoiKhachHang, Validators.required],
-        PHANHOI_DV: [this.phanHoiDonVi],
-        KETQUA: [this.ketQua, Validators.required],
-        NGUOI_KS: this.user.username,
+        MA_YCAU: this.maYeuCau,
+        DGCD_TH_CHUONGTRINH: [this.DGCD_TH_CHUONGTRINH, Validators.required],
+        DGCD_TH_DANGKY: [this.DGCD_TH_DANGKY, Validators.required],
+        DGCD_KH_PHANHOI: [this.DGCD_KH_PHANHOI],
+        CHENH_LECH: [this.CHENH_LECH],
+        DGYC_DK_DEDANG: [this.DGYC_DK_DEDANG, Validators.required],
+        DGYC_XACNHAN_NCHONG_KTHOI: [this.DGYC_XACNHAN_NCHONG_KTHOI, Validators.required],
+        DGYC_THAIDO_CNGHIEP: [this.DGYC_THAIDO_CNGHIEP, Validators.required],
+        DGKS_TDO_KSAT: [this.DGKS_TDO_KSAT, Validators.required],
+        DGKS_MINH_BACH: [this.DGKS_MINH_BACH, Validators.required],
+        DGKS_CHU_DAO: [this.DGKS_CHU_DAO, Validators.required],
+        DGNT_THUAN_TIEN: [this.DGNT_THUAN_TIEN, Validators.required],
+        DGNT_MINH_BACH: [this.DGNT_MINH_BACH, Validators.required],
+        DGNT_CHU_DAO: [this.DGNT_CHU_DAO, Validators.required],
+        KSAT_CHI_PHI: [this.KSAT_CHI_PHI, Validators.required],
+        DGHL_CAPDIEN: [this.DGHL_CAPDIEN, Validators.required],
+        TRANGTHAI_GOI: [this.TRANGTHAI_GOI, Validators.required],
+        NGUOI_KSAT: this.user.username,
+        Y_KIEN_KH: [this.Y_KIEN_KH, Validators.required],
+        NOIDUNG: [this.NOIDUNG, Validators.required],
+        PHAN_HOI: [this.PHAN_HOI],
+        GHI_CHU: [this.GHI_CHU, Validators.required],
     });
     }
 

@@ -268,7 +268,27 @@ export const DynamicAsideMenuConfig = {
           permission: 'YCDN-List',
           title: 'Tổng hợp các công trình quá hạn',
           page: '/bctk/thqh'
-        }
+        },
+        {
+          permission: 'HT-Group',
+          title: 'Tổng hợp giám sát cấp điện',
+          page: '/bctk/thgscd'
+        }, 
+        {
+          permission: 'HT-Group',
+          title: 'Chi tiết giám sát cấp điện',
+          page: '/bctk/ctgscd'
+        }, 
+        {
+          permission: 'HT-Group',
+          title: 'Tổng hợp khảo sát khách hàng',
+          page: '/bctk/thkskh'
+        }, 
+        {
+          permission: 'HT-Group',
+          title: 'Chi tiết khảo sát khách hàng',
+          page: '/bctk/ctkskh'
+        }, 
       ]      
     }
   ]

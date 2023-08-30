@@ -13,12 +13,13 @@ import { UserModel } from 'src/app/_models/usermodel';
 import { catchError, finalize, first } from 'rxjs/operators';
 import DateTimeUtil from 'src/app/_metronic/shared/datetime.util';
 import { Organization } from '../../models/organization.model';
-import { CanhBaoChiTiet, PhanHoi } from '../../models/canhbaochitiet.model';
+import { CanhBaoChiTiet, LichSuTuongTac, PhanHoi } from '../../models/canhbaochitiet.model';
 import { ActivatedRoute } from '@angular/router';
 import { PhanHoiCanhBaoComponent } from '../phan-hoi-canh-bao/phan-hoi-canh-bao.component';
 import { ResponseModel } from '../../models/response.model';
 import { ViewPdfComponent } from '../../share-component/view-pdf/view-pdf.component';
 import { ViewImageComponent } from '../../share-component/view-image/view-image.component';
+import { LogCanhbaoService } from '../../services/logcanhbao.service';
 
 @Component({
   selector: 'app-chi-tiet-canh-bao',
@@ -38,27 +39,37 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
   thoiGianGui: string
   donViQuanLy: string
   trangThai: number
+  trangThaiHienNut: number
   idYeuCau:number
   maYeuCau: string
   tenKhachHang: string
   soDienThoai: string
   trangThaiYeuCau: string
-  phanHoi: PhanHoi[]
+  phanHoi: LichSuTuongTac[]
+  LichSuTuongTac: any
   organizations: Organization[] = [];
+  allowGSCD = new BehaviorSubject<boolean>(false);
+  allowPHGS = new BehaviorSubject<boolean>(false);
 
   //0: Mới tạo, 1: Duyệt hồ sơ, 2: Yêu cầu khảo sát, 3: Lập dự thảo đấu nối, 4: Ký duyệt dự thảo đấu nối, 5: Chuyển tiếp
   constructor(
     private fb: FormBuilder,
     public route: ActivatedRoute,
     public service: CanhBaoGiamSatService,
+    public Logservice: LogCanhbaoService,
     private modalService: NgbModal,
     public commonService: CommonService,
     public confirmationDialogService: ConfirmationDialogService,
-    public toastr: ToastrService
+    public toastr: ToastrService,
+    private auth: AuthenticationService,
+    
   ) {
     this.EMPTY = {
       ID: 0
     }
+
+    this.allowGSCD.next( auth.checkPermission('GSCD-X3'));
+    this.allowPHGS.next( auth.checkPermission('GSCD-DV'));
   }
 
   ngOnInit() {
@@ -91,7 +102,7 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
         if (isValueProperty) {
           this.id = Number(params.ID);
           this.loadData();
-      
+
         }
       }
     });
@@ -100,15 +111,11 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
 
 
   }
+  logfilter() {
+    const filter = {canhBaoId:this.id};
+    this.Logservice.patchState({ filter });
+  }
 
-  tabs = {
-    TiepNhanHoSo: 1,
-    KhaoSatHienTruong: 2,
-    DuThaoThoaThuan: 3,
-    ChuyenTiep: 4,
-  };
-
-  activeTabId = 0;
 
   loadData() {
     const sb = this.service.getItemById(this.id).pipe(
@@ -184,8 +191,9 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
           phanHoi:res.data.DanhSachPhanHoi,
         });
         this.donViQuanLy = res.data.ThongTinCanhBao.donViQuanLy;
-        
+        this.trangThaiHienNut = res.data.ThongTinCanhBao.trangThai;
         this.phanHoi= res.data.DanhSachPhanHoi;
+        this.LichSuTuongTac = res.data.DanhSachTuongTac;
         this.isLoadingForm$.next(false);
       }
     });
@@ -202,11 +210,19 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
     debugger;
     window.location.href = '/ttdn/list/update/'+ id;
   }
+  tabs = {
+    PhanHoiTraoDoi: 1,
+    LichSuTuongTac: 2,
+  };
+
+  activeTabId = 1;
 
   changeTab(tabId: number) {
     this.activeTabId = tabId;
-    // if (this.activeTabId >= tabId)
-    //   this.activeTabId = tabId;
+    if (tabId == this.tabs.LichSuTuongTac){
+      this.logfilter();
+    }
+      
     // else {
     //   if (this.status === 0 || this.status === 1) {
     //     this.activeTabId = this.tabs.TiepNhanHoSo;

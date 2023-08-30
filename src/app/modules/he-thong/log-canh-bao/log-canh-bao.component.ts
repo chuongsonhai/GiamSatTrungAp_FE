@@ -17,12 +17,7 @@ import { LogCanhbaoService } from '../../services/logcanhbao.service';
   styleUrls: ['./log-canh-bao.component.scss']
 })
 
-export class LogCanhBaoComponent implements OnInit, OnDestroy,
-IFetchSelectedAction,
-ISortView,
-IFilterView,
-IGroupingView,
-IFilterView {
+export class LogCanhBaoComponent implements OnInit, OnDestroy,IFetchSelectedAction,ISortView,IFilterView,IGroupingView,IFilterView {
 paginator: PaginatorState;
 sorting: SortState;
 grouping: GroupingState;

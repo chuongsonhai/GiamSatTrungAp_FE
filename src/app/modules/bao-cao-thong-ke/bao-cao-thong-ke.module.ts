@@ -48,6 +48,10 @@ import { TongHopKetQuaComponent } from './tong-hop-ket-qua/tong-hop-ket-qua.comp
 import { ChiTietTcdnQuaHanComponent } from './chi-tiet-tcdn-qua-han/chi-tiet-tcdn-qua-han.component';
 import { TongHopTrangThaiComponent } from './tong-hop-trang-thai/tong-hop-trang-thai.component';
 import { TongHopQuaHanComponent } from './tong-hop-qua-han/tong-hop-qua-han.component';
+import { TongHopGiamSatCapDienComponent } from './tong-hop-giam-sat-cap-dien/tong-hop-giam-sat-cap-dien.component';
+import { ChiTietGiamSatCapDienComponent } from './chi-tiet-giam-sat-cap-dien/chi-tiet-giam-sat-cap-dien.component';
+import { TongHopKhaoSatKhachHangComponent } from './tong-hop-khao-sat-khach-hang/tong-hop-khao-sat-khach-hang.component';
+import { ChiTietKhaoSatKhachHangComponent } from './chi-tiet-khao-sat-khach-hang/chi-tiet-khao-sat-khach-hang.component';
 
 
 @NgModule({
@@ -66,7 +70,11 @@ import { TongHopQuaHanComponent } from './tong-hop-qua-han/tong-hop-qua-han.comp
     TongHopKetQuaComponent,
     ChiTietTcdnQuaHanComponent,
     TongHopTrangThaiComponent,
-    TongHopQuaHanComponent
+    TongHopQuaHanComponent,
+    TongHopGiamSatCapDienComponent,
+    ChiTietGiamSatCapDienComponent,
+    TongHopKhaoSatKhachHangComponent,
+    ChiTietKhaoSatKhachHangComponent
   ],
   imports: [
     CommonModule,

@@ -45,6 +45,8 @@ export class DsKhaoSatComponent implements OnInit, OnDestroy {
     trangThaiYeuCau: string
     khaoSat: KhaoSat[]
     organizations: Organization[] = [];
+    allowGSCD = new BehaviorSubject<boolean>(false);
+    allowPHGS = new BehaviorSubject<boolean>(false);
   
     //0: Mới tạo, 1: Duyệt hồ sơ, 2: Yêu cầu khảo sát, 3: Lập dự thảo đấu nối, 4: Ký duyệt dự thảo đấu nối, 5: Chuyển tiếp
     constructor(
@@ -54,11 +56,14 @@ export class DsKhaoSatComponent implements OnInit, OnDestroy {
       private modalService: NgbModal,
       public commonService: CommonService,
       public confirmationDialogService: ConfirmationDialogService,
-      public toastr: ToastrService
+      public toastr: ToastrService,
+      private auth: AuthenticationService,
     ) {
       this.EMPTY = {
         ID: 0
       }
+      this.allowGSCD.next( auth.checkPermission('GSCD-X3'));
+      this.allowPHGS.next( auth.checkPermission('GSCD-DV'));
     }
   
     ngOnInit() {
@@ -75,12 +80,9 @@ export class DsKhaoSatComponent implements OnInit, OnDestroy {
       
       this.route.params.subscribe(params => {
         if (params.ID) {
-          var isValueProperty = parseInt(params.ID, 10) >= 0;
-          if (isValueProperty) {
-            this.id = Number(params.ID);
+            this.maYeuCau = (params.ID);
             this.loadData();
         
-          }
         }
       });
     }
@@ -95,7 +97,7 @@ export class DsKhaoSatComponent implements OnInit, OnDestroy {
     activeTabId = 0;
   
     loadData() {
-      const sb = this.service.getItemByCanhBaoId(this.id).pipe(
+      const sb = this.service.getItemByYeuCauId(this.maYeuCau).pipe(
         first(),
         catchError((errorMessage) => {
           return of(this.CanhBaoChiTiet);
@@ -109,10 +111,8 @@ export class DsKhaoSatComponent implements OnInit, OnDestroy {
             trangThai:res.data.TrangThaiCongVan, 
             tenKhachHang:res.data.TenKhachHang,
             soDienThoai:res.data.DienThoai,
-            idCanhBao : res.data.canhbao.ID,
           });
-          this.donViQuanLy = res.data.canhbao.DONVI_DIENLUC;
-          this.idCanhBao = res.data.canhbao.ID;
+          this.donViQuanLy = res.data.DONVI_DIENLUC;
           this.khaoSat= res.data.DanhSachKhaoSat;
           this.isLoadingForm$.next(false);
         }
@@ -133,29 +133,12 @@ export class DsKhaoSatComponent implements OnInit, OnDestroy {
   
     changeTab(tabId: number) {
       this.activeTabId = tabId;
-      // if (this.activeTabId >= tabId)
-      //   this.activeTabId = tabId;
-      // else {
-      //   if (this.status === 0 || this.status === 1) {
-      //     this.activeTabId = this.tabs.TiepNhanHoSo;
-      //   }
-      //   if (this.status === 2 || this.status === 3 || this.status === 4) {
-      //     this.activeTabId = this.tabs.KhaoSatHienTruong;
-      //   }
-  
-      //   if (this.status >= 5 && this.status <= 7) {
-      //     this.activeTabId = this.tabs.DuThaoThoaThuan;
-      //   }
-  
-      //   if (this.status > 7 && this.status < 13) {
-      //     this.activeTabId = this.tabs.ChuyenTiep;
-      //   }
-      // }
+      
     }
     
-    createPHDV(idCanhBao: number, idKhaoSat: number) {
+    createPHDV(maYeuCau: string, idKhaoSat: number) {
       const modalRef = this.modalService.open(KhaoSatCanhBaoComponent, { size: 'md' });
-      modalRef.componentInstance.id = idCanhBao;
+      modalRef.componentInstance.maYeuCau = maYeuCau;
       modalRef.componentInstance.idKhaoSat = idKhaoSat;
       modalRef.componentInstance.isPhanHoiDv = true;
       modalRef.result.then(
@@ -167,9 +150,9 @@ export class DsKhaoSatComponent implements OnInit, OnDestroy {
       );
     }
   
-    createKS(idCanhBao: number) {
-      const modalRef = this.modalService.open(KhaoSatCanhBaoComponent, { size: 'md' });
-      modalRef.componentInstance.id = idCanhBao;
+    createKS(maYeuCau: string) {
+      const modalRef = this.modalService.open(KhaoSatCanhBaoComponent, { size: 'lg' });
+      modalRef.componentInstance.maYeuCau = maYeuCau;
       modalRef.componentInstance.idKhaoSat = null;
       modalRef.componentInstance.isPhanHoiDv = null;
       modalRef.result.then(
@@ -182,9 +165,9 @@ export class DsKhaoSatComponent implements OnInit, OnDestroy {
     }
   
     edit(idKhaoSat: number) {
-      const modalRef = this.modalService.open(KhaoSatCanhBaoComponent, { size: 'md' });
+      const modalRef = this.modalService.open(KhaoSatCanhBaoComponent, { size: 'lg' });
       modalRef.componentInstance.idKhaoSat = idKhaoSat;
-      modalRef.componentInstance.id = null;
+      modalRef.componentInstance.maYeuCau = null;
       modalRef.componentInstance.isPhanHoiDv = null;
       modalRef.result.then(
         () => {

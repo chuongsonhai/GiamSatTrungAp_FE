@@ -10,42 +10,160 @@
                 <input type="hidden" name="ID" value="{{idKhaoSat}}">
                 <div class="form-group row">
                     <div class="col-lg-12">
-                        <label>Mã cảnh báo</label>
-                        <input type="text"  disabled="disabled" class="form-control" name="CANHBAO_ID" formControlName="CANHBAO_ID" />
+                        <label>Mã Yêu Cầu</label>
+                        <input type="text"  disabled="disabled" class="form-control" name="MA_YC" formControlName="MA_YC" />
                     </div> 
                 </div> 
                 <div class="form-group row" *ngIf="!isPhanHoiDv">
                     <div class="col-lg-12">
-                        <label >Nội dung khảo sát<span style="color:red">*</span></label>
-                        <input type="text" class="form-control" name="NOIDUNG_CAUHOI" formControlName="NOIDUNG_CAUHOI" />                   
+                        <label >Thời gian chênh lệch chương trình - thực tế<span style="color:red">*</span></label>
                     </div>
-                                   
-                </div>   
+                    <div class="col-lg-4">
+                        <label >Thời gian trên chương trình</label>
+                        <input type="text" class="form-control" name="DGCD_TH_CHUONGTRINH" formControlName="DGCD_TH_CHUONGTRINH" />               
+                    </div>
+                    <div class="col-lg-4">
+                        <label >Thời gian thực hiện </label>
+                        <input type="text" class="form-control" name="DGCD_TH_DANGKY" formControlName="DGCD_TH_DANGKY" />               
+                    </div>
+                    <div class="col-lg-4">
+                        <label >Khách hàng phản hồi thời gian cấp điện</label>
+                        <input type="text" class="form-control" name="DGCD_KH_PHANHOI" formControlName="DGCD_KH_PHANHOI" />               
+                    </div>
+                </div>
                 <div class="form-group row" *ngIf="!isPhanHoiDv">
                     <div class="col-lg-12">
-                        <label>Phản hồi khách hàng<span style="color:red">*</span></label>
-                        <input type="text" class="form-control" name="PHANHOI_KH" formControlName="PHANHOI_KH" />                   
+                        <label >Đánh giá công tác tiếp nhận yêu cầu cấp điện<span style="color:red">*</span></label>
                     </div>
-                </div>    
-                <div class="form-group row" *ngIf="isPhanHoiDv">
-                    <div class="col-lg-12">
-                        <label>Phản hồi đơn vị<span style="color:red">*</span></label>
-                        <input type="text" class="form-control" name="PHANHOI_DV" formControlName="PHANHOI_DV" />                   
+                    <div class="col-lg-4">
+                        <label >Đăng ký dễ dàng, thuận tiện</label>
+                        <select class="form-control" name="DGYC_DK_DEDANG" formControlName="DGYC_DK_DEDANG">
+                            <option value="0">Không</option>
+                            <option value="1">Có</option>
+                        </select>                
+                    </div>
+                    <div class="col-lg-4">
+                        <label >Xác nhận nhanh chóng kịp thời</label>
+                        <select class="form-control" name="DGYC_XACNHAN_NCHONG_KTHOI" formControlName="DGYC_XACNHAN_NCHONG_KTHOI">
+                            <option value="0">Không</option>
+                            <option value="1">Có</option>
+                        </select>                
+                    </div>
+                    <div class="col-lg-4">
+                        <label >Nhân viên chuyên nghiệp, chu đáo</label>
+                        <select class="form-control" name="DGYC_THAIDO_CNGHIEP" formControlName="DGYC_THAIDO_CNGHIEP">
+                            <option value="0">Không</option>
+                            <option value="1">Có</option>
+                        </select>                
                     </div>
                 </div>  
                 <div class="form-group row" *ngIf="!isPhanHoiDv">
                     <div class="col-lg-12">
-                        <label>Kết quả khảo sát<span style="color:red">*</span></label>
-                        <select class="form-control" name="KETQUA" formControlName="KETQUA">
-                            <option value="hoàn thành yêu cầu">hoàn thành yêu cầu</option>
-                            <option value="hủy yêu cầu">hủy yêu cầu</option>
-                        </select>
-                        <!-- <input type="text" class="form-control" name="KETQUA" formControlName="KETQUA" />                    -->
+                        <label >Đánh giá công tác khảo sát và thỏa thuận đấu nối<span style="color:red">*</span></label>
                     </div>
-                                   
+                    <div class="col-lg-4">
+                        <label >Tiến độ khảo sát</label>
+                        <select class="form-control" name="DGKS_TDO_KSAT" formControlName="DGKS_TDO_KSAT">
+                            <option value="0">Không</option>
+                            <option value="1">Hài Lòng</option>
+                        </select>                
+                    </div>
+                    <div class="col-lg-4">
+                        <label >Minh bạch</label>
+                        <select class="form-control" name="DGKS_MINH_BACH" formControlName="DGKS_MINH_BACH">
+                            <option value="0">Không</option>
+                            <option value="1">Có</option>
+                        </select>                
+                    </div>
+                    <div class="col-lg-4">
+                        <label >Chu đáo</label>
+                        <select class="form-control" name="DGKS_CHU_DAO" formControlName="DGKS_CHU_DAO">
+                            <option value="0">Không</option>
+                            <option value="1">Có</option>
+                        </select>                
+                    </div>
+                </div> 
+                <div class="form-group row" *ngIf="!isPhanHoiDv">
+                    <div class="col-lg-12">
+                        <label >Đánh giá công tác nghiệm thu, lắp đặt hệ thống đo đếm và ký hợp đồng MBĐ<span style="color:red">*</span></label>
+                    </div>
+                    <div class="col-lg-4">
+                        <label >Thuận tiện</label>
+                        <select class="form-control" name="DGNT_THUAN_TIEN" formControlName="DGNT_THUAN_TIEN">
+                            <option value="0">Không</option>
+                            <option value="1">Hài Lòng</option>
+                        </select>                
+                    </div>
+                    <div class="col-lg-4">
+                        <label >Minh bạch</label>
+                        <select class="form-control" name="DGNT_MINH_BACH" formControlName="DGNT_MINH_BACH">
+                            <option value="0">Không</option>
+                            <option value="1">Có</option>
+                        </select>                
+                    </div>
+                    <div class="col-lg-4">
+                        <label >Chu đáo</label>
+                        <select class="form-control" name="DGNT_CHU_DAO" formControlName="DGNT_CHU_DAO">
+                            <option value="0">Không</option>
+                            <option value="1">Có</option>
+                        </select>                
+                    </div>
+                </div>
+                <div class="form-group row" *ngIf="!isPhanHoiDv">
+                    <div class="col-lg-12">
+                        <label >Khảo sát về chi phí khách hàng phải trả cho ngành điện <span style="color:red">*</span></label>
+                    </div>
+                    <select class="form-control" name="KSAT_CHI_PHI" formControlName="KSAT_CHI_PHI">
+                        <option value="0">Không</option>
+                        <option value="1">Có</option>
+                    </select> 
                 </div>   
-                                         
-                             
+                <div class="form-group row" *ngIf="!isPhanHoiDv">
+                    <div class="col-lg-12">
+                        <label >Đánh giá mức độ hài lòng đối với công tác cấp điện trung áp ngành điện<span style="color:red">*</span></label>
+                    </div>
+                    <select class="form-control" name="DGHL_CAPDIEN" formControlName="DGHL_CAPDIEN">
+                        <option value="0">Rất hài lòng</option>
+                        <option value="1">Hài lòng</option>
+                        <option value="2">Bình thường</option>
+                        <option value="3">Không hài lòng</option>
+                        <option value="4">Rất không hài lòng</option>
+                    </select> 
+                </div>   
+                <div class="form-group row" *ngIf="!isPhanHoiDv">
+                    <div class="col-lg-12">
+                        <label >Trạng thái cuộc gọi<span style="color:red">*</span></label>
+                    </div>
+                    <select class="form-control" name="TRANGTHAI_GOI" formControlName="TRANGTHAI_GOI">
+                        <option value="0">Đã gọi thành công</option>
+                        <option value="1">Chưa gọi được</option>
+                        <option value="2">Dừng ngang cuộc gọi</option>
+                    </select> 
+                </div>    
+                <div class="form-group row" *ngIf="!isPhanHoiDv">
+                    <div class="col-lg-12">
+                        <label>Ý kiến khách hàng<span style="color:red">*</span></label>
+                        <input type="text" class="form-control" name="Y_KIEN_KH" formControlName="Y_KIEN_KH" />                   
+                    </div>
+                </div>    
+                <div class="form-group row" *ngIf="!isPhanHoiDv">
+                    <div class="col-lg-12">
+                        <label>Nội dung ghi nhận<span style="color:red">*</span></label>
+                        <input type="text" class="form-control" name="NOIDUNG" formControlName="NOIDUNG" />                   
+                    </div>
+                </div> 
+                <div class="form-group row" *ngIf="isPhanHoiDv">
+                    <div class="col-lg-12">
+                        <label>Phản hồi đơn vị<span style="color:red">*</span></label>
+                        <input type="text" class="form-control" name="PHAN_HOI" formControlName="PHAN_HOI" />                   
+                    </div>
+                </div>  
+                <div class="form-group row" *ngIf="!isPhanHoiDv">
+                    <div class="col-lg-12">
+                        <label>Ghi chú<span style="color:red">*</span></label>
+                        <input type="text" class="form-control" name="GHI_CHU" formControlName="GHI_CHU" />                   
+                    </div>
+                </div> 
             </form>
         </ng-container>
     </div>

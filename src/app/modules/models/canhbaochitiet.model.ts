@@ -5,6 +5,17 @@ export class CanhBaoChiTiet {
     ThongTinYeuCau:ThongTinYeuCau
     phanHoi: PhanHoi[]
 }
+export class LichSuTuongTac {
+    ID: number
+    CANHBAO_ID: number
+    LOAI_CANHBAO_ID:number
+    NOIDUNG:string
+    DATA_CU:string
+    NGUOITHUCHIEN:string
+    THOIGIAN:string
+    DONVI_DIENLUC:string
+    TRANGTHAI_CANHBAO:string
+}
 export class PhanHoi {
     idPhanHoi: number
     ID: number
@@ -39,6 +50,7 @@ export class KhaoSat{
     KETQUA: string
     TRANGTHAI: number
     DONVI_QLY: string
+    MA_YC: string
 }
 
 export class DanhSachKhaoSat {

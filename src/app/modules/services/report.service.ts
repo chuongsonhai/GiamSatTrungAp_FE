@@ -170,5 +170,50 @@ export class ReportService extends TableService<ReportData> implements OnDestroy
             finalize(() => this._isLoading$.next(false))
         );
     }  
+
+    public exportExcelTHGiamSatCapDien(filter: any): any {
+        const url = `${this.API_URL}/exportchitietmucdohailong`;
+        this._errorMessage.next('');
+        return this.http.post<any>(url, filter).pipe(
+            catchError(err => {
+                this._errorMessage.next(err);
+                return of(undefined);
+            }),
+            finalize(() => this._isLoading$.next(false))
+        );
+    } 
+    public exportExcelCTGiamSatCapDien(filter: any): any {
+        const url = `${this.API_URL}/exportchitietmucdohailong`;
+        this._errorMessage.next('');
+        return this.http.post<any>(url, filter).pipe(
+            catchError(err => {
+                this._errorMessage.next(err);
+                return of(undefined);
+            }),
+            finalize(() => this._isLoading$.next(false))
+        );
+    }
+    public exportExcelTHKhaoSatKhachHang(filter: any): any {
+        const url = `${this.API_URL}/exportchitietmucdohailong`;
+        this._errorMessage.next('');
+        return this.http.post<any>(url, filter).pipe(
+            catchError(err => {
+                this._errorMessage.next(err);
+                return of(undefined);
+            }),
+            finalize(() => this._isLoading$.next(false))
+        );
+    }
+    public exportExcelCTKhaoSatKhachHang(filter: any): any {
+        const url = `${this.API_URL}/exportchitietmucdohailong`;
+        this._errorMessage.next('');
+        return this.http.post<any>(url, filter).pipe(
+            catchError(err => {
+                this._errorMessage.next(err);
+                return of(undefined);
+            }),
+            finalize(() => this._isLoading$.next(false))
+        );
+    }
 }
 

@@ -1,0 +1,124 @@
+<div class="card card-custom gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label">Tổng hợp khảo sát khách hàng</h3>
+        </div>
+    </div>
+    <div class="card-body">
+        <!-- begin: Filtration form -->
+        <div class="form form-label-right">
+            <div class="form-group row">
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <label>Đơn vị quản lý</label>
+                    <select class="form-control" name="maDViQLy" formControlName="maDViQLy">
+                        <option value="">--Đơn vị quản lý--</option>
+                        <option [value]="item.orgCode" *ngFor="let item of organizations">
+                            {{item.orgCode}} - {{item.orgName}}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <label>Từ khoá</label>
+                    <input type="text" class="form-control" name="searchText" placeholder="Từ khoá" value=""
+                        formControlName="keyword" />
+                </div>
+
+
+
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <label>Từ ngày</label>
+                    <div class="input-group input-group-solid">
+                        <div class="input-group-append" (click)="fromdate.toggle()">
+                            <span class="input-group-text">
+                                <i class="text-dark-50 flaticon-calendar"></i>
+                            </span>
+                        </div>
+                        <input type="text" name="fromdate" class="form-control form-control-solid" autocomplete="off"
+                            placeholder="Từ ngày" ngbDatepicker #fromdate="ngbDatepicker" formControlName="fromdate" />
+                    </div>
+                </div>
+
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <label>Đến ngày</label>
+                    <div class="input-group input-group-solid">
+                        <div class="input-group-append" (click)="todate.toggle()">
+                            <span class="input-group-text">
+                                <i class="text-dark-50 flaticon-calendar"></i>
+                            </span>
+                        </div>
+                        <input type="text" name="todate" class="form-control form-control-solid" autocomplete="off"
+                            placeholder="Đến ngày" ngbDatepicker #todate="ngbDatepicker" formControlName="todate" />
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <!-- <button type="button" class="btn btn-primary mr-2" style="height: 60%;bottom: 0;position: absolute;"
+                        (click)="filter()"><i class="fa fa-search"></i>
+                        Tìm kiếm
+                    </button> -->
+                    <button type="button" class="btn btn-success mr-2" style="height: 60%;bottom: 0;position: absolute;margin-left:130px;"
+                        (click)="exportExcel()"><i class="fa fa-download"></i>
+                        Xuất excel
+                    </button>
+                </div>                 
+            </div>
+        </div>
+        <!-- end: Filtration form -->
+
+        <!-- begin:Table -->
+        <div class="table-responsive angular-bootstrap-table">
+            <!-- <table class="table table-head-custom table-vertical-center overflow-hidden">
+                <thead>
+                    <th style="width: 40px;">
+                        STT
+                    </th>
+                    <th style="width: 100px;text-align: center;">
+                        Đơn vị
+                    </th>
+                    <th>
+                        Tên chủ đầu tư 
+                    </th>
+                    <th>
+                        Tên công trình
+                    </th>
+                    <th>
+                        Mã yêu cầu 
+                    </th>
+                    <th>
+                        Địa chỉ công trình
+                    </th>
+                    <th>
+                        Tổng công suất (kVA)
+                    </th>
+                    <th>
+                        Tổng chiều dài đường dây: cáp ngầm và đường dây nổi (km)
+                    </th>
+                    <th>
+                        Hạng mục quá hạn
+                    </th>
+                    <th>
+                        Số ngày quá hạn
+                    </th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of service.items$ | async; let i=index;">
+                        <td>{{ i + paginator.pageSize * (paginator.page - 1) + 1 }}</td>
+                        <td>{{item.MaDViQLy}}</td>
+                        <td>{{item.TenKH}}</td>
+                        <td>{{item.TenCT}}</td>
+                        <td>{{item.DCCT}}</td>
+                        <td>{{item.MaYC}}</td>
+                        <td>{{item.TongCS}}</td>
+                        <td>{{item.TongChieuDaiDD}}</td>
+                        <td>{{item.HangMucQuaHan}}</td>
+                        <td>{{item.SoNgayQuaHan}}</td>
+                   
+                    </tr>
+
+                </tbody>
+            </table> -->
+        </div>
+        <app-paginator class="d-flex justify-content-between align-items-center flex-wrap" [paginator]="paginator"
+            [isLoading]="isLoading" (paginate)="paginate($event)"></app-paginator>
+    </div>
+</div>
