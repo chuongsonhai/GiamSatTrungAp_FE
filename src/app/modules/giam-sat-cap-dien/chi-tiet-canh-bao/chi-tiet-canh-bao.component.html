@@ -79,10 +79,18 @@
                     <input type="text" class="form-control" disabled="disabled"  name="trangThaiYeuCau"  value="{{trangThaiYeuCau}}"
                         formControlName="trangThaiYeuCau" />
                 </div>
-                <div class="col-lg-8"  >
+                <div class="col-lg-4"  >
                     <label>Nội dung cảnh báo</label>
                     <textarea class="form-control" disabled="disabled"  name="noiDungCanhBao" value="{{noiDungCanhBao}}"
                         formControlName="noiDungCanhBao"></textarea>
+                </div>
+                <div class="col-lg-4"  >
+                    <label>Nguyên nhân cảnh báo</label>
+                    <select  class="form-control" name="nguyennhan_canhbao" formControlName="nguyennhan_canhbao">
+                        <option value="1" >Ngành điện</option>
+                        <option value="2" >Khách quan</option>
+                        <option value="3" >Chương trình</option>
+                    </select>
                 </div>
             </div>
             </form>

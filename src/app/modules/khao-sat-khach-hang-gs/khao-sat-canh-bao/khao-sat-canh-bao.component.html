@@ -11,12 +11,12 @@
                 <div class="form-group row">
                     <div class="col-lg-12">
                         <label>Mã Yêu Cầu</label>
-                        <input type="text"  disabled="disabled" class="form-control" name="MA_YC" formControlName="MA_YC" />
+                        <input type="text"  disabled="disabled" class="form-control" name="MA_YCAU" formControlName="MA_YCAU" />
                     </div> 
                 </div> 
                 <div class="form-group row" *ngIf="!isPhanHoiDv">
                     <div class="col-lg-12">
-                        <label >Thời gian chênh lệch chương trình - thực tế<span style="color:red">*</span></label>
+                        <label >Thời gian chênh lệch chương trình - thực tế</label>
                     </div>
                     <div class="col-lg-4">
                         <label >Thời gian trên chương trình</label>
@@ -33,102 +33,152 @@
                 </div>
                 <div class="form-group row" *ngIf="!isPhanHoiDv">
                     <div class="col-lg-12">
-                        <label >Đánh giá công tác tiếp nhận yêu cầu cấp điện<span style="color:red">*</span></label>
+                        <label >Đánh giá công tác tiếp nhận yêu cầu cấp điện</label>
                     </div>
                     <div class="col-lg-4">
                         <label >Đăng ký dễ dàng, thuận tiện</label>
-                        <select class="form-control" name="DGYC_DK_DEDANG" formControlName="DGYC_DK_DEDANG">
-                            <option value="0">Không</option>
-                            <option value="1">Có</option>
-                        </select>                
+                        <div class="radio-inline">
+                            <label class="radio radio-rounded">
+                                <input type="radio" name="DGYC_DK_DEDANG" formControlName="DGYC_DK_DEDANG" value="1">
+                                <span></span>Có </label>
+                            <label class="radio radio-rounded">
+                                <input type="radio" name="DGYC_DK_DEDANG" formControlName="DGYC_DK_DEDANG" value="0">
+                                <span></span>Không</label>
+                        </div>
                     </div>
                     <div class="col-lg-4">
                         <label >Xác nhận nhanh chóng kịp thời</label>
-                        <select class="form-control" name="DGYC_XACNHAN_NCHONG_KTHOI" formControlName="DGYC_XACNHAN_NCHONG_KTHOI">
-                            <option value="0">Không</option>
-                            <option value="1">Có</option>
-                        </select>                
+                        <div class="radio-inline">
+                            <label class="radio radio-rounded">
+                                <input type="radio" name="DGYC_XACNHAN_NCHONG_KTHOI" formControlName="DGYC_XACNHAN_NCHONG_KTHOI" value="1">
+                                <span></span>Có </label>
+                            <label class="radio radio-rounded">
+                                <input type="radio" name="DGYC_XACNHAN_NCHONG_KTHOI" formControlName="DGYC_XACNHAN_NCHONG_KTHOI" value="0">
+                                <span></span>Không</label>
+                        </div>              
                     </div>
                     <div class="col-lg-4">
                         <label >Nhân viên chuyên nghiệp, chu đáo</label>
-                        <select class="form-control" name="DGYC_THAIDO_CNGHIEP" formControlName="DGYC_THAIDO_CNGHIEP">
-                            <option value="0">Không</option>
-                            <option value="1">Có</option>
-                        </select>                
+                        <div class="radio-inline">
+                            <label class="radio radio-rounded">
+                                <input type="radio" name="DGYC_THAIDO_CNGHIEP" formControlName="DGYC_THAIDO_CNGHIEP" value="1">
+                                <span></span>Có </label>
+                            <label class="radio radio-rounded">
+                                <input type="radio" name="DGYC_THAIDO_CNGHIEP" formControlName="DGYC_THAIDO_CNGHIEP" value="0">
+                                <span></span>Không</label>
+                        </div>                 
                     </div>
                 </div>  
                 <div class="form-group row" *ngIf="!isPhanHoiDv">
                     <div class="col-lg-12">
-                        <label >Đánh giá công tác khảo sát và thỏa thuận đấu nối<span style="color:red">*</span></label>
+                        <label >Đánh giá công tác khảo sát và thỏa thuận đấu nối</label>
                     </div>
                     <div class="col-lg-4">
                         <label >Tiến độ khảo sát</label>
-                        <select class="form-control" name="DGKS_TDO_KSAT" formControlName="DGKS_TDO_KSAT">
-                            <option value="0">Không</option>
-                            <option value="1">Hài Lòng</option>
-                        </select>                
+                        <div class="radio-inline">
+                            <label class="radio radio-rounded">
+                                <input type="radio" name="DGKS_TDO_KSAT" formControlName="DGKS_TDO_KSAT" value="1">
+                                <span></span>Hài lòng </label>
+                            <label class="radio radio-rounded">
+                                <input type="radio" name="DGKS_TDO_KSAT" formControlName="DGKS_TDO_KSAT" value="0">
+                                <span></span>Không</label>
+                        </div>              
                     </div>
                     <div class="col-lg-4">
                         <label >Minh bạch</label>
-                        <select class="form-control" name="DGKS_MINH_BACH" formControlName="DGKS_MINH_BACH">
-                            <option value="0">Không</option>
-                            <option value="1">Có</option>
-                        </select>                
+                        <div class="radio-inline">
+                            <label class="radio radio-rounded">
+                                <input type="radio" name="DGKS_MINH_BACH" formControlName="DGKS_MINH_BACH" value="1">
+                                <span></span>Có </label>
+                            <label class="radio radio-rounded">
+                                <input type="radio" name="DGKS_MINH_BACH" formControlName="DGKS_MINH_BACH" value="0">
+                                <span></span>Không</label>
+                        </div>                
                     </div>
                     <div class="col-lg-4">
                         <label >Chu đáo</label>
-                        <select class="form-control" name="DGKS_CHU_DAO" formControlName="DGKS_CHU_DAO">
-                            <option value="0">Không</option>
-                            <option value="1">Có</option>
-                        </select>                
+                        <div class="radio-inline">
+                            <label class="radio radio-rounded">
+                                <input type="radio" name="DGKS_CHU_DAO" formControlName="DGKS_CHU_DAO" value="1">
+                                <span></span>Có </label>
+                            <label class="radio radio-rounded">
+                                <input type="radio" name="DGKS_CHU_DAO" formControlName="DGKS_CHU_DAO" value="0">
+                                <span></span>Không</label>
+                        </div>               
                     </div>
                 </div> 
                 <div class="form-group row" *ngIf="!isPhanHoiDv">
                     <div class="col-lg-12">
-                        <label >Đánh giá công tác nghiệm thu, lắp đặt hệ thống đo đếm và ký hợp đồng MBĐ<span style="color:red">*</span></label>
+                        <label >Đánh giá công tác nghiệm thu, lắp đặt hệ thống đo đếm và ký hợp đồng MBĐ</label>
                     </div>
                     <div class="col-lg-4">
                         <label >Thuận tiện</label>
-                        <select class="form-control" name="DGNT_THUAN_TIEN" formControlName="DGNT_THUAN_TIEN">
-                            <option value="0">Không</option>
-                            <option value="1">Hài Lòng</option>
-                        </select>                
+                        <div class="radio-inline">
+                            <label class="radio radio-rounded">
+                                <input type="radio" name="DGNT_THUAN_TIEN" formControlName="DGNT_THUAN_TIEN" value="1">
+                                <span></span>Có </label>
+                            <label class="radio radio-rounded">
+                                <input type="radio" name="DGNT_THUAN_TIEN" formControlName="DGNT_THUAN_TIEN" value="0">
+                                <span></span>Không</label>
+                        </div>               
                     </div>
                     <div class="col-lg-4">
                         <label >Minh bạch</label>
-                        <select class="form-control" name="DGNT_MINH_BACH" formControlName="DGNT_MINH_BACH">
-                            <option value="0">Không</option>
-                            <option value="1">Có</option>
-                        </select>                
+                        <div class="radio-inline">
+                            <label class="radio radio-rounded">
+                                <input type="radio" name="DGNT_MINH_BACH" formControlName="DGNT_MINH_BACH" value="1">
+                                <span></span>Có </label>
+                            <label class="radio radio-rounded">
+                                <input type="radio" name="DGNT_MINH_BACH" formControlName="DGNT_MINH_BACH" value="0">
+                                <span></span>Không</label>
+                        </div>               
                     </div>
                     <div class="col-lg-4">
                         <label >Chu đáo</label>
-                        <select class="form-control" name="DGNT_CHU_DAO" formControlName="DGNT_CHU_DAO">
-                            <option value="0">Không</option>
-                            <option value="1">Có</option>
-                        </select>                
+                        <div class="radio-inline">
+                            <label class="radio radio-rounded">
+                                <input type="radio" name="DGNT_CHU_DAO" formControlName="DGNT_CHU_DAO" value="1">
+                                <span></span>Có </label>
+                            <label class="radio radio-rounded">
+                                <input type="radio" name="DGNT_CHU_DAO" formControlName="DGNT_CHU_DAO" value="0">
+                                <span></span>Không</label>
+                        </div>                 
                     </div>
                 </div>
                 <div class="form-group row" *ngIf="!isPhanHoiDv">
                     <div class="col-lg-12">
-                        <label >Khảo sát về chi phí khách hàng phải trả cho ngành điện <span style="color:red">*</span></label>
+                        <label >Khảo sát về chi phí khách hàng phải trả cho ngành điện </label>
                     </div>
-                    <select class="form-control" name="KSAT_CHI_PHI" formControlName="KSAT_CHI_PHI">
-                        <option value="0">Không</option>
-                        <option value="1">Có</option>
-                    </select> 
+                    <div class="radio-inline">
+                        <label class="radio radio-rounded">
+                            <input type="radio" name="KSAT_CHI_PHI" formControlName="KSAT_CHI_PHI" value="1">
+                            <span></span>Có </label>
+                        <label class="radio radio-rounded">
+                            <input type="radio" name="KSAT_CHI_PHI" formControlName="KSAT_CHI_PHI" value="0">
+                            <span></span>Không</label>
+                    </div> 
                 </div>   
                 <div class="form-group row" *ngIf="!isPhanHoiDv">
                     <div class="col-lg-12">
-                        <label >Đánh giá mức độ hài lòng đối với công tác cấp điện trung áp ngành điện<span style="color:red">*</span></label>
+                        <label >Đánh giá mức độ hài lòng đối với công tác cấp điện trung áp ngành điện</label>
                     </div>
-                    <select class="form-control" name="DGHL_CAPDIEN" formControlName="DGHL_CAPDIEN">
-                        <option value="0">Rất hài lòng</option>
-                        <option value="1">Hài lòng</option>
-                        <option value="2">Bình thường</option>
-                        <option value="3">Không hài lòng</option>
-                        <option value="4">Rất không hài lòng</option>
-                    </select> 
+                    <div class="radio-inline">
+                        <label class="radio radio-rounded">
+                            <input type="radio" name="DGHL_CAPDIEN" formControlName="DGHL_CAPDIEN" value="0">
+                            <span></span>Rất hài lòng </label>
+                        <label class="radio radio-rounded">
+                            <input type="radio" name="DGHL_CAPDIEN" formControlName="DGHL_CAPDIEN" value="1">
+                            <span></span>Hài lòng</label>
+                        <label class="radio radio-rounded">
+                            <input type="radio" name="DGHL_CAPDIEN" formControlName="DGHL_CAPDIEN" value="2">
+                            <span></span>Bình thường</label>
+                        <label class="radio radio-rounded">
+                            <input type="radio" name="DGHL_CAPDIEN" formControlName="DGHL_CAPDIEN" value="3">
+                            <span></span>Không hài lòng</label>
+                        <label class="radio radio-rounded">
+                            <input type="radio" name="DGHL_CAPDIEN" formControlName="DGHL_CAPDIEN" value="4">
+                            <span></span>Rất không hài lòng</label>
+                    </div> 
                 </div>   
                 <div class="form-group row" *ngIf="!isPhanHoiDv">
                     <div class="col-lg-12">
@@ -142,25 +192,25 @@
                 </div>    
                 <div class="form-group row" *ngIf="!isPhanHoiDv">
                     <div class="col-lg-12">
-                        <label>Ý kiến khách hàng<span style="color:red">*</span></label>
+                        <label>Ý kiến khách hàng</label>
                         <input type="text" class="form-control" name="Y_KIEN_KH" formControlName="Y_KIEN_KH" />                   
                     </div>
                 </div>    
                 <div class="form-group row" *ngIf="!isPhanHoiDv">
                     <div class="col-lg-12">
-                        <label>Nội dung ghi nhận<span style="color:red">*</span></label>
+                        <label>Nội dung ghi nhận</label>
                         <input type="text" class="form-control" name="NOIDUNG" formControlName="NOIDUNG" />                   
                     </div>
                 </div> 
                 <div class="form-group row" *ngIf="isPhanHoiDv">
                     <div class="col-lg-12">
-                        <label>Phản hồi đơn vị<span style="color:red">*</span></label>
+                        <label>Phản hồi đơn vị</label>
                         <input type="text" class="form-control" name="PHAN_HOI" formControlName="PHAN_HOI" />                   
                     </div>
                 </div>  
                 <div class="form-group row" *ngIf="!isPhanHoiDv">
                     <div class="col-lg-12">
-                        <label>Ghi chú<span style="color:red">*</span></label>
+                        <label>Ghi chú</label>
                         <input type="text" class="form-control" name="GHI_CHU" formControlName="GHI_CHU" />                   
                     </div>
                 </div> 

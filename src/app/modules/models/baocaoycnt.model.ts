@@ -28,3 +28,34 @@ export class BaoCaoYCNT {
     TongSoNgayYCNT: number
 }
 
+export class BaoCaoTHKSKH {
+    BinhThuong: number
+    ChiPhiCo: number
+    ChiPhiKhong: number
+    DonVi: string
+    GhiChu: string
+    HaiLong: number
+    KhongHaiLong: number
+    NghiemThuChuDaoCo: number
+    NghiemThuChuDaoKhong: number
+    NghiemThuMinhBachCo: number
+    NghiemThuMinhBachKhong: number
+    NghiemThuThuanTienCo: number
+    NghiemThuThuanTienKhong: number
+    RatHaiLong: number
+    RatKhongHaiLong: number
+    TTDNChuDaoCo: number
+    TTDNChuDaoKhong: number
+    TTDNMinhBachCo: number
+    TTDNMinhBachKhong: number
+    TTDNTienDoKhaoSatCo: number
+    TTDNTienDoKhaoSatKhong: number
+    TongSoVuCoChenhLech: number
+    YCauCapDienDeDangThuanTienCo: number
+    YCauCapDienDeDangThuanTienKhong: number
+    YCauCapDienNhanhChongKipThoiCo: number
+    YCauCapDienNhanhChongKipThoiKhong: number
+    YCauCapDienThaiDoChuyenNghiepCo: number
+    YCauCapDienThaiDoChuyenNghiepKhong: number
+}
+

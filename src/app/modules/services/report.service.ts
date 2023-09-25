@@ -172,7 +172,7 @@ export class ReportService extends TableService<ReportData> implements OnDestroy
     }  
 
     public exportExcelTHGiamSatCapDien(filter: any): any {
-        const url = `${this.API_URL}/exportchitietmucdohailong`;
+        const url = `${this.API_URL}/exportbaocaotonghoptiendo`;
         this._errorMessage.next('');
         return this.http.post<any>(url, filter).pipe(
             catchError(err => {
@@ -183,7 +183,7 @@ export class ReportService extends TableService<ReportData> implements OnDestroy
         );
     } 
     public exportExcelCTGiamSatCapDien(filter: any): any {
-        const url = `${this.API_URL}/exportchitietmucdohailong`;
+        const url = `${this.API_URL}/exportbaocaochitietgiamsatiendo`;
         this._errorMessage.next('');
         return this.http.post<any>(url, filter).pipe(
             catchError(err => {
@@ -194,7 +194,40 @@ export class ReportService extends TableService<ReportData> implements OnDestroy
         );
     }
     public exportExcelTHKhaoSatKhachHang(filter: any): any {
-        const url = `${this.API_URL}/exportchitietmucdohailong`;
+        const url = `${this.API_URL}/exportbaocaothdanhgiamucdo`;
+        this._errorMessage.next('');
+        return this.http.post<any>(url, filter).pipe(
+            catchError(err => {
+                this._errorMessage.next(err);
+                return of(undefined);
+            }),
+            finalize(() => this._isLoading$.next(false))
+        );
+    }
+    public getCTGiamSatCapDien(filter: any): any {
+        const url = `${this.API_URL}/getbaocaochitietgiamsatiendo`;
+        this._errorMessage.next('');
+        return this.http.post<any>(url, filter).pipe(
+            catchError(err => {
+                this._errorMessage.next(err);
+                return of(undefined);
+            }),
+            finalize(() => this._isLoading$.next(false))
+        );
+    }
+    public getTHGiamSatCapDien(filter: any): any {
+        const url = `${this.API_URL}/getbaocaotonghoptiendo`;
+        this._errorMessage.next('');
+        return this.http.post<any>(url, filter).pipe(
+            catchError(err => {
+                this._errorMessage.next(err);
+                return of(undefined);
+            }),
+            finalize(() => this._isLoading$.next(false))
+        );
+    }
+    public getTHKhaoSatKhachHang(filter: any): any {
+        const url = `${this.API_URL}/getbaocaothdanhgiamucdo`;
         this._errorMessage.next('');
         return this.http.post<any>(url, filter).pipe(
             catchError(err => {
@@ -206,6 +239,17 @@ export class ReportService extends TableService<ReportData> implements OnDestroy
     }
     public exportExcelCTKhaoSatKhachHang(filter: any): any {
         const url = `${this.API_URL}/exportchitietmucdohailong`;
+        this._errorMessage.next('');
+        return this.http.post<any>(url, filter).pipe(
+            catchError(err => {
+                this._errorMessage.next(err);
+                return of(undefined);
+            }),
+            finalize(() => this._isLoading$.next(false))
+        );
+    }
+    public getCTKhaoSatKhachHang(filter: any): any {
+        const url = `${this.API_URL}/getchitietmucdohailong`;
         this._errorMessage.next('');
         return this.http.post<any>(url, filter).pipe(
             catchError(err => {

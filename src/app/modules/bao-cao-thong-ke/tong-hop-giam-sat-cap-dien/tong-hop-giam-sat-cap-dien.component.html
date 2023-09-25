@@ -11,18 +11,39 @@
                 <div class="col-lg-2" [formGroup]="filterGroup">
                     <label>Đơn vị quản lý</label>
                     <select class="form-control" name="maDViQLy" formControlName="maDViQLy">
-                        <option value="">--Đơn vị quản lý--</option>
+                        <option value="-1">--Đơn vị quản lý--</option>
                         <option [value]="item.orgCode" *ngFor="let item of organizations">
                             {{item.orgCode}} - {{item.orgName}}
                         </option>
                     </select>
                 </div>
-                <div class="col-lg-2" [formGroup]="filterGroup">
+                <div class="col-lg-2" [formGroup]="filterGroup"  style="display: none;">
                     <label>Từ khoá</label>
                     <input type="text" class="form-control" name="searchText" placeholder="Từ khoá" value=""
                         formControlName="keyword" />
                 </div>
-
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <label>Loại cảnh báo</label>
+                    <select class="form-control" name="TenLoaiCanhBao" placeholder="Mã loại cảnh báo" formControlName="TenLoaiCanhBao">
+                        <option selected="selected" value="-1">-- Tất cả --</option>
+                        <option value="1">1. thời gian tiếp nhận yêu cầu cấp điện lập thỏa thuận đấu nối</option>
+                        <option value="2">2.Thời gian thực hiện lập thỏa thuận đấu nối</option>
+                        <option value="3">3.Thời gian tiếp nhận yêu cầu kiểm tra đóng điện</option>
+                        <option value="4">4.Thời gian dự thảo và ký hợp đồng mua bán điện</option>
+                        <option value="5">5. Thời gian thực hiện kiểm tra điều kiện kỹ thuật điểm đấu nối</option>
+                        <option value="6">6.Giám sát thời gian nghiệm thu yêu cầu cấp điện</option>
+                        <option value="7">7.hồ sơ sắp hết hạn hiệu lực thỏa thuận đấu nối</option>
+                        <option value="8">8.Thời gian thực hiện cấp điện mới trung áp</option>
+                        <option value="9">9. từ chối tiếp nhận yêu cầu cấp điện/thỏa thuận đấu nối</option>
+                        <option value="10">10.trờ ngại khảo sát lập thỏa thuận đấu nối</option>
+                        <option value="11">11.hủy yêu cầu lập thỏa thuận đấu nối</option>
+                        <option value="12">12.từ chối tiếp nhận yêu cầu kiểm tra điều kiện đóng điện điểm đấu nối</option>
+                        <option value="13">13. khách hàng từ chối ký thỏa thuận đấu nối</option>
+                        <option value="14">14. trở ngại khi kiểm tra điều kiện đóng điện điểm đấu nối.</option>
+                        <option value="15">15.trở ngại khi thi công treo tháo</option>
+                        <option value="16">16.khách hàng từ chối ký hợp đồng mua bán điện</option>
+                    </select>
+                </div>
 
 
                 <div class="col-lg-2" [formGroup]="filterGroup">
@@ -51,11 +72,11 @@
                     </div>
                 </div>
 
-                <div class="col-lg-4">
-                    <!-- <button type="button" class="btn btn-primary mr-2" style="height: 60%;bottom: 0;position: absolute;"
+                <div class="col-lg-2">
+                    <button type="button" class="btn btn-primary mr-2" style="height: 60%;bottom: 0;position: absolute;"
                         (click)="filter()"><i class="fa fa-search"></i>
                         Tìm kiếm
-                    </button> -->
+                    </button>
                     <button type="button" class="btn btn-success mr-2" style="height: 60%;bottom: 0;position: absolute;margin-left:130px;"
                         (click)="exportExcel()"><i class="fa fa-download"></i>
                         Xuất excel
@@ -67,56 +88,68 @@
 
         <!-- begin:Table -->
         <div class="table-responsive angular-bootstrap-table">
-            <!-- <table class="table table-head-custom table-vertical-center overflow-hidden">
+            <table class="table table-head-custom table-vertical-center overflow-hidden">
                 <thead>
-                    <th style="width: 40px;">
-                        STT
-                    </th>
-                    <th style="width: 100px;text-align: center;">
-                        Đơn vị
-                    </th>
-                    <th>
-                        Tên chủ đầu tư 
-                    </th>
-                    <th>
-                        Tên công trình
-                    </th>
-                    <th>
-                        Mã yêu cầu 
-                    </th>
-                    <th>
-                        Địa chỉ công trình
-                    </th>
-                    <th>
-                        Tổng công suất (kVA)
-                    </th>
-                    <th>
-                        Tổng chiều dài đường dây: cáp ngầm và đường dây nổi (km)
-                    </th>
-                    <th>
-                        Hạng mục quá hạn
-                    </th>
-                    <th>
-                        Số ngày quá hạn
-                    </th>
+                    <tr>
+                        <th  rowspan="3">STT</th>
+                        <th  rowspan="3">ĐƠN VỊ</th>
+                        <th  colspan="4">Cảnh báo</th>
+                        <th  colspan="12">Cảnh báo</th>
+                        
+                       
+                    </tr>
+                    <tr>
+                        <th rowspan="2">Tổng số cảnh báo </th>
+                        <th colspan="3">Trong đó</th>
+                        <th colspan="4">Do ngành điện</th>
+                        <th colspan="4">Do khách quan</th>
+                        <th colspan="4">Do chương trình</th>
+                    </tr>
+                    <tr>
+                        <th>Số cảnh báo  lần 2, 3</th>
+                        <th>Cảnh báo Trở ngại/hủy yêu cầu</th>
+                        <th>Cảnh báo đơn vị chậm thực hiện </th>
+                        <th>Tổng số cảnh báo </th>
+                        <th>Tỷ lệ % </th>
+                        <th>Cảnh báo Trở ngại/hủy yêu cầu </th>
+                        <th>Cảnh báo đơn vị chậm thực hiện  </th>
+                        <th>Tổng số cảnh báo </th>
+                        <th>Tỷ lệ % </th>
+                        <th>Cảnh báo Trở ngại/hủy yêu cầu </th>
+                        <th>Cảnh báo đơn vị chậm thực hiện  </th>
+                        <th>Tổng số cảnh báo </th>
+                        <th>Tỷ lệ % </th>
+                        <th>Cảnh báo Trở ngại/hủy yêu cầu </th>
+                        <th>Cảnh báo đơn vị chậm thực hiện  </th>
+                        
+                    </tr>
+                    
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of service.items$ | async; let i=index;">
+                    <tr *ngFor="let item of this.viewItem | async; let i=index;">
                         <td>{{ i + paginator.pageSize * (paginator.page - 1) + 1 }}</td>
-                        <td>{{item.MaDViQLy}}</td>
-                        <td>{{item.TenKH}}</td>
-                        <td>{{item.TenCT}}</td>
-                        <td>{{item.DCCT}}</td>
-                        <td>{{item.MaYC}}</td>
-                        <td>{{item.TongCS}}</td>
-                        <td>{{item.TongChieuDaiDD}}</td>
-                        <td>{{item.HangMucQuaHan}}</td>
-                        <td>{{item.SoNgayQuaHan}}</td>
+                        <td>{{item.maDvi}}</td>
+                        <td>{{item.CB_TONG}}</td>
+                        <td>{{item.CB_SOCBLAN}}</td>
+                        <td>{{item.CB_CBTRONGAI}}</td>
+                        <td>{{item.CB_CBDVI}}</td>
+                        <td>{{item.NN_DNN_TONG}}</td>
+                        <td>{{item.NN_DNN_TYLE}}</td>
+                        <td>{{item.NN_DNN_TRONGAI}}</td>
+                        <td>{{item.NN_DNN_CHAM}}</td>
+                        <td>{{item.NN_KH_TONG}}</td>
+                        <td>{{item.NN_KH_TYLE}}</td>
+                        <td>{{item.NN_KH_CBTRONGAI}}</td>
+                        <td>{{item.NN_KH_CBCHAM}}</td>
+                        <td>{{item.NN_LOI_TONG}}</td>
+                        <td>{{item.NN_LOI_TYLE}}</td>
+                        <td>{{item.NN_LOI_CBTRONGAI}}</td>
+                        <td>{{item.NN_LOI_CBCHAM}}</td>
                    
                     </tr>
 
                 </tbody>
-            </table> -->
+            </table>
         </div>
         <app-paginator class="d-flex justify-content-between align-items-center flex-wrap" [paginator]="paginator"
             [isLoading]="isLoading" (paginate)="paginate($event)"></app-paginator>

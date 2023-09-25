@@ -17,12 +17,33 @@
                         </option>
                     </select>
                 </div>
-                <div class="col-lg-2" [formGroup]="filterGroup">
+                <div class="col-lg-2" [formGroup]="filterGroup" style="display: none;">
                     <label>Từ khoá</label>
                     <input type="text" class="form-control" name="searchText" placeholder="Từ khoá" value=""
                         formControlName="keyword" />
                 </div>
-
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <label>Loại cảnh báo</label>
+                    <select class="form-control" name="MaLoaiCanhBao" placeholder="Mã loại cảnh báo" formControlName="MaLoaiCanhBao">
+                        <option selected="selected" value="-1">-- Tất cả --</option>
+                        <option value="1">1. thời gian tiếp nhận yêu cầu cấp điện lập thỏa thuận đấu nối</option>
+                        <option value="2">2.Thời gian thực hiện lập thỏa thuận đấu nối</option>
+                        <option value="3">3.Thời gian tiếp nhận yêu cầu kiểm tra đóng điện</option>
+                        <option value="4">4.Thời gian dự thảo và ký hợp đồng mua bán điện</option>
+                        <option value="5">5. Thời gian thực hiện kiểm tra điều kiện kỹ thuật điểm đấu nối</option>
+                        <option value="6">6.Giám sát thời gian nghiệm thu yêu cầu cấp điện</option>
+                        <option value="7">7.hồ sơ sắp hết hạn hiệu lực thỏa thuận đấu nối</option>
+                        <option value="8">8.Thời gian thực hiện cấp điện mới trung áp</option>
+                        <option value="9">9. từ chối tiếp nhận yêu cầu cấp điện/thỏa thuận đấu nối</option>
+                        <option value="10">10.trờ ngại khảo sát lập thỏa thuận đấu nối</option>
+                        <option value="11">11.hủy yêu cầu lập thỏa thuận đấu nối</option>
+                        <option value="12">12.từ chối tiếp nhận yêu cầu kiểm tra điều kiện đóng điện điểm đấu nối</option>
+                        <option value="13">13. khách hàng từ chối ký thỏa thuận đấu nối</option>
+                        <option value="14">14. trở ngại khi kiểm tra điều kiện đóng điện điểm đấu nối.</option>
+                        <option value="15">15.trở ngại khi thi công treo tháo</option>
+                        <option value="16">16.khách hàng từ chối ký hợp đồng mua bán điện</option>
+                    </select>
+                </div>
 
 
                 <div class="col-lg-2" [formGroup]="filterGroup">
@@ -51,11 +72,11 @@
                     </div>
                 </div>
 
-                <div class="col-lg-4">
-                    <!-- <button type="button" class="btn btn-primary mr-2" style="height: 60%;bottom: 0;position: absolute;"
+                <div class="col-lg-2">
+                    <button type="button" class="btn btn-primary mr-2" style="height: 60%;bottom: 0;position: absolute;"
                         (click)="filter()"><i class="fa fa-search"></i>
                         Tìm kiếm
-                    </button> -->
+                    </button>
                     <button type="button" class="btn btn-success mr-2" style="height: 60%;bottom: 0;position: absolute;margin-left:130px;"
                         (click)="exportExcel()"><i class="fa fa-download"></i>
                         Xuất excel
@@ -67,38 +88,29 @@
 
         <!-- begin:Table -->
         <div class="table-responsive angular-bootstrap-table">
-            <!-- <table class="table table-head-custom table-vertical-center overflow-hidden">
+            <table class="table table-head-custom table-vertical-center overflow-hidden">
                 <thead>
-                    <th style="width: 40px;">
-                        STT
-                    </th>
-                    <th style="width: 100px;text-align: center;">
-                        Đơn vị
-                    </th>
-                    <th>
-                        Tên chủ đầu tư 
-                    </th>
-                    <th>
-                        Tên công trình
-                    </th>
-                    <th>
-                        Mã yêu cầu 
-                    </th>
-                    <th>
-                        Địa chỉ công trình
-                    </th>
-                    <th>
-                        Tổng công suất (kVA)
-                    </th>
-                    <th>
-                        Tổng chiều dài đường dây: cáp ngầm và đường dây nổi (km)
-                    </th>
-                    <th>
-                        Hạng mục quá hạn
-                    </th>
-                    <th>
-                        Số ngày quá hạn
-                    </th>
+                    <th style="width: 40px;">STT</th>
+                    <th>Mã đơn vị</th>
+                    <th>Mã yêu cầu</th>
+                    <th>Tên khách hàng/công trình</th>
+                    <th>Địa chỉ</th>
+                    <th>Điện thoại</th>
+                    <th>Tổng công suất đăng ký (kw)</th>
+                    <th>Ngày tiếp nhận yêu cầu</th>
+                    <th>Hạng mục cảnh báo (Loại Cảnh Báo)</th>
+                    <th>Ngưỡng cảnh báo(ND cảnh báo)</th>
+                    <th>Trạng thái trên chương trình (trạng thái cảnh báo)</th>
+                    <th>Ngày/ giờ giám sát (X3)</th>
+                    <th>Người giám sát (X3)</th>
+                    <th>Nội dung khảo sát ý kiến từ khách hàng (Phan Hoi Khach Hang)</th>
+                    <th>Xử lý của X3 đối với ý kiến của khách hàng</th>
+                    <th>Phản hồi  của đơn vị xử lý(ND Phan Hoi)</th>
+                    <th> Xác minh nguyên nhân chậm giải quyết (X3)</th>
+                    <th>Nội dung ghi nhận và chuyển đơn vị xử lý (X3)</th>
+                    <th>Kết quả giám sát </th>
+                    <th>Ghi chú</th>
+                    
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of service.items$ | async; let i=index;">
@@ -116,7 +128,7 @@
                     </tr>
 
                 </tbody>
-            </table> -->
+            </table>
         </div>
         <app-paginator class="d-flex justify-content-between align-items-center flex-wrap" [paginator]="paginator"
             [isLoading]="isLoading" (paginate)="paginate($event)"></app-paginator>

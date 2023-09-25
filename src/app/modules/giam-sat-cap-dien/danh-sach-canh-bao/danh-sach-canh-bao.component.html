@@ -108,25 +108,25 @@
                     <th style="width: 40px;text-align: center;">
                         ID
                     </th>
-                    <th style="width: 110px">
+                    <th style="width: 210px">
                         Nội dung cảnh báo
                     </th>
-                    <th>
+                    <th style="width: 20px">
                         Trạng thái
                     </th>
-                    <th>
+                    <th style="width: 20px">
                         Thời gian gửi
                     </th>
-                    <th>
+                    <th style="width: 20px">
                         Lần gửi
                     </th>
-                    <th>
+                    <th style="width: 20px">
                         Đơn vị điện lực
                     </th>
-                    <th>
+                    <th style="width: 20px">
                         mã yêu cầu
                     </th>
-                    <th>
+                    <th style="width: 20px">
                         Tương tác
                     </th>
                     
@@ -135,7 +135,7 @@
                     <tr *ngFor="let item of service.items$ | async; let i=index;">
                         <td>{{item.id}}</td>
                         <!-- <td>{{item.TenKhachHang !== "" ? item.TenKhachHang : item.NguoiYeuCau}}</td> -->
-                        <td>{{item.noiDungCanhBao}}</td>
+                        <td style="width: 210px" >{{item.noiDungCanhBao}}</td>
                         <td>
                             <span *ngIf="item.trangThai == 1">Mới tạo</span>
                             <span *ngIf="item.trangThai == 2">Đã gửi thông báo</span>

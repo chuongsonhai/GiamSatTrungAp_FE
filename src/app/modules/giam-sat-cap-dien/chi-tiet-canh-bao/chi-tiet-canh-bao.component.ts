@@ -87,6 +87,7 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
       soDienThoai:'',
       trangThaiYeuCau:'',
       noiDungCanhBao:'',
+      nguyennhan_canhbao: 1
   });
     const subscribe = this.commonService.getDonVis().pipe(
       catchError(err => {
@@ -296,7 +297,11 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
     this.confirmationDialogService.confirm('Thông báo', 'Bạn muốn cập nhật trạng thái?')
       .then((confirmed) => {
         if (confirmed) {
-          const sbSign = this.service.updateStatus(idCanhBao,status).pipe(
+          
+          var aaaa = this.filterGroup.controls['nguyennhan_canhbao'].value
+          debugger;
+          // const sbSign = this.service.updateStatus(idCanhBao,status,aaaa).pipe(
+            const sbSign = this.service.updateStatus(idCanhBao,status,1).pipe(
             catchError((errorMessage) => {
               this.toastr.error("Có lỗi xảy ra, vui lòng thực hiện lại", "Thông báo");
               return of(undefined);

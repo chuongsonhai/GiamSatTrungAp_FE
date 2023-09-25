@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { NgbDateAdapter, NgbDateParserFormatter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { of, Subscription } from 'rxjs';
+import { BehaviorSubject, of, Subscription } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, timeout } from 'rxjs/operators';
 import {
   GroupingState,
@@ -62,6 +62,8 @@ export class ChiTietGiamSatCapDienComponent implements
   toDate = new Date();
   private _fromDate = new Date(this.toDate.getFullYear(), this.toDate.getMonth(), 1);
   organizations: Organization[] = [];
+  _viewItem = new BehaviorSubject<any[]>([]);
+viewItem = this._viewItem.asObservable();
   constructor(
     private fb: FormBuilder,
     private modalService: NgbModal,
@@ -101,6 +103,7 @@ export class ChiTietGiamSatCapDienComponent implements
       keyword: [''],
       status: -1,
       maDViQLy: [''],
+      MaLoaiCanhBao: ['-1'],
       fromdate:DateTimeUtil.convertDateToStringVNDefaulDateNow(this._fromDate),
       todate:DateTimeUtil.convertDateToStringVNDefaulDateNow(this.toDate),
     });
@@ -116,6 +119,10 @@ export class ChiTietGiamSatCapDienComponent implements
     if (_keyword) {
       filter['keyword'] = _keyword;
     }
+    const MaLoaiCanhBao = this.filterGroup.controls['MaLoaiCanhBao'].value;
+    if (MaLoaiCanhBao) {
+      filter['MaLoaiCanhBao'] = MaLoaiCanhBao;
+    }
     const _maDViQLy = this.filterGroup.controls['maDViQLy'].value;
     if (_maDViQLy) {
       filter['maDViQLy'] = _maDViQLy;
@@ -129,31 +136,47 @@ export class ChiTietGiamSatCapDienComponent implements
       filter['todate'] = _todate;
     }
   
-  debugger;
-    this.service.patchState({ filter });
+    this.service.getCTGiamSatCapDien({Filterbctd:filter}).pipe(
+      catchError(err => {
+        return of(undefined);
+      })).subscribe((response) => {
+      if(response === undefined || response === null){
+       
+      }
+      else{
+        this._viewItem.next(response.data);
+        console.log(response);
+  
+     
+      }
+    });
+  
   }
   
   exportExcel() {
    
-    const filter2 = {};
-    const keyword = this.filterGroup.controls['keyword'].value;
-    if (keyword) {
-      filter2['keyword'] = keyword;
+    const filter = {};
+    const _keyword = this.filterGroup.controls['keyword'].value;
+    if (_keyword) {
+      filter['keyword'] = _keyword;
     }
-    const maDViQLy = this.filterGroup.controls['maDViQLy'].value;
-    if (maDViQLy) {
-      filter2['maDViQLy'] = maDViQLy;
+    const MaLoaiCanhBao = this.filterGroup.controls['MaLoaiCanhBao'].value;
+    if (MaLoaiCanhBao) {
+      filter['MaLoaiCanhBao'] = MaLoaiCanhBao;
+    }
+    const _maDViQLy = this.filterGroup.controls['maDViQLy'].value;
+    if (_maDViQLy) {
+      filter['maDViQLy'] = _maDViQLy;
     }
     const fromdate = this.filterGroup.controls['fromdate'].value;
     if (fromdate) {
-      filter2['fromdate'] = fromdate;
+      filter['fromdate'] = fromdate;
     }
-    const todate = this.filterGroup.controls['todate'].value;
-    if (todate) {
-      filter2['todate'] = todate;
+    const _todate = this.filterGroup.controls['todate'].value;
+    if (_todate) {
+      filter['todate'] = _todate;
     }
-    debugger;
-    this.service.exportExcelCTGiamSatCapDien(filter2).subscribe((response) => {
+    this.service.exportExcelCTGiamSatCapDien({Filterbcgstd:filter}).subscribe((response) => {
       if(response === undefined || response === null){
        
       }

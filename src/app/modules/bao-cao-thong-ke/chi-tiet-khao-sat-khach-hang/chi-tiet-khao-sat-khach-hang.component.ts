@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { NgbDateAdapter, NgbDateParserFormatter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { of, Subscription } from 'rxjs';
+import { BehaviorSubject, of, Subscription } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, timeout } from 'rxjs/operators';
 import {
   GroupingState,
@@ -60,6 +60,8 @@ export class ChiTietKhaoSatKhachHangComponent implements
   searchGroup: FormGroup;
   private subscriptions: Subscription[] = [];
   toDate = new Date();
+  _viewItem = new BehaviorSubject<any[]>([]);
+  viewItem = this._viewItem.asObservable();
   private _fromDate = new Date(this.toDate.getFullYear(), this.toDate.getMonth(), 1);
   organizations: Organization[] = [];
   constructor(
@@ -100,7 +102,14 @@ export class ChiTietKhaoSatKhachHangComponent implements
     this.filterGroup = this.fb.group({
       keyword: [''],
       status: -1,
-      maDViQLy: [''],
+      DanhGiaThoiGianCapDien: -1,
+      DanhGiaYCTN: -1,
+      DanhGiaTTDN: -1,
+      DanhGiaNT: -1,
+      ChiPhiKhachHang: -1,
+      HangMucKhaoSat: -1,
+      DanhGiaHaiLong: -1,
+      maDViQly: ['-1'],
       fromdate:DateTimeUtil.convertDateToStringVNDefaulDateNow(this._fromDate),
       todate:DateTimeUtil.convertDateToStringVNDefaulDateNow(this.toDate),
     });
@@ -116,10 +125,11 @@ export class ChiTietKhaoSatKhachHangComponent implements
     if (_keyword) {
       filter['keyword'] = _keyword;
     }
-    const _maDViQLy = this.filterGroup.controls['maDViQLy'].value;
-    if (_maDViQLy) {
-      filter['maDViQLy'] = _maDViQLy;
+    const HangMucKhaoSat = this.filterGroup.controls['HangMucKhaoSat'].value;
+    if (HangMucKhaoSat) {
+      filter['HangMucKhaoSat'] = HangMucKhaoSat;
     }
+    
     const fromdate = this.filterGroup.controls['fromdate'].value;
     if (fromdate) {
       filter['fromdate'] = fromdate;
@@ -128,32 +138,110 @@ export class ChiTietKhaoSatKhachHangComponent implements
     if (_todate) {
       filter['todate'] = _todate;
     }
+
+    const DanhGiaThoiGianCapDien = this.filterGroup.controls['DanhGiaThoiGianCapDien'].value;
+    if (DanhGiaThoiGianCapDien) {
+      filter['DanhGiaThoiGianCapDien'] = DanhGiaThoiGianCapDien;
+    }
+    const DanhGiaYCTN = this.filterGroup.controls['DanhGiaYCTN'].value;
+    if (DanhGiaYCTN) {
+      filter['DanhGiaYCTN'] = DanhGiaYCTN;
+    }
+
+    const DanhGiaTTDN = this.filterGroup.controls['DanhGiaTTDN'].value;
+    if (DanhGiaTTDN) {
+      filter['DanhGiaTTDN'] = DanhGiaTTDN;
+    }
+
+    const DanhGiaNT = this.filterGroup.controls['DanhGiaNT'].value;
+    if (DanhGiaNT) {
+      filter['DanhGiaNT'] = DanhGiaNT;
+    }
+    const ChiPhiKhachHang = this.filterGroup.controls['ChiPhiKhachHang'].value;
+    if (ChiPhiKhachHang) {
+      filter['ChiPhiKhachHang'] = ChiPhiKhachHang;
+    }
+    const DanhGiaHaiLong = this.filterGroup.controls['DanhGiaHaiLong'].value;
+    if (DanhGiaHaiLong) {
+      filter['DanhGiaHaiLong'] = DanhGiaHaiLong;
+    }
+
+    const maDViQly = this.filterGroup.controls['maDViQly'].value;
+    if (maDViQly) {
+      filter['maDViQly'] = maDViQly;
+    }
   
-  debugger;
-    this.service.patchState({ filter });
+
+    this.service.getCTKhaoSatKhachHang({Filterbcmdhl:filter}).pipe(
+      catchError(err => {
+        return of(undefined);
+      })).subscribe((response) => {
+      if(response === undefined || response === null){
+       
+      }
+      else{
+        this._viewItem.next(response.data.listSoLuongKhaoSatTrangThaiChuyenKhaiThac);
+        console.log(response);
+  
+     
+      }
+    });
+
   }
   
   exportExcel() {
    
-    const filter2 = {};
-    const keyword = this.filterGroup.controls['keyword'].value;
-    if (keyword) {
-      filter2['keyword'] = keyword;
+    const filter = {};
+    const _keyword = this.filterGroup.controls['keyword'].value;
+    if (_keyword) {
+      filter['keyword'] = _keyword;
     }
-    const maDViQLy = this.filterGroup.controls['maDViQLy'].value;
-    if (maDViQLy) {
-      filter2['maDViQLy'] = maDViQLy;
+    const HangMucKhaoSat = this.filterGroup.controls['HangMucKhaoSat'].value;
+    if (HangMucKhaoSat) {
+      filter['HangMucKhaoSat'] = HangMucKhaoSat;
     }
+    
     const fromdate = this.filterGroup.controls['fromdate'].value;
     if (fromdate) {
-      filter2['fromdate'] = fromdate;
+      filter['fromdate'] = fromdate;
     }
-    const todate = this.filterGroup.controls['todate'].value;
-    if (todate) {
-      filter2['todate'] = todate;
+    const _todate = this.filterGroup.controls['todate'].value;
+    if (_todate) {
+      filter['todate'] = _todate;
     }
-    debugger;
-    this.service.exportExcelCTKhaoSatKhachHang(filter2).subscribe((response) => {
+
+    const DanhGiaThoiGianCapDien = this.filterGroup.controls['DanhGiaThoiGianCapDien'].value;
+    if (DanhGiaThoiGianCapDien) {
+      filter['DanhGiaThoiGianCapDien'] = DanhGiaThoiGianCapDien;
+    }
+    const DanhGiaYCTN = this.filterGroup.controls['DanhGiaYCTN'].value;
+    if (DanhGiaYCTN) {
+      filter['DanhGiaYCTN'] = DanhGiaYCTN;
+    }
+
+    const DanhGiaTTDN = this.filterGroup.controls['DanhGiaTTDN'].value;
+    if (DanhGiaTTDN) {
+      filter['DanhGiaTTDN'] = DanhGiaTTDN;
+    }
+
+    const DanhGiaNT = this.filterGroup.controls['DanhGiaNT'].value;
+    if (DanhGiaNT) {
+      filter['DanhGiaNT'] = DanhGiaNT;
+    }
+    const ChiPhiKhachHang = this.filterGroup.controls['ChiPhiKhachHang'].value;
+    if (ChiPhiKhachHang) {
+      filter['ChiPhiKhachHang'] = ChiPhiKhachHang;
+    }
+    const DanhGiaHaiLong = this.filterGroup.controls['DanhGiaHaiLong'].value;
+    if (DanhGiaHaiLong) {
+      filter['DanhGiaHaiLong'] = DanhGiaHaiLong;
+    }
+
+    const maDViQly = this.filterGroup.controls['maDViQly'].value;
+    if (maDViQly) {
+      filter['maDViQly'] = maDViQly;
+    }
+    this.service.exportExcelCTKhaoSatKhachHang({Filterbcmdhl:filter}).subscribe((response) => {
       if(response === undefined || response === null){
        
       }

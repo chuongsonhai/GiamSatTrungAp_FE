@@ -25,6 +25,21 @@ export class KhaoSatGiamSatService extends TableService<DanhSachKhaoSat> impleme
         this.subscriptions.forEach(sb => sb.unsubscribe());
     }
 
+    getThoiGianTinhToan(IdYeuCau): Observable<any> {
+        const url = `${environment.apiUrl}/KhaoSat/Filterngay`;
+        this._isLoading$.next(true);
+        this._errorMessage.next('');
+        return this.http.post<any>(url, {IdYeuCau:IdYeuCau}, { reportProgress: true }).pipe(            
+            catchError(err => {
+                this.toastr.error("Có lỗi xảy ra, vui lòng thực hiện lại");
+                this._errorMessage.next(err);
+                console.log(err);
+                return of(undefined);
+            }),
+            finalize(() => this._isLoading$.next(false))
+        );
+    }
+
     getItemByYeuCauId(IdYeuCau): Observable<any> {
         const url = `${environment.apiUrl}/KhaoSat/filter`;
         this._isLoading$.next(true);

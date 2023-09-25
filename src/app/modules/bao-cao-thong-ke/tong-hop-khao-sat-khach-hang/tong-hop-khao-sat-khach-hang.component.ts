@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { NgbDateAdapter, NgbDateParserFormatter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { of, Subscription } from 'rxjs';
+import { BehaviorSubject, of, Subscription } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, timeout } from 'rxjs/operators';
 import {
   GroupingState,
@@ -28,6 +28,7 @@ import { Organization } from '../../models/base.model';
 import { CommonService } from '../../services/base.service';
 import { BaoCaoChiTietTCDNQuaHanService } from '../../services/baocaochitiettcdnquahan.service';
 import { ReportService } from '../../services/report.service';
+import { BaoCaoTHKSKH } from '../../models/baocaoycnt.model';
 
 @Component({
   selector: 'app-tong-hop-khao-sat-khach-hang',
@@ -61,6 +62,8 @@ import { ReportService } from '../../services/report.service';
   toDate = new Date();
   private _fromDate = new Date(this.toDate.getFullYear(), this.toDate.getMonth(), 1);
   organizations: Organization[] = [];
+  _viewItem = new BehaviorSubject<any[]>([]);
+  viewItem = this._viewItem.asObservable();
   constructor(
     private fb: FormBuilder,
     private modalService: NgbModal,
@@ -83,6 +86,7 @@ import { ReportService } from '../../services/report.service';
       })).subscribe(res => {
         if (res.success) {
           this.organizations = res.data;
+          debugger;
           this.filterForm();
         }
       });
@@ -98,7 +102,14 @@ import { ReportService } from '../../services/report.service';
   filterForm() {
     this.filterGroup = this.fb.group({
       keyword: [''],
+      HangMucKhaoSat: -1,
       status: -1,
+      DanhGiaThoiGianCapDien: -1,
+      DanhGiaYCTN: -1,
+      DanhGiaTTDN: -1,
+      DanhGiaNT: -1,
+      ChiPhiKhachHang: -1,
+      DanhGiaHaiLong: -1,
       maDViQLy: [''],
       fromdate:DateTimeUtil.convertDateToStringVNDefaulDateNow(this._fromDate),
       todate:DateTimeUtil.convertDateToStringVNDefaulDateNow(this.toDate),
@@ -109,11 +120,16 @@ import { ReportService } from '../../services/report.service';
     }
   }
   
+
   filter() {
     const filter = {};
     const _keyword = this.filterGroup.controls['keyword'].value;
     if (_keyword) {
       filter['keyword'] = _keyword;
+    }
+    const HangMucKhaoSat = this.filterGroup.controls['HangMucKhaoSat'].value;
+    if (HangMucKhaoSat) {
+      filter['HangMucKhaoSat'] = HangMucKhaoSat;
     }
     const _maDViQLy = this.filterGroup.controls['maDViQLy'].value;
     if (_maDViQLy) {
@@ -127,9 +143,50 @@ import { ReportService } from '../../services/report.service';
     if (_todate) {
       filter['todate'] = _todate;
     }
+
+    const DanhGiaThoiGianCapDien = this.filterGroup.controls['DanhGiaThoiGianCapDien'].value;
+    if (DanhGiaThoiGianCapDien) {
+      filter['DanhGiaThoiGianCapDien'] = _todate;
+    }
+    const DanhGiaYCTN = this.filterGroup.controls['DanhGiaYCTN'].value;
+    if (DanhGiaYCTN) {
+      filter['DanhGiaYCTN'] = DanhGiaYCTN;
+    }
+
+    const DanhGiaTTDN = this.filterGroup.controls['DanhGiaTTDN'].value;
+    if (DanhGiaTTDN) {
+      filter['DanhGiaTTDN'] = DanhGiaTTDN;
+    }
+
+    const DanhGiaNT = this.filterGroup.controls['DanhGiaNT'].value;
+    if (DanhGiaNT) {
+      filter['DanhGiaNT'] = DanhGiaNT;
+    }
+    const ChiPhiKhachHang = this.filterGroup.controls['ChiPhiKhachHang'].value;
+    if (ChiPhiKhachHang) {
+      filter['ChiPhiKhachHang'] = ChiPhiKhachHang;
+    }
+    const DanhGiaHaiLong = this.filterGroup.controls['DanhGiaHaiLong'].value;
+    if (DanhGiaHaiLong) {
+      filter['DanhGiaHaiLong'] = DanhGiaHaiLong;
+    }
   
-  debugger;
-    this.service.patchState({ filter });
+
+    this.service.getTHKhaoSatKhachHang({FilterDGiaDoHaiLong:filter}).pipe(
+      catchError(err => {
+        return of(undefined);
+      })).subscribe((response) => {
+      if(response === undefined || response === null){
+       
+      }
+      else{
+        this._viewItem.next(response.data.listSoLuongKhaoSatTrangThaiChuyenKhaiThac);
+        console.log(response);
+  
+     
+      }
+    });
+
   }
   
   exportExcel() {
@@ -138,6 +195,10 @@ import { ReportService } from '../../services/report.service';
     const keyword = this.filterGroup.controls['keyword'].value;
     if (keyword) {
       filter2['keyword'] = keyword;
+    }
+    const HangMucKhaoSat = this.filterGroup.controls['HangMucKhaoSat'].value;
+    if (HangMucKhaoSat) {
+      filter2['HangMucKhaoSat'] = HangMucKhaoSat;
     }
     const maDViQLy = this.filterGroup.controls['maDViQLy'].value;
     if (maDViQLy) {
@@ -152,7 +213,7 @@ import { ReportService } from '../../services/report.service';
       filter2['todate'] = todate;
     }
     debugger;
-    this.service.exportExcelTHKhaoSatKhachHang(filter2).subscribe((response) => {
+    this.service.exportExcelTHKhaoSatKhachHang({FilterDGiaDoHaiLong:filter2}).subscribe((response) => {
       if(response === undefined || response === null){
        
       }

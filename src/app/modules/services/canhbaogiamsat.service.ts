@@ -72,8 +72,8 @@ export class CanhBaoGiamSatService extends TableService<CanhBaoGiamSat> implemen
         );
     }
 
-    updateStatus(idCanhBao:number, status: number) {
-        const url = `${environment.apiUrl}/canhbao/updateStatus/`+idCanhBao+`/`+ status;
+    updateStatus(idCanhBao:number, status: number,nguyenhan:number) {
+        const url = `${environment.apiUrl}/canhbao/updateStatus/`+idCanhBao+`/`+ status + `/`+ nguyenhan;
         return this.http.get<any>(url, { params: {} }).pipe(
             tap((res) => {
             }),

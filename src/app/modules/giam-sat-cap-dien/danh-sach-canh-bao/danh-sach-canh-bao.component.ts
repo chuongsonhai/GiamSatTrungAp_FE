@@ -86,7 +86,6 @@ export class DanhSachCanhBaoComponent implements
   allowGetAll = new BehaviorSubject<boolean>(false);
   // angular lifecircle hooks
   ngOnInit(): void {
-    debugger;
     this.filterForm();
     this._user$ = this.auth.currentUserValue;
     console.log(this._user$);

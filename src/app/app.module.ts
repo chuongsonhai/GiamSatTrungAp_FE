@@ -25,6 +25,7 @@ import { CKEditorModule } from 'ckeditor4-angular';
 import { AuthService } from './modules/auth/_services/auth.service';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { NgSelect2Module } from 'ng-select2';
+import * as ApexCharts from 'apexcharts'
 
 
 registerLocaleData(localeFr);

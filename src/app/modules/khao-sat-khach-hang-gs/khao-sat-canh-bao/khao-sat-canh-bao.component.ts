@@ -95,6 +95,8 @@ export class KhaoSatCanhBaoComponent implements OnInit {
         this.loadForm();
         if(this.idKhaoSat != undefined) {
           this.loadData();
+        } else {
+          this.loadDataNewForm();
         }
         
         
@@ -142,28 +144,50 @@ export class KhaoSatCanhBaoComponent implements OnInit {
     loadForm() {
       this.formGroup = this.fb.group({
         MA_YCAU: this.maYeuCau,
-        DGCD_TH_CHUONGTRINH: [this.DGCD_TH_CHUONGTRINH, Validators.required],
-        DGCD_TH_DANGKY: [this.DGCD_TH_DANGKY, Validators.required],
+        DGCD_TH_CHUONGTRINH: [this.DGCD_TH_CHUONGTRINH],
+        DGCD_TH_DANGKY: [this.DGCD_TH_DANGKY],
         DGCD_KH_PHANHOI: [this.DGCD_KH_PHANHOI],
         CHENH_LECH: [this.CHENH_LECH],
-        DGYC_DK_DEDANG: [this.DGYC_DK_DEDANG, Validators.required],
-        DGYC_XACNHAN_NCHONG_KTHOI: [this.DGYC_XACNHAN_NCHONG_KTHOI, Validators.required],
-        DGYC_THAIDO_CNGHIEP: [this.DGYC_THAIDO_CNGHIEP, Validators.required],
-        DGKS_TDO_KSAT: [this.DGKS_TDO_KSAT, Validators.required],
-        DGKS_MINH_BACH: [this.DGKS_MINH_BACH, Validators.required],
-        DGKS_CHU_DAO: [this.DGKS_CHU_DAO, Validators.required],
-        DGNT_THUAN_TIEN: [this.DGNT_THUAN_TIEN, Validators.required],
-        DGNT_MINH_BACH: [this.DGNT_MINH_BACH, Validators.required],
-        DGNT_CHU_DAO: [this.DGNT_CHU_DAO, Validators.required],
-        KSAT_CHI_PHI: [this.KSAT_CHI_PHI, Validators.required],
-        DGHL_CAPDIEN: [this.DGHL_CAPDIEN, Validators.required],
+        DGYC_DK_DEDANG: [this.DGYC_DK_DEDANG],
+        DGYC_XACNHAN_NCHONG_KTHOI: [this.DGYC_XACNHAN_NCHONG_KTHOI],
+        DGYC_THAIDO_CNGHIEP: [this.DGYC_THAIDO_CNGHIEP],
+        DGKS_TDO_KSAT: [this.DGKS_TDO_KSAT],
+        DGKS_MINH_BACH: [this.DGKS_MINH_BACH],
+        DGKS_CHU_DAO: [this.DGKS_CHU_DAO],
+        DGNT_THUAN_TIEN: [this.DGNT_THUAN_TIEN],
+        DGNT_MINH_BACH: [this.DGNT_MINH_BACH],
+        DGNT_CHU_DAO: [this.DGNT_CHU_DAO],
+        KSAT_CHI_PHI: [this.KSAT_CHI_PHI],
+        DGHL_CAPDIEN: [this.DGHL_CAPDIEN],
         TRANGTHAI_GOI: [this.TRANGTHAI_GOI, Validators.required],
         NGUOI_KSAT: this.user.username,
-        Y_KIEN_KH: [this.Y_KIEN_KH, Validators.required],
-        NOIDUNG: [this.NOIDUNG, Validators.required],
+        Y_KIEN_KH: [this.Y_KIEN_KH],
+        NOIDUNG: [this.NOIDUNG],
         PHAN_HOI: [this.PHAN_HOI],
-        GHI_CHU: [this.GHI_CHU, Validators.required],
+        GHI_CHU: [this.GHI_CHU],
     });
+    }
+
+    loadDataNewForm() {
+      const sb = this.KSservice.getThoiGianTinhToan(this.maYeuCau).pipe(
+        first(),
+        catchError((errorMessage) => {
+          return of(this.khaoSat);
+        })
+      ).subscribe((res) => {
+        // debugger;
+        if (res) {
+          this.formGroup = this.fb.group({
+            ID: this.idKhaoSat,
+            MA_YCAU: res.data.MA_YCAU,
+            NGUOI_KS: this.user.username,
+            DGCD_TH_CHUONGTRINH: res.data.DGCD_TH_CHUONGTRINH,
+            DGCD_TH_DANGKY: res.data.DGCD_TH_DANGKY,
+          });
+          this.khaoSat = res.data;
+          this.isLoadingForm$.next(false);
+        }
+      });
     }
 
 
