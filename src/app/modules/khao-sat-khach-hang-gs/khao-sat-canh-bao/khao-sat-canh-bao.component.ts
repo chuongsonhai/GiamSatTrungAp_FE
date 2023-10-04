@@ -53,6 +53,7 @@ export class KhaoSatCanhBaoComponent implements OnInit {
     DGNT_MINH_BACH: number;
     DGNT_CHU_DAO: number;
     KSAT_CHI_PHI: number;
+    HANGMUC_KHAOSAT:number;
     DGHL_CAPDIEN: number;
     TRANGTHAI_GOI: number;
     Y_KIEN_KH: string;
@@ -135,6 +136,7 @@ export class KhaoSatCanhBaoComponent implements OnInit {
             NOIDUNG: res.data.NOIDUNG,
             PHAN_HOI: res.data.PHAN_HOI,
             GHI_CHU: res.data.GHI_CHU,
+            HANGMUC_KHAOSAT: res.data.HANGMUC_KHAOSAT,
           });
           this.khaoSat = res.data;
           this.isLoadingForm$.next(false);
@@ -165,6 +167,7 @@ export class KhaoSatCanhBaoComponent implements OnInit {
         NOIDUNG: [this.NOIDUNG],
         PHAN_HOI: [this.PHAN_HOI],
         GHI_CHU: [this.GHI_CHU],
+        HANGMUC_KHAOSAT: [this.HANGMUC_KHAOSAT],
     });
     }
 
@@ -175,7 +178,7 @@ export class KhaoSatCanhBaoComponent implements OnInit {
           return of(this.khaoSat);
         })
       ).subscribe((res) => {
-        // debugger;
+        debugger;
         if (res) {
           this.formGroup = this.fb.group({
             ID: this.idKhaoSat,
@@ -183,6 +186,26 @@ export class KhaoSatCanhBaoComponent implements OnInit {
             NGUOI_KS: this.user.username,
             DGCD_TH_CHUONGTRINH: res.data.DGCD_TH_CHUONGTRINH,
             DGCD_TH_DANGKY: res.data.DGCD_TH_DANGKY,
+            DGCD_KH_PHANHOI: [this.DGCD_KH_PHANHOI],
+            CHENH_LECH: [this.CHENH_LECH],
+            DGYC_DK_DEDANG: [this.DGYC_DK_DEDANG],
+            DGYC_XACNHAN_NCHONG_KTHOI: [this.DGYC_XACNHAN_NCHONG_KTHOI],
+            DGYC_THAIDO_CNGHIEP: [this.DGYC_THAIDO_CNGHIEP],
+            DGKS_TDO_KSAT: [this.DGKS_TDO_KSAT],
+            DGKS_MINH_BACH: [this.DGKS_MINH_BACH],
+            DGKS_CHU_DAO: [this.DGKS_CHU_DAO],
+            DGNT_THUAN_TIEN: [this.DGNT_THUAN_TIEN],
+            DGNT_MINH_BACH: [this.DGNT_MINH_BACH],
+            DGNT_CHU_DAO: [this.DGNT_CHU_DAO],
+            KSAT_CHI_PHI: [this.KSAT_CHI_PHI],
+            DGHL_CAPDIEN: [this.DGHL_CAPDIEN],
+            TRANGTHAI_GOI: [this.TRANGTHAI_GOI, Validators.required],
+            NGUOI_KSAT: this.user.username,
+            Y_KIEN_KH: [this.Y_KIEN_KH],
+            NOIDUNG: [this.NOIDUNG],
+            PHAN_HOI: [this.PHAN_HOI],
+            GHI_CHU: [this.GHI_CHU],
+            HANGMUC_KHAOSAT: [this.HANGMUC_KHAOSAT],
           });
           this.khaoSat = res.data;
           this.isLoadingForm$.next(false);
@@ -202,6 +225,7 @@ export class KhaoSatCanhBaoComponent implements OnInit {
         this.formGroup.markAllAsTouched();
         const formValues = this.formGroup.value;
         this.khaoSat = Object.assign(new KhaoSat(), formValues);
+        debugger;
       if(this.idKhaoSat) {
         this.khaoSat.ID = this.idKhaoSat;
         const sbUpdate = this.KSservice.updateKhaoSat( this.khaoSat).pipe(
@@ -224,6 +248,9 @@ export class KhaoSatCanhBaoComponent implements OnInit {
         });
         this.subscriptions.push(sbUpdate);
       } else {
+        debugger;
+        this.khaoSat.ID = 0;
+        this.khaoSat.MA_YCAU = this.maYeuCau;
         const sbUpdate = this.KSservice.createKhaoSat(this.khaoSat).pipe(
           tap(() => {
             this.modal.close();

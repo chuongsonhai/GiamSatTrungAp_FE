@@ -76,6 +76,8 @@ export class DsKhaoSatComponent implements OnInit, OnDestroy {
         idCanhBao: [this.id],
         tenKhachHang:'',
         soDienThoai:'',
+        mucdo_hailong:"-1",
+        TrangThaiKhaoSat:"-1"
       });
       
       this.route.params.subscribe(params => {
@@ -97,7 +99,7 @@ export class DsKhaoSatComponent implements OnInit, OnDestroy {
     activeTabId = 0;
   
     loadData() {
-      const sb = this.service.getItemByYeuCauId(this.maYeuCau).pipe(
+      const sb = this.service.getItemByYeuCauId(this.maYeuCau,'-1','-1').pipe(
         first(),
         catchError((errorMessage) => {
           return of(this.CanhBaoChiTiet);
@@ -111,6 +113,8 @@ export class DsKhaoSatComponent implements OnInit, OnDestroy {
             trangThai:res.data.TrangThaiCongVan, 
             tenKhachHang:res.data.TenKhachHang,
             soDienThoai:res.data.DienThoai,
+            mucdo_hailong:"-1",
+            TrangThaiKhaoSat:"-1"
           });
           this.donViQuanLy = res.data.DONVI_DIENLUC;
           this.khaoSat= res.data.DanhSachKhaoSat;
@@ -129,6 +133,46 @@ export class DsKhaoSatComponent implements OnInit, OnDestroy {
     redirectpage(id) {
       debugger;
       window.location.href = '/ttdn/list/update/'+ id;
+    }
+
+    filter() {
+      const filter = {};
+      
+      
+      const TrangThaiKhaoSat = this.filterGroup.get('TrangThaiKhaoSat').value;
+      if (TrangThaiKhaoSat) {
+        filter['TrangThaiKhaoSat'] = TrangThaiKhaoSat;
+      }
+      const mucdo_hailong = this.filterGroup.get('mucdo_hailong').value;
+      if (mucdo_hailong) {
+        filter['mucdo_hailong'] = mucdo_hailong;
+      }
+      // this.service.patchState({ filter });
+      const sb = this.service.getItemByYeuCauId(this.maYeuCau,TrangThaiKhaoSat,mucdo_hailong).pipe(
+        first(),
+        catchError((errorMessage) => {
+          return of(this.CanhBaoChiTiet);
+        })
+      ).subscribe((res) => {
+        // this.idYeuCau = res.data.ThongTinYeuCau.ID;
+        if (res) {
+          
+          this.filterGroup = this.fb.group({
+            maYeuCau:res.data.MaYeuCau,
+            trangThai:res.data.TrangThaiCongVan, 
+            tenKhachHang:res.data.TenKhachHang,
+            soDienThoai:res.data.DienThoai,
+            mucdo_hailong:mucdo_hailong,
+            TrangThaiKhaoSat:TrangThaiKhaoSat
+          });
+          this.donViQuanLy = res.data.DONVI_DIENLUC;
+          this.khaoSat= res.data.DanhSachKhaoSat;
+          this.isLoadingForm$.next(false);
+        }
+      });
+  
+      this.subscriptions.push(sb);
+  
     }
   
     changeTab(tabId: number) {

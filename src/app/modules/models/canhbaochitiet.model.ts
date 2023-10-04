@@ -41,16 +41,43 @@ export class ThongTinYeuCau{
     trangThai: string
 }
 export class KhaoSat{
+    // ID: number
+    // CANHBAO_ID: number
+    // NOIDUNG_CAUHOI: string
+    // PHANHOI_KH: string
+    // THOIGIAN_KHAOSAT: string
+    // NGUOI_KS: string
+    // KETQUA: string
+    // TRANGTHAI: number
+    // DONVI_QLY: string
+    // MA_YC: string
+
+
     ID: number
-    CANHBAO_ID: number
-    NOIDUNG_CAUHOI: string
-    PHANHOI_KH: string
-    THOIGIAN_KHAOSAT: string
+    MA_YCAU: string
     NGUOI_KS: string
-    KETQUA: string
-    TRANGTHAI: number
-    DONVI_QLY: string
-    MA_YC: string
+    DGCD_TH_CHUONGTRINH: number
+    DGCD_TH_DANGKY: number
+    DGCD_KH_PHANHOI: number
+    CHENH_LECH: number
+    DGYC_DK_DEDANG: number
+    DGYC_XACNHAN_NCHONG_KTHOI:number
+    DGYC_THAIDO_CNGHIEP: number
+    DGKS_TDO_KSAT: number
+    DGKS_MINH_BACH: number
+    DGKS_CHU_DAO: number
+    DGNT_THUAN_TIEN: number
+    DGNT_MINH_BACH: number
+    DGNT_CHU_DAO: number
+    KSAT_CHI_PHI: number
+    DGHL_CAPDIEN: number
+    TRANGTHAI_GOI: number
+    NGUOI_KSAT: number
+    Y_KIEN_KH: string
+    NOIDUNG: string
+    PHAN_HOI: string
+    GHI_CHU: string
+    HANGMUC_KHAOSAT: number
 }
 
 export class DanhSachKhaoSat {

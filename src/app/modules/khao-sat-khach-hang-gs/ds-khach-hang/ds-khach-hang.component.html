@@ -8,7 +8,7 @@
         <!-- begin: Filtration form -->
         <div class="form form-label-right">
             <div class="form-group row">
-                <div class="col-lg-3" [formGroup]="filterGroup">
+                <div class="col-lg-2" [formGroup]="filterGroup">
                     <label>Đơn vị quản lý</label>
                     <select class="form-control" name="maDViQLy" formControlName="maDViQLy">
                         <ng-container *ngIf="allowGetAll | async">
@@ -19,7 +19,17 @@
                         </option>
                     </select>
                 </div>
-                <div class="col-lg-3" [formGroup]="filterGroup" style="display: none;">
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <label>Trạng thái yêu cầu</label>
+                    <!-- <input type="text" class="form-control" name="maLoaiCanhBao" placeholder="Mã loại cảnh báo" value=""
+                        formControlName="maLoaiCanhBao" /> -->
+                    <select class="form-control" name="trangthai_ycau" placeholder="Trạng thái yêu cầu" formControlName="trangthai_ycau">
+                        <option selected="selected" value="">-- Tất cả --</option>
+                        <option value="Hoàn thành">Hoàn thành</option>
+                        <option value="Hủy">Hủy</option>
+                    </select>
+                </div>
+                <div class="col-lg-2" [formGroup]="filterGroup" style="display: none;">
                     <label>Mã loại cảnh báo</label>
                     <!-- <input type="text" class="form-control" name="maLoaiCanhBao" placeholder="Mã loại cảnh báo" value=""
                         formControlName="maLoaiCanhBao" /> -->
@@ -66,6 +76,13 @@
                         </div>
                         <input type="text" name="todate" class="form-control form-control-solid" autocomplete="off"
                             placeholder="dd/mm/yyyy" ngbDatepicker #todate="ngbDatepicker" formControlName="todate" />
+                    </div>
+                </div>
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <label>Từ khóa</label>
+                    <div class="input-group input-group-solid">
+                        <input type="text" name="keyword" class="form-control form-control-solid" autocomplete="off"
+                              formControlName="keyword" />
                     </div>
                 </div>
                 <div class="col-lg-2">

@@ -136,7 +136,7 @@ viewItem = this._viewItem.asObservable();
       filter['todate'] = _todate;
     }
   
-    this.service.getCTGiamSatCapDien({Filterbctd:filter}).pipe(
+    this.service.getCTGiamSatCapDien({Filterbcgstd:filter}).pipe(
       catchError(err => {
         return of(undefined);
       })).subscribe((response) => {

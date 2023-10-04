@@ -180,7 +180,7 @@ export class ChiTietKhaoSatKhachHangComponent implements
        
       }
       else{
-        this._viewItem.next(response.data.listSoLuongKhaoSatTrangThaiChuyenKhaiThac);
+        this._viewItem.next(response.data);
         console.log(response);
   
      

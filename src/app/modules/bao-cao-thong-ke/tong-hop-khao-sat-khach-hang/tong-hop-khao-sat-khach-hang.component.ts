@@ -110,7 +110,7 @@ import { BaoCaoTHKSKH } from '../../models/baocaoycnt.model';
       DanhGiaNT: -1,
       ChiPhiKhachHang: -1,
       DanhGiaHaiLong: -1,
-      maDViQLy: [''],
+      maDViQLy: '-1',
       fromdate:DateTimeUtil.convertDateToStringVNDefaulDateNow(this._fromDate),
       todate:DateTimeUtil.convertDateToStringVNDefaulDateNow(this.toDate),
     });
@@ -133,7 +133,7 @@ import { BaoCaoTHKSKH } from '../../models/baocaoycnt.model';
     }
     const _maDViQLy = this.filterGroup.controls['maDViQLy'].value;
     if (_maDViQLy) {
-      filter['maDViQLy'] = _maDViQLy;
+      filter['madvi'] = _maDViQLy;
     }
     const fromdate = this.filterGroup.controls['fromdate'].value;
     if (fromdate) {

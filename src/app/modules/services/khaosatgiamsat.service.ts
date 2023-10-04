@@ -40,11 +40,11 @@ export class KhaoSatGiamSatService extends TableService<DanhSachKhaoSat> impleme
         );
     }
 
-    getItemByYeuCauId(IdYeuCau): Observable<any> {
+    getItemByYeuCauId(IdYeuCau,TrangThaiKhaoSat,mucdo_hailong): Observable<any> {
         const url = `${environment.apiUrl}/KhaoSat/filter`;
         this._isLoading$.next(true);
         this._errorMessage.next('');
-        return this.http.post<any>(url, {IdYeuCau:IdYeuCau}, { reportProgress: true }).pipe(            
+        return this.http.post<any>(url, {IdYeuCau:IdYeuCau,TrangThaiKhaoSat:TrangThaiKhaoSat,mucdo_hailong:mucdo_hailong}, { reportProgress: true }).pipe(            
             catchError(err => {
                 this.toastr.error("Có lỗi xảy ra, vui lòng thực hiện lại");
                 this._errorMessage.next(err);

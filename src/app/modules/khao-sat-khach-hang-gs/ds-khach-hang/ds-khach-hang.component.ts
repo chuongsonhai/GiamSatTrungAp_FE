@@ -122,7 +122,9 @@ export class DsKhachHangComponent implements
       maDViQLy: "",
       fromdate: DateTimeUtil.convertDateToStringVNDefaulDateNow(this.fromDate),
       todate: DateTimeUtil.convertDateToStringVNDefaulDateNow(this.toDate),
-      maLoaiCanhBao: -1
+      maLoaiCanhBao: -1,
+      keyword:"",
+      trangthai_ycau:""
     });
     try {
       this.subscriptions.push(this.filterGroup.controls.maDViQLy.valueChanges.subscribe(() => this.filter()));
@@ -148,6 +150,14 @@ export class DsKhachHangComponent implements
     const maLoaiCanhBao = this.filterGroup.get('maLoaiCanhBao').value;
     if (maLoaiCanhBao) {
       filter['maLoaiCanhBao'] = maLoaiCanhBao;
+    }
+    const keyword = this.filterGroup.get('keyword').value;
+    if (keyword) {
+      filter['keyword'] = keyword;
+    }
+    const trangthai_ycau = this.filterGroup.get('trangthai_ycau').value;
+    if (trangthai_ycau) {
+      filter['trangthai_ycau'] = trangthai_ycau;
     }
     this.service.patchState({ filter });
 

@@ -205,7 +205,7 @@ export class ReportService extends TableService<ReportData> implements OnDestroy
         );
     }
     public getCTGiamSatCapDien(filter: any): any {
-        const url = `${this.API_URL}/getbaocaochitietgiamsatiendo`;
+        const url = `${this.API_URL}/getbaocaochitietgiamsattiendo`;
         this._errorMessage.next('');
         return this.http.post<any>(url, filter).pipe(
             catchError(err => {

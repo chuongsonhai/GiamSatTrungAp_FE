@@ -23,8 +23,6 @@
                         formControlName="maYeuCau" />
                         
                 </div>
-                
-                
             </div>
             <div class="row">
                 <div class="col-lg-6"  >
@@ -32,18 +30,51 @@
                     <input type="text" class="form-control" disabled="disabled"  name="tenKhachHang"  value="{{tenKhachHang}}"
                         formControlName="tenKhachHang" />
                 </div>
-                <div class="col-lg-6"  >
+                <div class="col-lg-4"  >
                     <label>SDT Khách hàng</label>
                     <input type="text" class="form-control" disabled="disabled"  name="soDienThoai"  value="{{soDienThoai}}"
                         formControlName="soDienThoai" />
                 </div>
                 
+                
+            </div>
+            <div class="row">
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <label>Trạng thái khảo sát</label>
+                    <select class="form-control" name="TrangThaiKhaoSat" placeholder="Trạng thái khảo sát" formControlName="TrangThaiKhaoSat">
+                        <option value="-1">-- Tất cả --</option>
+                        <option value="1">Chưa khảo sát</option>
+                        <option value="2">Dừng ngang</option>
+                        <option value="3">Chưa liên lạc được</option>
+                        <option value="4">Thành công</option>
+                        <option value="5">Chuyển đơn vị</option>
+                        <option value="6">Phản hồi</option>
+                    </select>
+                </div>
+                <div class="col-lg-2" [formGroup]="filterGroup">
+                    <label>Mức độ hài lòng</label>
+                    <select class="form-control" name="mucdo_hailong" placeholder="Mức độ hài lòng" formControlName="mucdo_hailong">
+                        <option selected="selected" value="-1">-- Tất cả --</option>
+                        <option value="1">1.Rất không hài lòng</option>
+                        <option value="2">2.Không hài lòng</option>
+                        <option value="3">3.Bình thường</option>
+                        <option value="4">4.Hài lòng</option>
+                        <option value="5">5.Rất hài lòng</option>
+                    </select>
+                </div>
+                <div class="col-lg-2" style="padding: 25px;">
+                    <button type="button" class="form-control btn btn-primary " 
+                        (click)="filter()">
+                        <i class="fa fa-search"></i>
+                        Tìm kiếm
+                    </button>
+                </div>
             </div>
             
             </form>
         </div>
+        
         <div class="row" style="padding: 10px;">
-            
             <div class="col-lg-12 text-right">
                 <button  *ngIf="(allowGSCD | async)"  class="btn btn-primary mr-2 right" style="float: right;" (click)="createKS(maYeuCau)"> Thêm khảo sát</button>
             </div>
