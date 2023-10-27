@@ -112,6 +112,8 @@ export class KhaoSatCanhBaoComponent implements OnInit {
       ).subscribe((res) => {
         // debugger;
         if (res) {
+          this.khaoSat = res.data;
+          debugger;
           this.formGroup = this.fb.group({
             ID: this.idKhaoSat,
             MA_YCAU: res.data.MA_YCAU,
@@ -120,25 +122,26 @@ export class KhaoSatCanhBaoComponent implements OnInit {
             DGCD_TH_DANGKY: res.data.DGCD_TH_DANGKY,
             DGCD_KH_PHANHOI: res.data.DGCD_KH_PHANHOI,
             CHENH_LECH: res.data.CHENH_LECH,
-            DGYC_DK_DEDANG: res.data.DGYC_DK_DEDANG,
-            DGYC_XACNHAN_NCHONG_KTHOI: res.data.DGYC_XACNHAN_NCHONG_KTHOI,
-            DGYC_THAIDO_CNGHIEP: res.data.DGYC_THAIDO_CNGHIEP,
-            DGKS_TDO_KSAT: res.data.DGKS_TDO_KSAT,
-            DGKS_MINH_BACH: res.data.DGKS_MINH_BACH,
-            DGKS_CHU_DAO: res.data.DGKS_CHU_DAO,
-            DGNT_THUAN_TIEN: res.data.DGNT_THUAN_TIEN,
-            DGNT_MINH_BACH: res.data.DGNT_MINH_BACH,
-            DGNT_CHU_DAO: res.data.DGNT_CHU_DAO,
-            KSAT_CHI_PHI: res.data.KSAT_CHI_PHI,
-            DGHL_CAPDIEN: res.data.DGHL_CAPDIEN,
-            TRANGTHAI_GOI: res.data.TRANGTHAI_GOI,
+            // DGYC_DK_DEDANG: res.data.DGYC_DK_DEDANG,
+            DGYC_DK_DEDANG: this.khaoSat.DGYC_DK_DEDANG.toString(),
+            DGYC_XACNHAN_NCHONG_KTHOI: res.data.DGYC_XACNHAN_NCHONG_KTHOI.toString(),
+            DGYC_THAIDO_CNGHIEP: res.data.DGYC_THAIDO_CNGHIEP.toString(),
+            DGKS_TDO_KSAT: res.data.DGKS_TDO_KSAT.toString(),
+            DGKS_MINH_BACH: res.data.DGKS_MINH_BACH.toString(),
+            DGKS_CHU_DAO: res.data.DGKS_CHU_DAO.toString(),
+            DGNT_THUAN_TIEN: res.data.DGNT_THUAN_TIEN.toString(),
+            DGNT_MINH_BACH: res.data.DGNT_MINH_BACH.toString(),
+            DGNT_CHU_DAO: res.data.DGNT_CHU_DAO.toString(),
+            KSAT_CHI_PHI: res.data.KSAT_CHI_PHI.toString(),
+            DGHL_CAPDIEN: res.data.DGHL_CAPDIEN.toString(),
+            TRANGTHAI_GOI: res.data.TRANGTHAI_GOI.toString(),
             Y_KIEN_KH: res.data.Y_KIEN_KH,
             NOIDUNG: res.data.NOIDUNG,
             PHAN_HOI: res.data.PHAN_HOI,
             GHI_CHU: res.data.GHI_CHU,
-            HANGMUC_KHAOSAT: res.data.HANGMUC_KHAOSAT,
+            HANGMUC_KHAOSAT: res.data.HANGMUC_KHAOSAT.toString(),
           });
-          this.khaoSat = res.data;
+          
           this.isLoadingForm$.next(false);
         }
       });

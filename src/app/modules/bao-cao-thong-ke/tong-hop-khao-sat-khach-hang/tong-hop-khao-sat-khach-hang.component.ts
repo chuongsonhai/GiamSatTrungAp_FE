@@ -133,7 +133,7 @@ import { BaoCaoTHKSKH } from '../../models/baocaoycnt.model';
     }
     const _maDViQLy = this.filterGroup.controls['maDViQLy'].value;
     if (_maDViQLy) {
-      filter['madvi'] = _maDViQLy;
+      filter['maDViQLy'] = _maDViQLy;
     }
     const fromdate = this.filterGroup.controls['fromdate'].value;
     if (fromdate) {

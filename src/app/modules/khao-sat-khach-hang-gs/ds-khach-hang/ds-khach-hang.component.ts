@@ -124,7 +124,8 @@ export class DsKhachHangComponent implements
       todate: DateTimeUtil.convertDateToStringVNDefaulDateNow(this.toDate),
       maLoaiCanhBao: -1,
       keyword:"",
-      trangthai_ycau:""
+      trangthai_ycau:"",
+      trangthai_khaosat:""
     });
     try {
       this.subscriptions.push(this.filterGroup.controls.maDViQLy.valueChanges.subscribe(() => this.filter()));
@@ -158,6 +159,10 @@ export class DsKhachHangComponent implements
     const trangthai_ycau = this.filterGroup.get('trangthai_ycau').value;
     if (trangthai_ycau) {
       filter['trangthai_ycau'] = trangthai_ycau;
+    }
+    const trangthai_khaosat = this.filterGroup.get('trangthai_khaosat').value;
+    if (trangthai_khaosat) {
+      filter['trangthai_khaosat'] = trangthai_khaosat;
     }
     this.service.patchState({ filter });
 

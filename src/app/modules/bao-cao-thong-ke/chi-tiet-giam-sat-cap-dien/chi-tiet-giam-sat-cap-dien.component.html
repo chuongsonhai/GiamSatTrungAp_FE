@@ -113,17 +113,26 @@
                     
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of service.items$ | async; let i=index;">
+                    <tr *ngFor="let item of this.viewItem | async; let i=index;">
                         <td>{{ i + paginator.pageSize * (paginator.page - 1) + 1 }}</td>
-                        <td>{{item.MaDViQLy}}</td>
-                        <td>{{item.TenKH}}</td>
-                        <td>{{item.TenCT}}</td>
-                        <td>{{item.DCCT}}</td>
-                        <td>{{item.MaYC}}</td>
-                        <td>{{item.TongCS}}</td>
-                        <td>{{item.TongChieuDaiDD}}</td>
-                        <td>{{item.HangMucQuaHan}}</td>
-                        <td>{{item.SoNgayQuaHan}}</td>
+                        <td>{{item.MaDViQuanLy}}</td>
+                        <td>{{item.TenKhachHang}}</td>
+                        <td>{{item.DiaChi}}</td>
+                        <td>{{item.SDT}}</td>
+                        <td>{{item.TongCongSuatDangKy}}</td>
+                        <td>{{item.NgayTiepNhan}}</td>
+                        <td>{{item.HangMucCanhBao}}</td>
+                        <td>{{item.NguongCanhBao}}</td>
+                        <td>{{item.TrangThai}}</td>
+                        <td>{{item.NgayGioGiamSat}}</td>
+                        <td>{{item.NguoiGiamSat}}</td>
+                        <td>{{item.NoiDungKhaoSat}}</td>
+                        <td>{{item.NoiDungXuLyYKienKH}}</td>
+                        <td>{{item.PhanHoi}}</td>
+                        <td>{{item.XacMinhNguyenNhanChamGiaiQuyet}}</td>
+                        <td>{{item.NDGhiNhanVaChuyenDonViXuLy}}</td>
+                        <td>{{item.KetQua}}</td>
+                        <td>{{item.GhiChu}}</td>
                    
                     </tr>
 

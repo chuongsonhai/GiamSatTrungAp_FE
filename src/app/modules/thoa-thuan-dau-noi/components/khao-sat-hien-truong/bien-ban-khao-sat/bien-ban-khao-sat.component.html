@@ -55,11 +55,11 @@
         </div>
         <div class="card-footer text-right" *ngIf="activeTabId === tabs.BienBanKS && 13 > congVanYeuCau.TrangThai">
             <ng-container>
-                <!-- <button type="button"
+                <button type="button"
                     *ngIf="(allowCancel | async) && BienBanKSData && BienBanKSData.BienBanKS.ID > 0 && 3 > BienBanKSData.BienBanKS.TrangThai"
                     class="btn btn-danger mr-2 text-uppercase" (click)="huyKQua()">
                     <i class="fa fa-trash"></i> Hủy biên bản
-                </button> -->
+                </button>
 
                 <button type="button"
                     *ngIf="(allowCancel | async) && BienBanKSData && BienBanKSData.BienBanKS.ID > 0 && 5 > congVanYeuCau.TrangThai && BienBanKSData.BienBanKS.TrangThai !== 0 && BienBanKSData.BienBanKS.TrangThai !== 2"

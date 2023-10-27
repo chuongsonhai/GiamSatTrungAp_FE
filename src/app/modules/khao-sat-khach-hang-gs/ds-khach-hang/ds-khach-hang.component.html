@@ -20,6 +20,14 @@
                     </select>
                 </div>
                 <div class="col-lg-2" [formGroup]="filterGroup">
+                    <label>Trạng thái khảo sát</label>
+                    <select class="form-control" name="trangthai_khaosat" placeholder="Trạng thái khảo sát" formControlName="trangthai_khaosat">
+                        <option selected="selected" value="">-- Tất cả --</option>
+                        <option value="Đã khảo sát">Đã khảo sát</option>
+                        <option value="Chưa khảo sát">Chưa khảo sát</option>
+                    </select>
+                </div>
+                <div class="col-lg-2" [formGroup]="filterGroup">
                     <label>Trạng thái yêu cầu</label>
                     <!-- <input type="text" class="form-control" name="maLoaiCanhBao" placeholder="Mã loại cảnh báo" value=""
                         formControlName="maLoaiCanhBao" /> -->
@@ -53,6 +61,8 @@
                         <option value="16">16.Khách hàng từ chối ký hợp đồng mua bán điện</option>
                     </select>
                 </div>
+                </div>
+                <div class="form-group row">
                 <div class="col-lg-2" [formGroup]="filterGroup">
                     <label>Từ ngày</label>
                     <div class="input-group input-group-solid">
