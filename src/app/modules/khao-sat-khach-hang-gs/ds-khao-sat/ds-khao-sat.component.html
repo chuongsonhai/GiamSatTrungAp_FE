@@ -76,7 +76,7 @@
         
         <div class="row" style="padding: 10px;">
             <div class="col-lg-12 text-right">
-                <button  *ngIf="(allowGSCD | async)"  class="btn btn-primary mr-2 right" style="float: right;" (click)="createKS(maYeuCau)"> Thêm khảo sát</button>
+                <button  *ngIf="(viewbuton && allowGSCD | async )"  class="btn btn-primary mr-2 right" style="float: right;" (click)="createKS(maYeuCau)"> Thêm khảo sát</button>
             </div>
             
         </div>

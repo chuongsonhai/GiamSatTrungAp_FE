@@ -25,7 +25,9 @@ import { KhaoSatCanhBaoComponent } from '../khao-sat-canh-bao/khao-sat-canh-bao.
   templateUrl: './ds-khao-sat.component.html',
   styleUrls: ['./ds-khao-sat.component.scss']
 })
+
 export class DsKhaoSatComponent implements OnInit, OnDestroy {
+    viewbuton: boolean = true;
     EMPTY: any;
     private subscriptions: Subscription[] = [];
     id: number;
@@ -118,6 +120,11 @@ export class DsKhaoSatComponent implements OnInit, OnDestroy {
           });
           this.donViQuanLy = res.data.DONVI_DIENLUC;
           this.khaoSat= res.data.DanhSachKhaoSat;
+
+          if(res.data.DanhSachKhaoSat.length > 0)
+          {
+            this.viewbuton = false;
+          }
           this.isLoadingForm$.next(false);
         }
       });

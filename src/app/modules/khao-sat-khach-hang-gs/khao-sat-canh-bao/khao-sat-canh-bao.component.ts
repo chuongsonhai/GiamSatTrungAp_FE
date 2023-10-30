@@ -94,6 +94,7 @@ export class KhaoSatCanhBaoComponent implements OnInit {
         }, 1000);
         this.isLoadingForm$.next(true);
         this.loadForm();
+        debugger;
         if(this.idKhaoSat != undefined) {
           this.loadData();
         } else {
@@ -181,7 +182,6 @@ export class KhaoSatCanhBaoComponent implements OnInit {
           return of(this.khaoSat);
         })
       ).subscribe((res) => {
-        debugger;
         if (res) {
           this.formGroup = this.fb.group({
             ID: this.idKhaoSat,
