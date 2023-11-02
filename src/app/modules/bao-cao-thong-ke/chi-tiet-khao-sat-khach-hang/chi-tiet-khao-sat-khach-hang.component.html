@@ -25,23 +25,7 @@
                 <div class="col-lg-2" [formGroup]="filterGroup">
                     <label>Loại cảnh báo</label>
                     <select class="form-control" name="HangMucKhaoSat" placeholder="Mã loại cảnh báo" formControlName="HangMucKhaoSat">
-                        <!-- <option selected="selected" value="-1">-- Tất cả --</option>
-                        <option value="1">1. thời gian tiếp nhận yêu cầu cấp điện lập thỏa thuận đấu nối</option>
-                        <option value="2">2.Thời gian thực hiện lập thỏa thuận đấu nối</option>
-                        <option value="3">3.Thời gian tiếp nhận yêu cầu kiểm tra đóng điện</option>
-                        <option value="4">4.Thời gian dự thảo và ký hợp đồng mua bán điện</option>
-                        <option value="5">5. Thời gian thực hiện kiểm tra điều kiện kỹ thuật điểm đấu nối</option>
-                        <option value="6">6.Giám sát thời gian nghiệm thu yêu cầu cấp điện</option>
-                        <option value="7">7.hồ sơ sắp hết hạn hiệu lực thỏa thuận đấu nối</option>
-                        <option value="8">8.Thời gian thực hiện cấp điện mới trung áp</option>
-                        <option value="9">9. từ chối tiếp nhận yêu cầu cấp điện/thỏa thuận đấu nối</option>
-                        <option value="10">10.trờ ngại khảo sát lập thỏa thuận đấu nối</option>
-                        <option value="11">11.hủy yêu cầu lập thỏa thuận đấu nối</option>
-                        <option value="12">12.từ chối tiếp nhận yêu cầu kiểm tra điều kiện đóng điện điểm đấu nối</option>
-                        <option value="13">13. khách hàng từ chối ký thỏa thuận đấu nối</option>
-                        <option value="14">14. trở ngại khi kiểm tra điều kiện đóng điện điểm đấu nối.</option>
-                        <option value="15">15.trở ngại khi thi công treo tháo</option>
-                        <option value="16">16.khách hàng từ chối ký hợp đồng mua bán điện</option> -->
+                        <option selected="selected" value="-1">-- Tất cả --</option> 
                         <option value="1">1: Đánh giá về thời gian cấp điện</option>
                         <option value="2">2: Đánh giá công tác tiếp nhận yêu cầu cấp điện</option>
                         <option value="3">3: Đánh giá công tác khảo sát và thỏa thuận đấu nối</option>
@@ -172,7 +156,7 @@
                     <th colspan="6">Đánh giá công tác khảo sát và thỏa thuận đấu nối</th>
                     <th colspan="6">Đánh giá công tác nghiệm thu, lắp đặt hệ thống đo đếm và ký hợp đồng MBĐ</th>
                     <th colspan="2">Khảo sát về chi phí khách hàng phải trả cho ngành điện </th>
-                    <th colspan="6">Đánh giá mức độ hài lòng đối với công tác cấp điện trung áp ngành điện</th>
+                    <th colspan="5">Đánh giá mức độ hài lòng đối với công tác cấp điện trung áp ngành điện</th>
                     <th colspan="3">Trạng thái cuộc gọi</th>
                     <th rowspan="3">Ngày/ giờ khảo sát</th>
                     <th rowspan="3">Người khảo sát</th>
@@ -196,8 +180,15 @@
                     <th colspan="2">Thuận tiện</th>
                     <th colspan="2">Minh bạch</th>
                     <th colspan="2">Chu đáo</th>
-                    
-                    
+                    <th colspan="2"> </th>
+                    <th rowspan="2">Rất không hài lòng</th>
+                    <th rowspan="2">Không hài lòng</th>
+                    <th rowspan="2">Bình thường</th>
+                    <th rowspan="2">Hài lòng</th>
+                    <th rowspan="2">Rất hài lòng</th>
+                    <th rowspan="2">Đã gọi thành công</th>
+                    <th rowspan="2">Chưa gọi được</th>
+                    <th rowspan="2">Dừng ngang cuộc gọi</th>
                    
                 </tr>
                 <tr>
