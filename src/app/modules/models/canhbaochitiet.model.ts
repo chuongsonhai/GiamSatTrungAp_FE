@@ -77,7 +77,9 @@ export class KhaoSat{
     NOIDUNG: string
     PHAN_HOI: string
     GHI_CHU: string
-    HANGMUC_KHAOSAT: number
+    TEN_KH: string
+    DIA_CHI: string
+    SDT: string
 }
 
 export class DanhSachKhaoSat {

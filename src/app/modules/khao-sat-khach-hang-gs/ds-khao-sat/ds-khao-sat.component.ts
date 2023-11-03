@@ -138,7 +138,6 @@ export class DsKhaoSatComponent implements OnInit, OnDestroy {
       }
     }
     redirectpage(id) {
-      debugger;
       window.location.href = '/ttdn/list/update/'+ id;
     }
 

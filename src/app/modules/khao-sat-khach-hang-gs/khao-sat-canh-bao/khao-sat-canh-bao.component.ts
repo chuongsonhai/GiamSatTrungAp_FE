@@ -21,6 +21,8 @@ import { KhaoSatGiamSatService } from '../../services/khaosatgiamsat.service';
 export class KhaoSatCanhBaoComponent implements OnInit {
 
   @Input() maYeuCau: string;
+  @Input() DIA_CHI: string;
+  @Input() SDT: string;
   @Input() idKhaoSat: number;
   @Input() isPhanHoiDv: boolean;
 
@@ -53,14 +55,14 @@ export class KhaoSatCanhBaoComponent implements OnInit {
     DGNT_MINH_BACH: number;
     DGNT_CHU_DAO: number;
     KSAT_CHI_PHI: number;
-    HANGMUC_KHAOSAT:number;
+    // HANGMUC_KHAOSAT:number;
     DGHL_CAPDIEN: number;
     TRANGTHAI_GOI: number;
     Y_KIEN_KH: string;
     NOIDUNG: string;
     PHAN_HOI: string;
     GHI_CHU: string;
-
+    TEN_KH: string;
     private subscriptions: Subscription[] = [];
 
     constructor(
@@ -94,7 +96,6 @@ export class KhaoSatCanhBaoComponent implements OnInit {
         }, 1000);
         this.isLoadingForm$.next(true);
         this.loadForm();
-        debugger;
         if(this.idKhaoSat != undefined) {
           this.loadData();
         } else {
@@ -111,10 +112,9 @@ export class KhaoSatCanhBaoComponent implements OnInit {
           return of(this.khaoSat);
         })
       ).subscribe((res) => {
-        // debugger;
+         debugger;
         if (res) {
           this.khaoSat = res.data;
-          debugger;
           this.formGroup = this.fb.group({
             ID: this.idKhaoSat,
             MA_YCAU: res.data.MA_YCAU,
@@ -140,7 +140,11 @@ export class KhaoSatCanhBaoComponent implements OnInit {
             NOIDUNG: res.data.NOIDUNG,
             PHAN_HOI: res.data.PHAN_HOI,
             GHI_CHU: res.data.GHI_CHU,
-            HANGMUC_KHAOSAT: res.data.HANGMUC_KHAOSAT.toString(),
+
+            TEN_KH: res.data.TEN_KH,
+           DIA_CHI: res.data.DIA_CHI,
+            SDT: res.data.SDT,
+            // HANGMUC_KHAOSAT: res.data.HANGMUC_KHAOSAT.toString(),
           });
           
           this.isLoadingForm$.next(false);
@@ -148,8 +152,9 @@ export class KhaoSatCanhBaoComponent implements OnInit {
       });
     }
     loadForm() {
+ 
       this.formGroup = this.fb.group({
-        MA_YCAU: this.maYeuCau,
+        MA_YCAU: [this.maYeuCau],
         DGCD_TH_CHUONGTRINH: [this.DGCD_TH_CHUONGTRINH],
         DGCD_TH_DANGKY: [this.DGCD_TH_DANGKY],
         DGCD_KH_PHANHOI: [this.DGCD_KH_PHANHOI],
@@ -171,7 +176,10 @@ export class KhaoSatCanhBaoComponent implements OnInit {
         NOIDUNG: [this.NOIDUNG],
         PHAN_HOI: [this.PHAN_HOI],
         GHI_CHU: [this.GHI_CHU],
-        HANGMUC_KHAOSAT: [this.HANGMUC_KHAOSAT],
+        TEN_KH: [this.TEN_KH],
+        DIA_CHI: [this.DIA_CHI],
+        SDT: [this.SDT],
+        // HANGMUC_KHAOSAT: [this.HANGMUC_KHAOSAT],
     });
     }
 
@@ -185,7 +193,7 @@ export class KhaoSatCanhBaoComponent implements OnInit {
         if (res) {
           this.formGroup = this.fb.group({
             ID: this.idKhaoSat,
-            MA_YCAU: res.data.MA_YCAU,
+            MA_YCAU: [this.maYeuCau],
             NGUOI_KS: this.user.username,
             DGCD_TH_CHUONGTRINH: res.data.DGCD_TH_CHUONGTRINH,
             DGCD_TH_DANGKY: res.data.DGCD_TH_DANGKY,
@@ -208,7 +216,10 @@ export class KhaoSatCanhBaoComponent implements OnInit {
             NOIDUNG: [this.NOIDUNG],
             PHAN_HOI: [this.PHAN_HOI],
             GHI_CHU: [this.GHI_CHU],
-            HANGMUC_KHAOSAT: [this.HANGMUC_KHAOSAT],
+            TEN_KH: res.data.TEN_KH,
+            DIA_CHI: res.data.DIA_CHI,
+            SDT: res.data.SDT,
+            // HANGMUC_KHAOSAT: [this.HANGMUC_KHAOSAT],
           });
           this.khaoSat = res.data;
           this.isLoadingForm$.next(false);
@@ -254,6 +265,8 @@ export class KhaoSatCanhBaoComponent implements OnInit {
         debugger;
         this.khaoSat.ID = 0;
         this.khaoSat.MA_YCAU = this.maYeuCau;
+        this.khaoSat.DIA_CHI = this.DIA_CHI;
+        this.khaoSat.SDT = this.SDT;
         const sbUpdate = this.KSservice.createKhaoSat(this.khaoSat).pipe(
           tap(() => {
             this.modal.close();

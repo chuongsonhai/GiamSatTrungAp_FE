@@ -126,9 +126,9 @@ export class ChiTietKhaoSatKhachHangComponent implements
       filter['keyword'] = _keyword;
     }
     const HangMucKhaoSat = this.filterGroup.controls['HangMucKhaoSat'].value;
-    if (HangMucKhaoSat) {
-      filter['HangMucKhaoSat'] = HangMucKhaoSat;
-    }
+    // if (HangMucKhaoSat) {
+    //   filter['HangMucKhaoSat'] = HangMucKhaoSat;
+    // }
     
     const fromdate = this.filterGroup.controls['fromdate'].value;
     if (fromdate) {
@@ -197,9 +197,9 @@ export class ChiTietKhaoSatKhachHangComponent implements
       filter['keyword'] = _keyword;
     }
     const HangMucKhaoSat = this.filterGroup.controls['HangMucKhaoSat'].value;
-    if (HangMucKhaoSat) {
-      filter['HangMucKhaoSat'] = HangMucKhaoSat;
-    }
+    // if (HangMucKhaoSat) {
+    //   filter['HangMucKhaoSat'] = HangMucKhaoSat;
+    // }
     
     const fromdate = this.filterGroup.controls['fromdate'].value;
     if (fromdate) {

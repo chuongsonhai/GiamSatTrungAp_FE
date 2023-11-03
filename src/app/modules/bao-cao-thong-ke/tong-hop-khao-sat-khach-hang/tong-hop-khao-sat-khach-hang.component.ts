@@ -128,9 +128,9 @@ import { BaoCaoTHKSKH } from '../../models/baocaoycnt.model';
       filter['keyword'] = _keyword;
     }
     const HangMucKhaoSat = this.filterGroup.controls['HangMucKhaoSat'].value;
-    if (HangMucKhaoSat) {
-      filter['HangMucKhaoSat'] = HangMucKhaoSat;
-    }
+    // if (HangMucKhaoSat) {
+    //   filter['HangMucKhaoSat'] = HangMucKhaoSat;
+    // }
     const _maDViQLy = this.filterGroup.controls['maDViQLy'].value;
     if (_maDViQLy) {
       filter['maDViQLy'] = _maDViQLy;
@@ -196,21 +196,43 @@ import { BaoCaoTHKSKH } from '../../models/baocaoycnt.model';
     if (keyword) {
       filter2['keyword'] = keyword;
     }
-    const HangMucKhaoSat = this.filterGroup.controls['HangMucKhaoSat'].value;
-    if (HangMucKhaoSat) {
-      filter2['HangMucKhaoSat'] = HangMucKhaoSat;
-    }
-    const maDViQLy = this.filterGroup.controls['maDViQLy'].value;
-    if (maDViQLy) {
-      filter2['maDViQLy'] = maDViQLy;
+    const _maDViQLy = this.filterGroup.controls['maDViQLy'].value;
+    if (_maDViQLy) {
+      filter2['maDViQLy'] = _maDViQLy;
     }
     const fromdate = this.filterGroup.controls['fromdate'].value;
     if (fromdate) {
       filter2['fromdate'] = fromdate;
     }
-    const todate = this.filterGroup.controls['todate'].value;
-    if (todate) {
-      filter2['todate'] = todate;
+    const _todate = this.filterGroup.controls['todate'].value;
+    if (_todate) {
+      filter2['todate'] = _todate;
+    }
+    const DanhGiaThoiGianCapDien = this.filterGroup.controls['DanhGiaThoiGianCapDien'].value;
+    if (DanhGiaThoiGianCapDien) {
+      filter2['DanhGiaThoiGianCapDien'] = _todate;
+    }
+    const DanhGiaYCTN = this.filterGroup.controls['DanhGiaYCTN'].value;
+    if (DanhGiaYCTN) {
+      filter2['DanhGiaYCTN'] = DanhGiaYCTN;
+    }
+
+    const DanhGiaTTDN = this.filterGroup.controls['DanhGiaTTDN'].value;
+    if (DanhGiaTTDN) {
+      filter2['DanhGiaTTDN'] = DanhGiaTTDN;
+    }
+
+    const DanhGiaNT = this.filterGroup.controls['DanhGiaNT'].value;
+    if (DanhGiaNT) {
+      filter2['DanhGiaNT'] = DanhGiaNT;
+    }
+    const ChiPhiKhachHang = this.filterGroup.controls['ChiPhiKhachHang'].value;
+    if (ChiPhiKhachHang) {
+      filter2['ChiPhiKhachHang'] = ChiPhiKhachHang;
+    }
+    const DanhGiaHaiLong = this.filterGroup.controls['DanhGiaHaiLong'].value;
+    if (DanhGiaHaiLong) {
+      filter2['DanhGiaHaiLong'] = DanhGiaHaiLong;
     }
     debugger;
     this.service.exportExcelTHKhaoSatKhachHang({FilterDGiaDoHaiLong:filter2}).subscribe((response) => {
