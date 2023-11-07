@@ -87,6 +87,7 @@ export class DsKhachHangComponent implements
   // angular lifecircle hooks
   ngOnInit(): void {
     this.filterForm();
+    console.log(this.filterGroup.controls.trangthai_khaosat.value)
     this._user$ = this.auth.currentUserValue;
     this.allowGetAll.next(this.auth.isSysAdmin() && this._user$.maDViQLy=='PD');
 
