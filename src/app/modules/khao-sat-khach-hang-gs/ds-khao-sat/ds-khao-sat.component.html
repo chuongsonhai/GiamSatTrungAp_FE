@@ -114,7 +114,7 @@
                         <td>{{item.NGAY}}</td>
                         <td>
                             <a *ngIf="((allowGSCD | async) && item.TRANGTHAI != 6)" (click)="edit(item.ID)"class="btn btn-primary">Sửa khảo sát </a>
-                            <a *ngIf="(allowPHGS | async)" (click)="createPHDV(maYeuCau, item.ID)" class="btn btn-primary">Đơn vị phản hồi</a>
+                            <a *ngIf="((allowPHGS | async) && item.TRANGTHAI <= 5)" (click)="createPHDV(maYeuCau, item.ID)" class="btn btn-primary">Đơn vị phản hồi</a>
                             <a *ngIf="((allowGSCD | async) && item.TRANGTHAI != 6)" (click)="updateStatus(item.ID, 6)" class="btn btn-primary">Kết thúc khảo sát</a>
                             <a href="kskh/log/filter/{{item.ID}}" target="_blank" class="btn btn-primary">Lịch sử tương tác khảo sát</a>
                         </td>

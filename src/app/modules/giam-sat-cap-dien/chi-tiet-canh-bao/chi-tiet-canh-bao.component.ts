@@ -48,8 +48,8 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
   phanHoi: LichSuTuongTac[]
   LichSuTuongTac: any
   organizations: Organization[] = [];
-  allowGSCD = new BehaviorSubject<boolean>(false);
-  allowPHGS = new BehaviorSubject<boolean>(false);
+  allowGSCD = new BehaviorSubject<boolean>(true);
+  allowPHGS = new BehaviorSubject<boolean>(true);
 
   //0: Mới tạo, 1: Duyệt hồ sơ, 2: Yêu cầu khảo sát, 3: Lập dự thảo đấu nối, 4: Ký duyệt dự thảo đấu nối, 5: Chuyển tiếp
   constructor(

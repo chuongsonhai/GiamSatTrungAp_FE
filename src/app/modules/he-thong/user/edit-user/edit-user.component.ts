@@ -86,6 +86,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
     this.activeTabId = item;
   }
   ngOnInit(): void {
+    debugger;
     this.isLoading$ = this.UserService.isLoading$;
     this.Userdata = Object.assign(new Userdata(), this.EMPTY);
     this.Userdata.maDViQLy = this.orgCode;
@@ -128,6 +129,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
   }
 
   loadForm() {
+ 
     try {
       this.formGroup = this.fb.group({
         userId: [this.Userdata.userId],
@@ -143,6 +145,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
         isactive: [this.Userdata.isactive]
       });
     }
+    
     catch (error) {
 
     }
