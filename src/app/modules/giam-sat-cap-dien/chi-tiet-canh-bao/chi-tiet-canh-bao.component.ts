@@ -45,6 +45,7 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
   tenKhachHang: string
   soDienThoai: string
   trangThaiYeuCau: string
+  NGUYENHHAN_CANHBAO: number
   phanHoi: LichSuTuongTac[]
   LichSuTuongTac: any
   organizations: Organization[] = [];
@@ -87,7 +88,7 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
       soDienThoai:'',
       trangThaiYeuCau:'',
       noiDungCanhBao:'',
-      nguyennhan_canhbao: 1
+      NGUYENHHAN_CANHBAO: 1
   });
     const subscribe = this.commonService.getDonVis().pipe(
       catchError(err => {
@@ -112,6 +113,11 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
 
 
   }
+
+  console(){
+    console.log(this.filterGroup.value)
+  }
+
   logfilter() {
     const filter = {canhBaoId:this.id};
     this.Logservice.patchState({ filter });
@@ -131,7 +137,7 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
         console.log(res);
         var loaiCB = "";
         if(res.data.ThongTinCanhBao.maLoaiCanhBao == 1) {
-          loaiCB = " tiếp nhận yêu cầu cấp điện lập thỏa thuận đấu nối của khách hàng";
+          loaiCB = "Tiếp nhận yêu cầu cấp điện lập thỏa thuận đấu nối của khách hàng";
         } else if (res.data.ThongTinCanhBao.maLoaiCanhBao == 2) {
           loaiCB = "Thời gian thực hiện lập thỏa thuận đấu nối";
         } else if (res.data.ThongTinCanhBao.maLoaiCanhBao == 3) {
@@ -177,6 +183,7 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
         } else if (res.data.ThongTinCanhBao.trangThai == 6) {
           trangTahiCB = "Đã kết thúc cảnh báo";
         }
+       
         this.filterGroup = this.fb.group({
           idCanhBao : res.data.ThongTinCanhBao.idCanhBao,
           maLoaiCanhBao: loaiCB,
@@ -190,7 +197,9 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
           soDienThoai:res.data.ThongTinYeuCau.DienThoai,
           trangThaiYeuCau:res.data.ThongTinYeuCau.TrangThai,
           phanHoi:res.data.DanhSachPhanHoi,
+          NGUYENHHAN_CANHBAO:res.data.viewnguyennhan_canhbao.NGUYENHHAN_CANHBAO
         });
+
         this.donViQuanLy = res.data.ThongTinCanhBao.donViQuanLy;
         this.trangThaiHienNut = res.data.ThongTinCanhBao.trangThai;
         this.phanHoi= res.data.DanhSachPhanHoi;
@@ -297,11 +306,10 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
     this.confirmationDialogService.confirm('Thông báo', 'Bạn muốn cập nhật trạng thái?')
       .then((confirmed) => {
         if (confirmed) {
-          
-          var aaaa = this.filterGroup.controls['nguyennhan_canhbao'].value
-          debugger;
+            var aaaa = this.filterGroup.controls.NGUYENHHAN_CANHBAO.value
+           debugger;
           // const sbSign = this.service.updateStatus(idCanhBao,status,aaaa).pipe(
-            const sbSign = this.service.updateStatus(idCanhBao,status,1).pipe(
+            const sbSign = this.service.updateStatus(idCanhBao,status,aaaa).pipe(
             catchError((errorMessage) => {
               this.toastr.error("Có lỗi xảy ra, vui lòng thực hiện lại", "Thông báo");
               return of(undefined);

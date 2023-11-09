@@ -116,7 +116,6 @@ export class KhaoSatCanhBaoComponent implements OnInit {
       })
     ).subscribe((res) => {
       if (res) {
-        console.log(res.data)
         //console.log(res.data.DGYC_XACNHAN_NCHONG_KTHOI)
         this.khaoSat = res.data;
         this.formGroup = this.fb.group({

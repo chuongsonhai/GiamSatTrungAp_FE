@@ -102,7 +102,7 @@ viewItem = this._viewItem.asObservable();
     this.filterGroup = this.fb.group({
       keyword: [''],
       status: -1,
-      maDViQLy: [''],
+      maDViQLy: ['-1'],
       MaLoaiCanhBao: ['-1'],
       fromdate:DateTimeUtil.convertDateToStringVNDefaulDateNow(this._fromDate),
       todate:DateTimeUtil.convertDateToStringVNDefaulDateNow(this.toDate),

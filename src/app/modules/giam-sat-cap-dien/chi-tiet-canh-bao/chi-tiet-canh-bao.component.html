@@ -86,7 +86,7 @@
                 </div>
                 <div class="col-lg-4"  >
                     <label>Nguyên nhân cảnh báo</label>
-                    <select  class="form-control" name="nguyennhan_canhbao" formControlName="nguyennhan_canhbao">
+                    <select  class="form-control" name="NGUYENHHAN_CANHBAO" formControlName="NGUYENHHAN_CANHBAO">
                         <option value="1" >Ngành điện</option>
                         <option value="2" >Khách quan</option>
                         <option value="3" >Chương trình</option>
@@ -95,6 +95,7 @@
             </div>
             </form>
         </div>
+
         <div class="row" style="padding: 10px;">
             <div class="col-lg-6">
                 <button *ngIf="((allowGSCD | async) && trangThaiHienNut == 2 )" class="btn btn-primary mr-2" (click)="updateStatusCanhBao(id,3)"> Xác nhận cảnh báo </button>

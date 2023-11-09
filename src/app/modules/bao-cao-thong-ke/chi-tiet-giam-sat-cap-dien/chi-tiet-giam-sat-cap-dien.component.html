@@ -11,7 +11,7 @@
                 <div class="col-lg-2" [formGroup]="filterGroup">
                     <label>Đơn vị quản lý</label>
                     <select class="form-control" name="maDViQLy" formControlName="maDViQLy">
-                        <option value="">--Đơn vị quản lý--</option>
+                        <option value="-1">--Đơn vị quản lý--</option>
                         <option [value]="item.orgCode" *ngFor="let item of organizations">
                             {{item.orgCode}} - {{item.orgName}}
                         </option>
@@ -116,6 +116,7 @@
                     <tr *ngFor="let item of this.viewItem | async; let i=index;">
                         <td>{{ i + paginator.pageSize * (paginator.page - 1) + 1 }}</td>
                         <td>{{item.MaDViQuanLy}}</td>
+                        <td>{{item.MaYeuCau}}</td>
                         <td>{{item.TenKhachHang}}</td>
                         <td>{{item.DiaChi}}</td>
                         <td>{{item.SDT}}</td>
