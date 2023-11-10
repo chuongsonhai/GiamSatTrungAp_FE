@@ -114,10 +114,6 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
 
   }
 
-  console(){
-    console.log(this.filterGroup.value)
-  }
-
   logfilter() {
     const filter = {canhBaoId:this.id};
     this.Logservice.patchState({ filter });
@@ -197,7 +193,9 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
           soDienThoai:res.data.ThongTinYeuCau.DienThoai,
           trangThaiYeuCau:res.data.ThongTinYeuCau.TrangThai,
           phanHoi:res.data.DanhSachPhanHoi,
-          NGUYENHHAN_CANHBAO:res.data.viewnguyennhan_canhbao.NGUYENHHAN_CANHBAO
+          NGUYENHHAN_CANHBAO:res.data.viewnguyennhan_canhbao.NGUYENHHAN_CANHBAO == 0 ? 1 : res.data.viewnguyennhan_canhbao.NGUYENHHAN_CANHBAO
+
+
         });
 
         this.donViQuanLy = res.data.ThongTinCanhBao.donViQuanLy;
