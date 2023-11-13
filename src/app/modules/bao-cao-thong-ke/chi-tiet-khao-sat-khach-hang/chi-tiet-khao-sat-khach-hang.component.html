@@ -231,35 +231,52 @@
                         <td>{{item.DGCD_TH_DANGKY}}</td>
                         <td>{{item.DGCD_KH_PHANHOI}}</td>
                         <td>{{item.CHENH_LECH}}</td>
-                        <td>{{item.DGHL_CAPDIEN}}</td>
-                        <td>{{item.DGKS_CHU_DAO}}</td>
-                        <td>{{item.DGKS_MINH_BACH}}</td>
-                        <td>{{item.DGKS_TDO_KSAT}}</td>
-                        <td>{{item.DGNT_CHU_DAO}}</td>
-                        <td>{{item.DGNT_MINH_BACH}}</td>
-                        <td>{{item.DGNT_THUAN_TIEN}}</td>
-                        <td>{{item.DGYC_DK_DEDANG}}</td>
-                        <td>{{item.DGYC_THAIDO_CNGHIEP}}</td>
-                        <td>{{item.DGYC_XACNHAN_NCHONG_KTHOI}}</td>
-                        <td>{{item.DGYC_XACNHAN_NCHONG_KTHOI}}</td>
-                        <td>{{item.DGYC_XACNHAN_NCHONG_KTHOI}}</td>
-                        <td>{{item.DGYC_XACNHAN_NCHONG_KTHOI}}</td>
-                        <td>{{item.DGYC_XACNHAN_NCHONG_KTHOI}}</td>
-                        <td>{{item.DGYC_XACNHAN_NCHONG_KTHOI}}</td>
-                        <td>{{item.DGYC_XACNHAN_NCHONG_KTHOI}}</td>
-                        <td>{{item.DGYC_XACNHAN_NCHONG_KTHOI}}</td>
-                        <td>{{item.DGYC_XACNHAN_NCHONG_KTHOI}}</td>
-                        <td>{{item.DGYC_XACNHAN_NCHONG_KTHOI}}</td>
-                        <td>{{item.DGYC_XACNHAN_NCHONG_KTHOI}}</td>
-                        <td>{{item.HANGMUC_KHAOSAT}}</td>
-                        <td>{{item.TRANGTHAI_GOI}}</td>
+                        <td>{{ item.DGYC_DK_DEDANG === 1 ? 'x' : (item.DGYC_DK_DEDANG === null ? ' ' : '') }}</td>
+                        <td>{{ item.DGYC_DK_DEDANG === 0 ? 'x' : (item.DGYC_DK_DEDANG === null ? ' ' : '') }}</td>
+
+                        <td>{{ item.DGYC_XACNHAN_NCHONG_KTHOI === 1 ? 'x' : (item.DGYC_XACNHAN_NCHONG_KTHOI === null ? ' ' : '') }}</td>
+                        <td>{{ item.DGYC_XACNHAN_NCHONG_KTHOI === 0 ? 'x' : (item.DGYC_XACNHAN_NCHONG_KTHOI === null ? ' ' : '') }}</td>
+
+                        <td>{{ item.DGYC_THAIDO_CNGHIEP === 1 ? 'x' : (item.DGYC_THAIDO_CNGHIEP === null ? ' ' : '') }}</td>
+                        <td>{{ item.DGYC_THAIDO_CNGHIEP === 0 ? 'x' : (item.DGYC_THAIDO_CNGHIEP === null ? ' ' : '') }}</td>
+
+                        <td>{{ item.DGKS_TDO_KSAT === 1 ? 'x' : (item.DGKS_TDO_KSAT === null ? ' ' : '') }}</td>
+                        <td>{{ item.DGKS_TDO_KSAT === 0 ? 'x' : (item.DGKS_TDO_KSAT === null ? ' ' : '') }}</td>
+
+                        <td>{{ item.DGKS_MINH_BACH === 1 ? 'x' : (item.DGKS_MINH_BACH === null ? ' ' : '') }}</td>
+                        <td>{{ item.DGKS_MINH_BACH === 0 ? 'x' : (item.DGKS_MINH_BACH === null ? ' ' : '') }}</td>
+
+                        <td>{{ item.DGKS_CHU_DAO === 1 ? 'x' : (item.DGKS_CHU_DAO === null ? ' ' : '') }}</td>
+                        <td>{{ item.DGKS_CHU_DAO === 0 ? 'x' : (item.DGKS_CHU_DAO === null ? ' ' : '') }}</td>
+
+                        <td>{{ item.DGNT_THUAN_TIEN === 1 ? 'x' : (item.DGNT_THUAN_TIEN === null ? ' ' : '') }}</td>
+                        <td>{{ item.DGNT_THUAN_TIEN === 0 ? 'x' : (item.DGNT_THUAN_TIEN === null ? ' ' : '') }}</td>
+
+                        <td>{{ item.DGNT_MINH_BACH === 1 ? 'x' : (item.DGNT_MINH_BACH === null ? ' ' : '') }}</td>
+                        <td>{{ item.DGNT_MINH_BACH === 0 ? 'x' : (item.DGNT_MINH_BACH === null ? ' ' : '') }}</td>
+
+                        <td>{{ item.DGNT_CHU_DAO === 1 ? 'x' : (item.DGNT_CHU_DAO === null ? ' ' : '') }}</td>
+                        <td>{{ item.DGNT_CHU_DAO === 0 ? 'x' : (item.DGNT_CHU_DAO === null ? ' ' : '') }}</td>
+
+                        <td>{{ item.KSAT_CHI_PHI === 1 ? 'x' : (item.KSAT_CHI_PHI === null ? ' ' : '') }}</td>
+                        <td>{{ item.KSAT_CHI_PHI === 0 ? 'x' : (item.KSAT_CHI_PHI === null ? ' ' : '') }}</td>
+
+                        <td>{{ item.DGHL_CAPDIEN === 1 ? 'x' : (item.DGHL_CAPDIEN === null ? ' ' : '') }}</td>
+                        <td>{{ item.DGHL_CAPDIEN === 2 ? 'x' : (item.DGHL_CAPDIEN === null ? ' ' : '') }}</td>
+                        <td>{{ item.DGHL_CAPDIEN === 3 ? 'x' : (item.DGHL_CAPDIEN === null ? ' ' : '') }}</td>
+                        <td>{{ item.DGHL_CAPDIEN === 4 ? 'x' : (item.DGHL_CAPDIEN === null ? ' ' : '') }}</td>
+                        <td>{{ item.DGHL_CAPDIEN === 5 ? 'x' : (item.DGHL_CAPDIEN === null ? ' ' : '') }}</td>
+
+                        <td>{{ item.TRANGTHAI_GOI === 0 ? 'x' : (item.TRANGTHAI_GOI === null ? ' ' : '') }}</td>
+                        <td>{{ item.TRANGTHAI_GOI === 1 ? 'x' : (item.TRANGTHAI_GOI === null ? ' ' : '') }}</td>
+                        <td>{{ item.TRANGTHAI_GOI === 2 ? 'x' : (item.TRANGTHAI_GOI === null ? ' ' : '') }}</td>
+
                         <td>{{item.NGAY}}</td>
                         <td>{{item.NGUOI_KSAT}}</td>
-                        <td>{{item.PHAN_HOI}}</td>
                         <td>{{item.Y_KIEN_KH}}</td>
+                        <td>{{item.NOIDUNG}}</td>
                         <td>{{item.PHAN_HOI}}</td>
                         <td>{{item.GHI_CHU}}</td>
-                   
                     </tr>
 
                 </tbody>
