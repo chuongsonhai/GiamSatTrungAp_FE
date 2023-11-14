@@ -126,7 +126,8 @@ export class DsKhachHangComponent implements
       maLoaiCanhBao: -1,
       keyword:"",
       trangthai_ycau:"",
-      trangthai_khaosat:""
+      trangthai_khaosat:"",
+      mucdo_hailong:"-1"
     });
     try {
       this.subscriptions.push(this.filterGroup.controls.maDViQLy.valueChanges.subscribe(() => this.filter()));

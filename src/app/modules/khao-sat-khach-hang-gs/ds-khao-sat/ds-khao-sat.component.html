@@ -39,7 +39,7 @@
                 
             </div>
             <div class="row">
-                <div class="col-lg-2" [formGroup]="filterGroup">
+                <div class="col-lg-2" style="display: none;" [formGroup]="filterGroup">
                     <label>Trạng thái khảo sát</label>
                     <select class="form-control" name="TrangThaiKhaoSat" placeholder="Trạng thái khảo sát" formControlName="TrangThaiKhaoSat">
                         <option value="-1">-- Tất cả --</option>
@@ -51,7 +51,7 @@
                         <option value="6">Phản hồi</option>
                     </select>
                 </div>
-                <div class="col-lg-2" [formGroup]="filterGroup">
+                <div class="col-lg-2" style="display: none;" [formGroup]="filterGroup">
                     <label>Mức độ hài lòng</label>
                     <select class="form-control" name="mucdo_hailong" placeholder="Mức độ hài lòng" formControlName="mucdo_hailong">
                         <option selected="selected" value="-1">-- Tất cả --</option>
@@ -62,8 +62,8 @@
                         <option value="5">5.Rất hài lòng</option>
                     </select>
                 </div>
-                <div class="col-lg-2" style="padding: 25px;">
-                    <button type="button" class="form-control btn btn-primary " 
+                <div class="col-lg-2" style="display: none;" style="padding: 25px;">
+                    <button style="display: none;" type="button" class="form-control btn btn-primary " 
                         (click)="filter()">
                         <i class="fa fa-search"></i>
                         Tìm kiếm
