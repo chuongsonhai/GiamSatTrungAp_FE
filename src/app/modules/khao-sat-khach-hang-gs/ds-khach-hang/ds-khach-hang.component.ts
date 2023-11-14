@@ -166,6 +166,10 @@ export class DsKhachHangComponent implements
     if (trangthai_khaosat) {
       filter['trangthai_khaosat'] = trangthai_khaosat;
     }
+    const mucdo_hailong = this.filterGroup.get('mucdo_hailong').value;
+    if (mucdo_hailong) {
+      filter['mucdo_hailong'] = mucdo_hailong;
+    }
     this.service.patchState({ filter });
 
   }
