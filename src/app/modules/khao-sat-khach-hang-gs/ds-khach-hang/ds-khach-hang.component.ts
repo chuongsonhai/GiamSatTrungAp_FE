@@ -125,7 +125,7 @@ export class DsKhachHangComponent implements
       todate: DateTimeUtil.convertDateToStringVNDefaulDateNow(this.toDate),
       maLoaiCanhBao: -1,
       keyword:"",
-      trangthai_ycau:"",
+      trangthai_ycau:"-1",
       trangthai_khaosat:"",
       mucdo_hailong:"-1"
     });
