@@ -126,7 +126,7 @@ export class DsKhachHangComponent implements
       maLoaiCanhBao: -1,
       keyword:"",
       trangthai_ycau:"-1",
-      trangthai_khaosat:"",
+      trangthai_khaosat:"-1",
       mucdo_hailong:"-1"
     });
     try {

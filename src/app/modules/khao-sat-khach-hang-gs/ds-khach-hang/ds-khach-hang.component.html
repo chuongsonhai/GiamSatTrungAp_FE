@@ -22,15 +22,10 @@
                 <div class="col-lg-2" [formGroup]="filterGroup">
                     <label>Trạng thái khảo sát</label>
                     <select class="form-control" name="trangthai_khaosat" placeholder="Trạng thái khảo sát" formControlName="trangthai_khaosat">
-                        <option selected="selected" value="">-- Tất cả --</option>
+                        <option selected="selected" value="-1">-- Tất cả --</option>
                         <option value="Kết thúc khảo sát">Kết thúc khảo sát</option>
                         <option value="Đang khảo sát">Đang khảo sát</option>
                         <option value="Chưa khảo sát">Chưa khảo sát</option>
-                        <!-- <option value="2">Dừng ngang</option>
-                        <option value="3">Chưa liên lạc được</option>
-                        <option value="4">Thành công</option>
-                        <option value="5">Chuyển đơn vị</option>
-                        <option value="6">Phản hồi</option> -->
                         <option value="Dừng ngang cuộc gọi">Dừng ngang cuộc gọi</option>
                         <option value="Chưa gọi được">Chưa gọi được</option>
                         <option value="Đã gọi thành công">Đã gọi thành công</option>
