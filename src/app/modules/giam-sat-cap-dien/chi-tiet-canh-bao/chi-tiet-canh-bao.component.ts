@@ -46,6 +46,7 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
   soDienThoai: string
   trangThaiYeuCau: string
   NGUYENHHAN_CANHBAO: number
+  KETQUA_GIAMSAT: string
   phanHoi: LichSuTuongTac[]
   LichSuTuongTac: any
   organizations: Organization[] = [];
@@ -88,7 +89,8 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
       soDienThoai:'',
       trangThaiYeuCau:'',
       noiDungCanhBao:'',
-      NGUYENHHAN_CANHBAO: 1
+      NGUYENHHAN_CANHBAO: 1,
+      KETQUA_GIAMSAT:'',
   });
     const subscribe = this.commonService.getDonVis().pipe(
       catchError(err => {
@@ -193,9 +195,8 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
           soDienThoai:res.data.ThongTinYeuCau.DienThoai,
           trangThaiYeuCau:res.data.ThongTinYeuCau.TrangThai,
           phanHoi:res.data.DanhSachPhanHoi,
-          NGUYENHHAN_CANHBAO:res.data.viewnguyennhan_canhbao.NGUYENHHAN_CANHBAO == 0 ? 1 : res.data.viewnguyennhan_canhbao.NGUYENHHAN_CANHBAO
-
-
+          NGUYENHHAN_CANHBAO:res.data.viewnguyennhan_canhbao.NGUYENHHAN_CANHBAO == 0 ? 1 : res.data.viewnguyennhan_canhbao.NGUYENHHAN_CANHBAO,
+          KETQUA_GIAMSAT:res.data.viewnguyennhan_canhbao.KETQUA_GIAMSAT
         });
 
         this.donViQuanLy = res.data.ThongTinCanhBao.donViQuanLy;
@@ -305,9 +306,10 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
       .then((confirmed) => {
         if (confirmed) {
             var aaaa = this.filterGroup.controls.NGUYENHHAN_CANHBAO.value
-           debugger;
+            var kqgs = this.filterGroup.controls.KETQUA_GIAMSAT.value
+       
           // const sbSign = this.service.updateStatus(idCanhBao,status,aaaa).pipe(
-            const sbSign = this.service.updateStatus(idCanhBao,status,aaaa).pipe(
+            const sbSign = this.service.updateStatus(idCanhBao,status,aaaa,kqgs).pipe(
             catchError((errorMessage) => {
               this.toastr.error("Có lỗi xảy ra, vui lòng thực hiện lại", "Thông báo");
               return of(undefined);
