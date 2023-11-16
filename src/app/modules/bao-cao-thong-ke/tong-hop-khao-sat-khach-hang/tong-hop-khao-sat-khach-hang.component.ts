@@ -29,6 +29,8 @@ import { CommonService } from '../../services/base.service';
 import { BaoCaoChiTietTCDNQuaHanService } from '../../services/baocaochitiettcdnquahan.service';
 import { ReportService } from '../../services/report.service';
 import { BaoCaoTHKSKH } from '../../models/baocaoycnt.model';
+import { UserModel } from 'src/app/_models/usermodel';
+import { AuthenticationService } from 'src/app/_services/authentication.service';
 
 @Component({
   selector: 'app-tong-hop-khao-sat-khach-hang',
@@ -64,17 +66,23 @@ import { BaoCaoTHKSKH } from '../../models/baocaoycnt.model';
   organizations: Organization[] = [];
   _viewItem = new BehaviorSubject<any[]>([]);
   viewItem = this._viewItem.asObservable();
+  allowGetAll = new BehaviorSubject<boolean>(false);
+  _user$: UserModel;
   constructor(
     private fb: FormBuilder,
     private modalService: NgbModal,
     private router: Router,
     public service: ReportService,
-    public commonService: CommonService
+    public commonService: CommonService,
+    private auth: AuthenticationService,
   ) {
   
   }
+
   ngOnInit(): void {
     this.filterForm();
+    this._user$ = this.auth.currentUserValue;
+    this.allowGetAll.next(this.auth.isSysAdmin() && this._user$.maDViQLy =='PD');
     const sb = this.service.isLoading$.subscribe(res => this.isLoading = res);
     this.subscriptions.push(sb);
     this.grouping = this.service.grouping;
@@ -86,6 +94,7 @@ import { BaoCaoTHKSKH } from '../../models/baocaoycnt.model';
       })).subscribe(res => {
         if (res.success) {
           this.organizations = res.data;
+          this.orgCode = this.organizations[0].orgCode;
           debugger;
           this.filterForm();
         }
@@ -93,7 +102,7 @@ import { BaoCaoTHKSKH } from '../../models/baocaoycnt.model';
     this.subscriptions.push(subscribe);
     // this.filter();
   }
-  
+  orgCode: string;
   ngOnDestroy() {
     this.subscriptions.forEach((sb) => sb.unsubscribe());
   }
@@ -110,7 +119,7 @@ import { BaoCaoTHKSKH } from '../../models/baocaoycnt.model';
       DanhGiaNT: -1,
       ChiPhiKhachHang: -1,
       DanhGiaHaiLong: -1,
-      maDViQLy: '-1',
+      maDViQLy: this.orgCode == 'PD' ? '-1' : this.orgCode,
       fromdate:DateTimeUtil.convertDateToStringVNDefaulDateNow(this._fromDate),
       todate:DateTimeUtil.convertDateToStringVNDefaulDateNow(this.toDate),
     });

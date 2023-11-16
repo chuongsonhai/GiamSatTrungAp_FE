@@ -11,7 +11,7 @@
                 <div class="col-lg-2" [formGroup]="filterGroup">
                     <label>Đơn vị quản lý</label>
                     <select class="form-control" name="maDViQLy" formControlName="maDViQLy">
-                        <option value="-1">--Đơn vị quản lý--</option>
+                        <option *ngIf="allowGetAll | async" value="-1">--Đơn vị quản lý--</option>
                         <option [value]="item.orgCode" *ngFor="let item of organizations">
                             {{item.orgCode}} - {{item.orgName}}
                         </option>
@@ -92,6 +92,7 @@
                 <thead>
                     <th style="width: 40px;">STT</th>
                     <th>Mã đơn vị</th>
+                    <th>ID</th>
                     <th>Mã yêu cầu</th>
                     <th>Tên khách hàng/công trình</th>
                     <th>Địa chỉ</th>
@@ -116,6 +117,7 @@
                     <tr *ngFor="let item of this.viewItem | async; let i=index;">
                         <td>{{ i + paginator.pageSize * (paginator.page - 1) + 1 }}</td>
                         <td>{{item.MaDViQuanLy}}</td>
+                        <td>{{item.id}}</td>
                         <td>{{item.MaYeuCau}}</td>
                         <td>{{item.TenKhachHang}}</td>
                         <td>{{item.DiaChi}}</td>

@@ -120,7 +120,7 @@ export class DsKhachHangComponent implements
   // filtration
   filterForm() {
     this.filterGroup = this.fb.group({
-      maDViQLy: "",
+      maDViQLy: this.orgCode == 'PD' ? '-1' : this.orgCode,
       fromdate: DateTimeUtil.convertDateToStringVNDefaulDateNow(this.fromDate),
       todate: DateTimeUtil.convertDateToStringVNDefaulDateNow(this.toDate),
       maLoaiCanhBao: -1,

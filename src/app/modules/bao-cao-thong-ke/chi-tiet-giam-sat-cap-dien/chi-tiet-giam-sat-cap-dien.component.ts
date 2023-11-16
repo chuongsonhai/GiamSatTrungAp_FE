@@ -28,6 +28,8 @@ import { Organization } from '../../models/base.model';
 import { CommonService } from '../../services/base.service';
 import { BaoCaoChiTietTCDNQuaHanService } from '../../services/baocaochitiettcdnquahan.service';
 import { ReportService } from '../../services/report.service';
+import { AuthenticationService } from 'src/app/_services/authentication.service';
+import { UserModel } from 'src/app/_models/usermodel';
 
 @Component({
   selector: 'app-chi-tiet-giam-sat-cap-dien',
@@ -64,17 +66,22 @@ export class ChiTietGiamSatCapDienComponent implements
   organizations: Organization[] = [];
   _viewItem = new BehaviorSubject<any[]>([]);
 viewItem = this._viewItem.asObservable();
+allowGetAll = new BehaviorSubject<boolean>(false);
+_user$: UserModel;
   constructor(
     private fb: FormBuilder,
     private modalService: NgbModal,
     private router: Router,
     public service: ReportService,
-    public commonService: CommonService
+    public commonService: CommonService,
+    private auth: AuthenticationService,
   ) {
   
   }
   ngOnInit(): void {
     this.filterForm();
+    this._user$ = this.auth.currentUserValue;
+    this.allowGetAll.next(this.auth.isSysAdmin() && this._user$.maDViQLy =='PD');
     const sb = this.service.isLoading$.subscribe(res => this.isLoading = res);
     this.subscriptions.push(sb);
     this.grouping = this.service.grouping;
@@ -86,6 +93,7 @@ viewItem = this._viewItem.asObservable();
       })).subscribe(res => {
         if (res.success) {
           this.organizations = res.data;
+          this.orgCode = this.organizations[0].orgCode;
           this.filterForm();
         }
       });
@@ -96,13 +104,13 @@ viewItem = this._viewItem.asObservable();
   ngOnDestroy() {
     this.subscriptions.forEach((sb) => sb.unsubscribe());
   }
-  
+  orgCode: string;
   // filtration
   filterForm() {
     this.filterGroup = this.fb.group({
       keyword: [''],
       status: -1,
-      maDViQLy: ['-1'],
+      maDViQLy: this.orgCode == 'PD' ? '-1' : this.orgCode,
       MaLoaiCanhBao: ['-1'],
       fromdate:DateTimeUtil.convertDateToStringVNDefaulDateNow(this._fromDate),
       todate:DateTimeUtil.convertDateToStringVNDefaulDateNow(this.toDate),

@@ -200,7 +200,8 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
         });
 
         this.donViQuanLy = res.data.ThongTinCanhBao.donViQuanLy;
-        this.trangThaiHienNut = res.data.ThongTinCanhBao.trangThai;
+        this.trangThaiHienNut = res.data.viewnguyennhan_canhbao.TRANGTHAI_CANHBAO;
+
         this.phanHoi= res.data.DanhSachPhanHoi;
         this.LichSuTuongTac = res.data.DanhSachTuongTac;
         this.isLoadingForm$.next(false);
