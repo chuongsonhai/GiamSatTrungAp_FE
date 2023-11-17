@@ -27,6 +27,7 @@ export class PhanHoiCanhBaoComponent implements OnInit {
     user:UserModel
     listTrangThai: any = [];
     noiDungPhanHoi: string;
+    NOIDUNG_PHANHOI_X3: string;
     phanHoi: PhanHoi;
     isLoadingForm$ = new BehaviorSubject<boolean>(false);
     isHasFile$ = new BehaviorSubject<boolean>(false);
@@ -84,6 +85,8 @@ export class PhanHoiCanhBaoComponent implements OnInit {
             CANHBAO_ID : res.data.CANHBAO_ID,
             NOIDUNG_PHANHOI: res.data.NOIDUNG_PHANHOI,
             PHANHOI_TRAODOI_ID: res.data.PHANHOI_TRAODOI_ID,
+            NOIDUNG_PHANHOI_X3: res.data.NOIDUNG_PHANHOI_X3,
+            NGUOI_PHANHOI_X3: this.user.username,
             FILE_DINHKEM:'',
           });
           this.phanHoi = res.data;
@@ -93,15 +96,20 @@ export class PhanHoiCanhBaoComponent implements OnInit {
       });
     }
     loadForm() {
+
       this.formGroup = this.fb.group({
         CANHBAO_ID: [this.id],
+    
         NOIDUNG_PHANHOI: [this.noiDungPhanHoi, Validators.required],
+        NOIDUNG_PHANHOI_X3: this.NOIDUNG_PHANHOI_X3,
         DONVI_QLY: this.user.maDViQLy,
         NGUOI_GUI: this.user.username,
+        NGUOI_PHANHOI_X3: this.user.username,
         FILE_DINHKEM: '',
     });
+ 
     }
-
+   
     public upload(event) {
         if (event.target.files && event.target.files.length > 0) {
             const file = event.target.files[0];
@@ -128,6 +136,8 @@ export class PhanHoiCanhBaoComponent implements OnInit {
     save() {
         this.formGroup.markAllAsTouched();
         const formValues = this.formGroup.value;
+        debugger;
+        console.log(this.formGroup.value)
         this.phanHoi = Object.assign(new PhanHoi(), formValues);
       if(this.idPhanHoi) {
         this.phanHoi.ID = this.idPhanHoi;

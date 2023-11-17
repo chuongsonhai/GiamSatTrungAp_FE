@@ -24,6 +24,8 @@ export class PhanHoi {
     thoiGianGui: string
     donViQuanLy: string
     FILE_DINHKEM:string
+    NOIDUNG_PHANHOI_X3: string
+    NGUOI_PHANHOI_X3:string
 }
 
 export class ThongTinCanhBao{

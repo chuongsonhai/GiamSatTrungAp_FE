@@ -12,6 +12,7 @@ import { CongVanYeuCauService } from 'src/app/modules/services/congvanyeucau.ser
 import { YeuCauNghiemThuService } from 'src/app/modules/services/yeucaunghiemthu.service';
 import DateTimeUtil from 'src/app/_metronic/shared/datetime.util';
 import * as ApexCharts from 'apexcharts'
+import { Organization } from 'src/app/modules/models/organization.model';
 
 
 @Component({
@@ -38,7 +39,8 @@ export class DashboardComponent implements OnInit,
     public yeuCauNghiemThuService:YeuCauNghiemThuService,
     public service: ThongBaoService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private auth: AuthenticationService,
   ) {
 
    }
@@ -185,23 +187,33 @@ export class DashboardComponent implements OnInit,
       });
 
   }
-
+  orgCode: string;
+  organizations: Organization[] = [];
   protected _items$ = new BehaviorSubject<ThongBao[]>([]);
   get items$() {
     return this._items$.asObservable();
   }
-
+  allowGetAll = new BehaviorSubject<boolean>(false);
   notifies() {
-    const filter = { status: 0 };
+    const filter = { status: 0 ,maDViQLy :this._user$.maDViQLy };
+    console.log(this._user$.maDViQLy);
     const sb = this.service.getNotifies(filter).pipe(
       catchError((errorMessage) => {
         return of([]);
       }), finalize(() => {
+        this._user$ = this.auth.currentUserValue;
         this.isLoadingForm$.next(false);
+        this.allowGetAll.next(this.auth.isSysAdmin() && this._user$.maDViQLy =='PD');
+
       })
     ).subscribe(res => {
       if (res.success) {
+        this._user$ = this.auth.currentUserValue;
+   
         this._items$.next(res.data);
+       // console.log(res.data)
+        this.allowGetAll.next(this.auth.isSysAdmin() && this._user$.maDViQLy =='PD');
+        this.organizations = res.data;
       }
     });
   }
@@ -211,6 +223,7 @@ export class DashboardComponent implements OnInit,
     const index = this.tBaoIDs.indexOf(code);
     if (index !== -1) this.tBaoIDs.splice(index, 1);
     else
+      this.orgCode = this.organizations[0].orgCode;
       this.tBaoIDs.push(code);
   }
 

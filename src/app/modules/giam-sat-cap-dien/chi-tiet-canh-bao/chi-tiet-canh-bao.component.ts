@@ -20,6 +20,7 @@ import { ResponseModel } from '../../models/response.model';
 import { ViewPdfComponent } from '../../share-component/view-pdf/view-pdf.component';
 import { ViewImageComponent } from '../../share-component/view-image/view-image.component';
 import { LogCanhbaoService } from '../../services/logcanhbao.service';
+import { flatten } from '@angular/compiler';
 
 @Component({
   selector: 'app-chi-tiet-canh-bao',
@@ -27,6 +28,7 @@ import { LogCanhbaoService } from '../../services/logcanhbao.service';
   styleUrls: ['./chi-tiet-canh-bao.component.scss']
 })
 export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
+ viewbuton: boolean = true;
   EMPTY: any;
   private subscriptions: Subscription[] = [];
   id: number;
@@ -37,6 +39,8 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
   maLoaiCanhBao: number
   noiDungCanhBao: string
   thoiGianGui: string
+  NOIDUNG_PHANHOI_X3: string
+  NGUOI_PHANHOI_X3: string
   donViQuanLy: string
   trangThai: number
   trangThaiHienNut: number
@@ -70,8 +74,10 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
       ID: 0
     }
 
-    this.allowGSCD.next( auth.checkPermission('GSCD-X3'));
-    this.allowPHGS.next( auth.checkPermission('GSCD-DV'));
+    // this.allowGSCD.next( auth.checkPermission('GSCD-X3'));
+    // this.allowPHGS.next( auth.checkPermission('GSCD-DV'));
+    
+
   }
 
   ngOnInit() {
@@ -81,6 +87,8 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
       idCanhBao: [this.id],
       maLoaiCanhBao:'',
       thoiGianGui:'',
+      NOIDUNG_PHANHOI_X3:'',
+      NGUOI_PHANHOI_X3:'',
       maYeuCau:'',
       donViQuanLy:'',
       trangThai:'',
@@ -121,8 +129,16 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
     this.Logservice.patchState({ filter });
   }
 
-
+  orgCode: string;
   loadData() {
+
+    if (this.auth.checkPermission('GSCD-X3') == true) {
+      this.allowGSCD.next( this.auth.checkPermission('GSCD-X3'));
+      this.auth.checkPermission('GSCD-DV') == false;
+  } else {
+
+      this.allowPHGS.next(this.auth.checkPermission('GSCD-DV'));
+  }
     const sb = this.service.getItemById(this.id).pipe(
       first(),
       catchError((errorMessage) => {
@@ -130,9 +146,8 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
       })
     ).subscribe((res) => {
       this.idYeuCau = res.data.ThongTinYeuCau.ID;
-      // debugger;
       if (res) {
-        console.log(res);
+        // console.log(res);
         var loaiCB = "";
         if(res.data.ThongTinCanhBao.maLoaiCanhBao == 1) {
           loaiCB = "Tiếp nhận yêu cầu cấp điện lập thỏa thuận đấu nối của khách hàng";
@@ -187,6 +202,8 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
           maLoaiCanhBao: loaiCB,
           noiDungCanhBao:res.data.ThongTinCanhBao.noidungCanhBao,
           thoiGianGui:res.data.ThongTinCanhBao.thoiGianGui,
+          NOIDUNG_PHANHOI_X3:res.data.DanhSachPhanHoi.NOIDUNG_PHANHOI_X3,
+          NGUOI_PHANHOI_X3:res.data.DanhSachPhanHoi.NGUOI_PHANHOI_X3,
           donViQuanLy:res.data.ThongTinCanhBao.donViQuanLy,
           trangThai:trangTahiCB,
           idYeuCau:res.data.ThongTinYeuCau.ID,
@@ -198,13 +215,25 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
           NGUYENHHAN_CANHBAO:res.data.viewnguyennhan_canhbao.NGUYENHHAN_CANHBAO == 0 ? 1 : res.data.viewnguyennhan_canhbao.NGUYENHHAN_CANHBAO,
           KETQUA_GIAMSAT:res.data.viewnguyennhan_canhbao.KETQUA_GIAMSAT
         });
-
+        
+     
         this.donViQuanLy = res.data.ThongTinCanhBao.donViQuanLy;
         this.trangThaiHienNut = res.data.viewnguyennhan_canhbao.TRANGTHAI_CANHBAO;
 
         this.phanHoi= res.data.DanhSachPhanHoi;
         this.LichSuTuongTac = res.data.DanhSachTuongTac;
+        console.log(res.data.DanhSachPhanHoi)
+         if( res.data.DanhSachPhanHoi.length > 0)
+        {
+            this.viewbuton = false;
+        }else{
+          this.viewbuton = true;
+        }
         this.isLoadingForm$.next(false);
+
+      
+        //  console.log( res.data.ThongTinYeuCau.donViQuanLy)
+        //  console.log( this.auth.checkPermission('GSCD-X3'))
       }
     });
 

@@ -88,9 +88,9 @@ export class DanhSachCanhBaoComponent implements
   ngOnInit(): void {
     this.filterForm();
     this._user$ = this.auth.currentUserValue;
-    console.log(this._user$);
-    console.log("âcscác",this.auth.isSysAdmin())
-    console.log("âcscác111",this.auth.isSysAdmin() && this._user$.maDViQLy =='PD')
+    // console.log(this._user$);
+    // console.log("âcscác",this.auth.isSysAdmin())
+    // console.log("âcscác111",this.auth.isSysAdmin() && this._user$.maDViQLy =='PD')
     this.allowGetAll.next(this.auth.isSysAdmin() && this._user$.maDViQLy =='PD');
     const sb = this.service.isLoading$.subscribe(res => this.isLoading = res);
     this.subscriptions.push(sb);
