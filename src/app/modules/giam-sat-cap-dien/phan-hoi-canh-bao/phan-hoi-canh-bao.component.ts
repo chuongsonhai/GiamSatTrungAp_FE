@@ -87,6 +87,7 @@ export class PhanHoiCanhBaoComponent implements OnInit {
             PHANHOI_TRAODOI_ID: res.data.PHANHOI_TRAODOI_ID,
             NOIDUNG_PHANHOI_X3: res.data.NOIDUNG_PHANHOI_X3,
             NGUOI_PHANHOI_X3: this.user.username,
+            NGUOI_GUI: this.user.username,
             FILE_DINHKEM:'',
           });
           this.phanHoi = res.data;
@@ -99,9 +100,8 @@ export class PhanHoiCanhBaoComponent implements OnInit {
 
       this.formGroup = this.fb.group({
         CANHBAO_ID: [this.id],
-    
-        NOIDUNG_PHANHOI: [this.noiDungPhanHoi, Validators.required],
-        NOIDUNG_PHANHOI_X3: this.NOIDUNG_PHANHOI_X3,
+        NOIDUNG_PHANHOI: this.noiDungPhanHoi,
+        NOIDUNG_PHANHOI_X3: [this.NOIDUNG_PHANHOI_X3, Validators.required],
         DONVI_QLY: this.user.maDViQLy,
         NGUOI_GUI: this.user.username,
         NGUOI_PHANHOI_X3: this.user.username,

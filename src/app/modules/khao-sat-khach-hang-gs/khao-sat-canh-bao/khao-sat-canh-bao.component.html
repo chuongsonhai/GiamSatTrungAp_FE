@@ -259,7 +259,7 @@
     <div class="modal-footer">
         <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
         <ng-container>
-            <button type="submit" [disabled]="formGroup.invalid" class="btn btn-primary btn-elevate" (click)="save()">Lưu thông tin</button>
+            <button *ngIf="( allowGSCD | async ) "  type="submit" [disabled]="formGroup.invalid" class="btn btn-primary btn-elevate" (click)="save()">Lưu thông tin</button>
         </ng-container>
     </div>
 </div>

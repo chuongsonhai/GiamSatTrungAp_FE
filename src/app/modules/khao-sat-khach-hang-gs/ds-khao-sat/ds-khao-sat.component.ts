@@ -64,8 +64,8 @@ export class DsKhaoSatComponent implements OnInit, OnDestroy {
       this.EMPTY = {
         ID: 0
       }
-      this.allowGSCD.next( auth.checkPermission('GSCD-X3'));
-      this.allowPHGS.next( auth.checkPermission('GSCD-DV'));
+      // this.allowGSCD.next( auth.checkPermission('GSCD-X3'));
+      // this.allowPHGS.next( auth.checkPermission('GSCD-DV'));
     }
   
     ngOnInit() {
@@ -101,6 +101,13 @@ export class DsKhaoSatComponent implements OnInit, OnDestroy {
     activeTabId = 0;
   
     loadData() {
+      if (this.auth.checkPermission('GSCD-X3') == true) {
+        this.allowGSCD.next( this.auth.checkPermission('GSCD-X3'));
+        this.auth.checkPermission('GSCD-DV') == false;
+    } else {
+  
+        this.allowPHGS.next(this.auth.checkPermission('GSCD-DV'));
+    }
       const sb = this.service.getItemByYeuCauId(this.maYeuCau,'-1','-1').pipe(
         first(),
         catchError((errorMessage) => {

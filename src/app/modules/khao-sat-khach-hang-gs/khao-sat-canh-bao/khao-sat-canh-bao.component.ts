@@ -64,6 +64,8 @@ export class KhaoSatCanhBaoComponent implements OnInit {
   GHI_CHU: string;
   TEN_KH: string;
   private subscriptions: Subscription[] = [];
+  allowGSCD = new BehaviorSubject<boolean>(true);
+  allowPHGS = new BehaviorSubject<boolean>(false);
 
   constructor(
     private auth: AuthenticationService,
@@ -74,7 +76,7 @@ export class KhaoSatCanhBaoComponent implements OnInit {
     private fb: FormBuilder,
     public modal: NgbActiveModal,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
   ) {
     this.EMPTY = {
       ID: undefined,
@@ -109,6 +111,13 @@ export class KhaoSatCanhBaoComponent implements OnInit {
   }
 
   loadData() {
+    if (this.auth.checkPermission('GSCD-X3') == true) {
+      this.allowGSCD.next( this.auth.checkPermission('GSCD-X3'));
+      this.auth.checkPermission('GSCD-DV') == false;
+  } else {
+
+      this.allowPHGS.next(this.auth.checkPermission('GSCD-DV'));
+  }
     const sb = this.KSservice.getItemById(this.idKhaoSat).pipe(
       first(),
       catchError((errorMessage) => {
@@ -243,7 +252,7 @@ export class KhaoSatCanhBaoComponent implements OnInit {
     const formValues = this.formGroup.value;
     this.khaoSat = Object.assign(new KhaoSat(), formValues);
     debugger;
-    if (this.idKhaoSat) {
+    if (this.idKhaoSat && this.auth.checkPermission('GSCD-X3') == true) {
       this.khaoSat.ID = this.idKhaoSat;
       const sbUpdate = this.KSservice.updateKhaoSat(this.khaoSat).pipe(
         tap(() => {
@@ -254,12 +263,12 @@ export class KhaoSatCanhBaoComponent implements OnInit {
           return of(this.khaoSat);
         }),
       ).subscribe(res => {
-        if (res.success) {
+        if (res.success && this.auth.checkPermission('GSCD-X3') == true) {
           this.toastr.success("Cập nhật thành công", "Thông báo");
           this.khaoSat = res;
         }
         else {
-          this.toastr.error(res.message, "Thông báo");
+          this.toastr.error(res.message, "Tài khoản đơn vị không được sửa");
           return of(this.khaoSat);
         }
       });
@@ -279,7 +288,7 @@ export class KhaoSatCanhBaoComponent implements OnInit {
           return of(this.khaoSat);
         }),
       ).subscribe(res => {
-        if (res.success) {
+        if (res.success && this.auth.checkPermission('GSCD-X3') == true) {
           this.toastr.success("Tạo mới phản hồi thành công", "Thông báo");
           this.khaoSat = res;
         }

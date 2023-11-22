@@ -74,8 +74,6 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
       ID: 0
     }
 
-    // this.allowGSCD.next( auth.checkPermission('GSCD-X3'));
-    // this.allowPHGS.next( auth.checkPermission('GSCD-DV'));
     
 
   }
@@ -132,11 +130,13 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
   orgCode: string;
   loadData() {
 
-    if (this.auth.checkPermission('GSCD-X3') == true) {
+    if (this.auth.checkPermission('GSCD-X3') == true) 
+  {
       this.allowGSCD.next( this.auth.checkPermission('GSCD-X3'));
       this.auth.checkPermission('GSCD-DV') == false;
-  } else {
-
+  } 
+  else 
+  {
       this.allowPHGS.next(this.auth.checkPermission('GSCD-DV'));
   }
     const sb = this.service.getItemById(this.id).pipe(
