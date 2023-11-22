@@ -179,7 +179,7 @@
                                 <td><a (click)="view(item.FILE_DINHKEM)" target="_blank"><i class="fa fa-image"></i></a></td>
                                 <td>
                                     <a *ngIf="(allowPHGS | async)" (click)="edit(item.ID)"><i class="fa fa-edit"></i> </a>
-                                    <a (click)="deletePH(item.ID)"><i class="fa fa-trash-alt"></i></a>
+                                    <a *ngIf="(allowGSCD | async)" (click)="deletePH(item.ID)"><i class="fa fa-trash-alt"></i></a>
                                 </td>
                             </tr>
         
