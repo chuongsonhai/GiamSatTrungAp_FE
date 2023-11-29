@@ -54,6 +54,7 @@ filterForm() {
 
 filter() {
   const filter = {};
+  filter['canhBaoId'] = -1;
   this.service.patchState({ filter });
 }
 // search
