@@ -120,7 +120,7 @@ export class ListThoaThuanDauNoiComponent implements
   // filtration
   filterForm() {
     this.filterGroup = this.fb.group({
-      maDViQLy: [this.orgCode],
+      maDViQLy: this.orgCode == 'PD' ? '-1' : this.orgCode,
       keyword: [''],
       khachhang: [''],
       fromdate: DateTimeUtil.convertDateToStringVNDefaulDateNow(this.fromDate),

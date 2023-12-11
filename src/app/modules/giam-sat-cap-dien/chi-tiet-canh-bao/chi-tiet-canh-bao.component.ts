@@ -28,7 +28,7 @@ import { flatten } from '@angular/compiler';
   styleUrls: ['./chi-tiet-canh-bao.component.scss']
 })
 export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
- viewbuton: boolean = true;
+  viewbuton: boolean = true;
   EMPTY: any;
   private subscriptions: Subscription[] = [];
   id: number;
@@ -44,7 +44,7 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
   donViQuanLy: string
   trangThai: number
   trangThaiHienNut: number
-  idYeuCau:number
+  idYeuCau: number
   maYeuCau: string
   tenKhachHang: string
   soDienThoai: string
@@ -68,13 +68,13 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
     public confirmationDialogService: ConfirmationDialogService,
     public toastr: ToastrService,
     private auth: AuthenticationService,
-    
+
   ) {
     this.EMPTY = {
       ID: 0
     }
 
-    
+
 
   }
 
@@ -83,39 +83,39 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
     this.CanhBaoChiTiet = Object.assign(new CanhBaoChiTiet(), this.EMPTY);
     this.filterGroup = this.fb.group({
       idCanhBao: [this.id],
-      maLoaiCanhBao:'',
-      thoiGianGui:'',
-      NOIDUNG_PHANHOI_X3:'',
-      NGUOI_PHANHOI_X3:'',
-      maYeuCau:'',
-      donViQuanLy:'',
-      trangThai:'',
-      idYeuCau:'',
-      tenKhachHang:'',
-      soDienThoai:'',
-      trangThaiYeuCau:'',
-      noiDungCanhBao:'',
+      maLoaiCanhBao: '',
+      thoiGianGui: '',
+      NOIDUNG_PHANHOI_X3: '',
+      NGUOI_PHANHOI_X3: '',
+      maYeuCau: '',
+      donViQuanLy: '',
+      trangThai: '',
+      idYeuCau: '',
+      tenKhachHang: '',
+      soDienThoai: '',
+      trangThaiYeuCau: '',
+      noiDungCanhBao: '',
       NGUYENHHAN_CANHBAO: 1,
-      KETQUA_GIAMSAT:'',
-  });
+      KETQUA_GIAMSAT: '',
+    });
     const subscribe = this.commonService.getDonVis().pipe(
       catchError(err => {
         return of(undefined);
       })).subscribe(res => {
         if (res.success) {
           this.organizations = res.data;
-          
 
-    this.route.params.subscribe(params => {
-      if (params.ID) {
-        var isValueProperty = parseInt(params.ID, 10) >= 0;
-        if (isValueProperty) {
-          this.id = Number(params.ID);
-          this.loadData();
 
-        }
-      }
-    });
+          this.route.params.subscribe(params => {
+            if (params.ID) {
+              var isValueProperty = parseInt(params.ID, 10) >= 0;
+              if (isValueProperty) {
+                this.id = Number(params.ID);
+                this.loadData();
+
+              }
+            }
+          });
         }
       });
 
@@ -123,22 +123,20 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
   }
 
   logfilter() {
-    const filter = {canhBaoId:this.id};
+    const filter = { canhBaoId: this.id };
     this.Logservice.patchState({ filter });
   }
 
   orgCode: string;
   loadData() {
 
-    if (this.auth.checkPermission('GSCD-X3') == true) 
-  {
-      this.allowGSCD.next( this.auth.checkPermission('GSCD-X3'));
+    if (this.auth.checkPermission('GSCD-X3') == true) {
+      this.allowGSCD.next(this.auth.checkPermission('GSCD-X3'));
       this.auth.checkPermission('GSCD-DV') == false;
-  } 
-  else 
-  {
+    }
+    else {
       this.allowPHGS.next(this.auth.checkPermission('GSCD-DV'));
-  }
+    }
     const sb = this.service.getItemById(this.id).pipe(
       first(),
       catchError((errorMessage) => {
@@ -149,7 +147,7 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
       if (res) {
         // console.log(res);
         var loaiCB = "";
-        if(res.data.ThongTinCanhBao.maLoaiCanhBao == 1) {
+        if (res.data.ThongTinCanhBao.maLoaiCanhBao == 1) {
           loaiCB = "Tiếp nhận yêu cầu cấp điện lập thỏa thuận đấu nối của khách hàng";
         } else if (res.data.ThongTinCanhBao.maLoaiCanhBao == 2) {
           loaiCB = "Thời gian thực hiện lập thỏa thuận đấu nối";
@@ -183,7 +181,7 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
           loaiCB = "Giám sát nguyên nhân khách hàng từ chối ký hợp đồng mua bán điện";
         }
         var trangTahiCB = "";
-        if(res.data.ThongTinCanhBao.trangThai == 1) {
+        if (res.data.ThongTinCanhBao.trangThai == 1) {
           trangTahiCB = " Mới tạo";
         } else if (res.data.ThongTinCanhBao.trangThai == 2) {
           trangTahiCB = "Đã gửi thông báo";
@@ -196,42 +194,41 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
         } else if (res.data.ThongTinCanhBao.trangThai == 6) {
           trangTahiCB = "Đã kết thúc cảnh báo";
         }
-       
+
         this.filterGroup = this.fb.group({
-          idCanhBao : res.data.ThongTinCanhBao.idCanhBao,
+          idCanhBao: res.data.ThongTinCanhBao.idCanhBao,
           maLoaiCanhBao: loaiCB,
-          noiDungCanhBao:res.data.ThongTinCanhBao.noidungCanhBao,
-          thoiGianGui:res.data.ThongTinCanhBao.thoiGianGui,
-          NOIDUNG_PHANHOI_X3:res.data.DanhSachPhanHoi.NOIDUNG_PHANHOI_X3,
-          NGUOI_PHANHOI_X3:res.data.DanhSachPhanHoi.NGUOI_PHANHOI_X3,
-          donViQuanLy:res.data.ThongTinCanhBao.donViQuanLy,
-          trangThai:trangTahiCB,
-          idYeuCau:res.data.ThongTinYeuCau.ID,
-          maYeuCau:res.data.ThongTinYeuCau.MaYeuCau,
-          tenKhachHang:res.data.ThongTinYeuCau.TenKhachHang,
-          soDienThoai:res.data.ThongTinYeuCau.DienThoai,
-          trangThaiYeuCau:res.data.ThongTinYeuCau.TrangThai,
-          phanHoi:res.data.DanhSachPhanHoi,
-          NGUYENHHAN_CANHBAO:res.data.viewnguyennhan_canhbao.NGUYENHHAN_CANHBAO == 0 ? 1 : res.data.viewnguyennhan_canhbao.NGUYENHHAN_CANHBAO,
-          KETQUA_GIAMSAT:res.data.viewnguyennhan_canhbao.KETQUA_GIAMSAT
+          noiDungCanhBao: res.data.ThongTinCanhBao.noidungCanhBao,
+          thoiGianGui: res.data.ThongTinCanhBao.thoiGianGui,
+          NOIDUNG_PHANHOI_X3: res.data.DanhSachPhanHoi.NOIDUNG_PHANHOI_X3,
+          NGUOI_PHANHOI_X3: res.data.DanhSachPhanHoi.NGUOI_PHANHOI_X3,
+          donViQuanLy: res.data.ThongTinCanhBao.donViQuanLy,
+          trangThai: trangTahiCB,
+          idYeuCau: res.data.ThongTinYeuCau.ID,
+          maYeuCau: res.data.ThongTinYeuCau.MaYeuCau,
+          tenKhachHang: res.data.ThongTinYeuCau.TenKhachHang,
+          soDienThoai: res.data.ThongTinYeuCau.DienThoai,
+          trangThaiYeuCau: res.data.ThongTinYeuCau.TrangThai,
+          phanHoi: res.data.DanhSachPhanHoi,
+          NGUYENHHAN_CANHBAO: res.data.viewnguyennhan_canhbao.NGUYENHHAN_CANHBAO == 0 ? 1 : res.data.viewnguyennhan_canhbao.NGUYENHHAN_CANHBAO,
+          KETQUA_GIAMSAT: res.data.viewnguyennhan_canhbao.KETQUA_GIAMSAT
         });
-        
-     
+
+
         this.donViQuanLy = res.data.ThongTinCanhBao.donViQuanLy;
         this.trangThaiHienNut = res.data.viewnguyennhan_canhbao.TRANGTHAI_CANHBAO;
 
-        this.phanHoi= res.data.DanhSachPhanHoi;
+        this.phanHoi = res.data.DanhSachPhanHoi;
         this.LichSuTuongTac = res.data.DanhSachTuongTac;
         console.log(res.data.DanhSachPhanHoi)
-         if( res.data.DanhSachPhanHoi.length > 0)
-        {
-            this.viewbuton = false;
-        }else{
+        if (res.data.DanhSachPhanHoi.length > 0) {
+          this.viewbuton = false;
+        } else {
           this.viewbuton = true;
         }
         this.isLoadingForm$.next(false);
 
-      
+
         //  console.log( res.data.ThongTinYeuCau.donViQuanLy)
         //  console.log( this.auth.checkPermission('GSCD-X3'))
       }
@@ -247,7 +244,7 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
   }
   redirectpage(id) {
     debugger;
-    window.location.href = '/ttdn/list/update/'+ id;
+    window.location.href = '/ttdn/list/update/' + id;
   }
   tabs = {
     PhanHoiTraoDoi: 1,
@@ -258,10 +255,10 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
 
   changeTab(tabId: number) {
     this.activeTabId = tabId;
-    if (tabId == this.tabs.LichSuTuongTac){
+    if (tabId == this.tabs.LichSuTuongTac) {
       this.logfilter();
     }
-      
+
     // else {
     //   if (this.status === 0 || this.status === 1) {
     //     this.activeTabId = this.tabs.TiepNhanHoSo;
@@ -331,15 +328,15 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
       });
   }
 
-  updateStatusCanhBao(idCanhBao: number, status:number) {
+  updateStatusCanhBao(idCanhBao: number, status: number) {
     this.confirmationDialogService.confirm('Thông báo', 'Bạn muốn cập nhật trạng thái?')
       .then((confirmed) => {
         if (confirmed) {
-            var aaaa = this.filterGroup.controls.NGUYENHHAN_CANHBAO.value
-            var kqgs = this.filterGroup.controls.KETQUA_GIAMSAT.value
-       
+          var aaaa = this.filterGroup.controls.NGUYENHHAN_CANHBAO.value
+          var kqgs = this.filterGroup.controls.KETQUA_GIAMSAT.value
+
           // const sbSign = this.service.updateStatus(idCanhBao,status,aaaa).pipe(
-            const sbSign = this.service.updateStatus(idCanhBao,status,aaaa,kqgs).pipe(
+          const sbSign = this.service.updateStatus(idCanhBao, status, aaaa, kqgs).pipe(
             catchError((errorMessage) => {
               this.toastr.error("Có lỗi xảy ra, vui lòng thực hiện lại", "Thông báo");
               return of(undefined);
@@ -363,24 +360,83 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
   view(path: string) {
     this.isLoadingForm$.next(true);
     this.commonService.getPDF(path).subscribe((response) => {
-      var filetype=path.split(".")[1];
-      if (filetype === 'pdf') {
-        const modalRef = this.modalService.open(ViewPdfComponent, { size: 'xl' });
-        modalRef.componentInstance.response = response;
-        modalRef.result.then(
-          () => {
-            this.isLoadingForm$.next(false);
-          }
-        );
+      // console.log(response)
+      // var filetype=path.split(".")[1];
+      // if (filetype === 'pdf') {
+      //   const modalRef = this.modalService.open(ViewPdfComponent, { size: 'xl' });
+      //   modalRef.componentInstance.response = response;
+      //   modalRef.result.then(
+      //     () => {
+      //       this.isLoadingForm$.next(false);
+      //     }
+      //   );
+      // }
+      // else {
+      //   const modalRef = this.modalService.open(ViewImageComponent, { size: 'xl' });
+      //   modalRef.componentInstance.response = response;
+      //   modalRef.result.then(
+      //     () => {
+      //       this.isLoadingForm$.next(false);
+      //     }
+      //   );
+      // }
+      console.log(response)
+      if (response === undefined || response === null) {
+
       }
       else {
-        const modalRef = this.modalService.open(ViewImageComponent, { size: 'xl' });
-        modalRef.componentInstance.response = response;
-        modalRef.result.then(
-          () => {
-            this.isLoadingForm$.next(false);
+        if (response.Type == "doc") {
+          var binary_string = window.atob(response.BaseType);
+          var len = binary_string.length;
+          var bytes = new Uint8Array(len);
+          for (var i = 0; i < len; i++) {
+            bytes[i] = binary_string.charCodeAt(i);
           }
-        );
+          let blob = new Blob([bytes.buffer], { type: 'application/msword;charset=utf-8' }); // Loại tệp Word là 'application/msword'
+          var link = document.createElement('a');
+          link.href = window.URL.createObjectURL(blob);
+          link.download = "file.doc"; // Đặt tên tệp tin Word ở đây
+          link.click();
+        }
+        if (response.Type == "xlsx") {
+          var binary_string = window.atob(response.BaseType);
+          var len = binary_string.length;
+          var bytes = new Uint8Array(len);
+          for (var i = 0; i < len; i++) {
+            bytes[i] = binary_string.charCodeAt(i);
+          }
+          let blob = new Blob([bytes.buffer], { type: 'application/vnd.openxmlformats-ficedocument.spreadsheetml.sheet;charset=utf-8' });
+          var link = document.createElement('a');
+          link.href = window.URL.createObjectURL(blob);
+          link.download = "file.xlsx";
+          link.click();
+        }
+
+        if (response.Type == "pdf") {
+            const modalRef = this.modalService.open(ViewPdfComponent, { size: 'xl' });
+            modalRef.componentInstance.response = response.BaseType;
+            modalRef.result.then(
+              () => {
+                this.isLoadingForm$.next(false);
+              }
+            );
+          }
+
+          // if (response.Type == "xls") {
+          //   var binary_string = window.atob(response);
+          //   var len = binary_string.length;
+          //   var bytes = new Uint8Array(len);
+          //   for (var i = 0; i < len; i++) {
+          //     bytes[i] = binary_string.charCodeAt(i);
+          //   }
+          //   let blob = new Blob([bytes.buffer], { type: 'application/vnd.ms-excel' });
+          //   var link = document.createElement('a');
+          //   link.href = window.URL.createObjectURL(blob);
+          //   link.download = "TenFile.xls"; // Đổi tên file thành tên mong muốn với định dạng .xls
+          //   link.click();
+            
+          // }
+
       }
     }), finalize(() => {
       setTimeout(() => {
@@ -389,8 +445,8 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
     })
   }
 
-  
-  
+
+
 
   ngOnDestroy() {
     this.subscriptions.forEach(sb => sb.unsubscribe());

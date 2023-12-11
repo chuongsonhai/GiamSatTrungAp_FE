@@ -19,6 +19,7 @@ import { ResponseModel } from '../../models/response.model';
 import { PhanHoiCanhBaoComponent } from '../../giam-sat-cap-dien/phan-hoi-canh-bao/phan-hoi-canh-bao.component';
 import { KhaoSatGiamSatService } from '../../services/khaosatgiamsat.service';
 import { KhaoSatCanhBaoComponent } from '../khao-sat-canh-bao/khao-sat-canh-bao.component';
+import { ViewPdfComponent } from '../../share-component/view-pdf/view-pdf.component';
 
 @Component({
   selector: 'app-ds-khao-sat',
@@ -260,6 +261,94 @@ export class DsKhaoSatComponent implements OnInit, OnDestroy {
     //     });
     // }
   
+    view(path: string) {
+      this.isLoadingForm$.next(true);
+      this.commonService.getPDF(path).subscribe((response) => {
+        // console.log(response)
+        // var filetype=path.split(".")[1];
+        // if (filetype === 'pdf') {
+        //   const modalRef = this.modalService.open(ViewPdfComponent, { size: 'xl' });
+        //   modalRef.componentInstance.response = response;
+        //   modalRef.result.then(
+        //     () => {
+        //       this.isLoadingForm$.next(false);
+        //     }
+        //   );
+        // }
+        // else {
+        //   const modalRef = this.modalService.open(ViewImageComponent, { size: 'xl' });
+        //   modalRef.componentInstance.response = response;
+        //   modalRef.result.then(
+        //     () => {
+        //       this.isLoadingForm$.next(false);
+        //     }
+        //   );
+        // }
+        console.log(response)
+        if (response === undefined || response === null) {
+  
+        }
+        else {
+          if (response.Type == "doc") {
+            var binary_string = window.atob(response.BaseType);
+            var len = binary_string.length;
+            var bytes = new Uint8Array(len);
+            for (var i = 0; i < len; i++) {
+              bytes[i] = binary_string.charCodeAt(i);
+            }
+            let blob = new Blob([bytes.buffer], { type: 'application/msword;charset=utf-8' }); // Loại tệp Word là 'application/msword'
+            var link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = "file.doc"; // Đặt tên tệp tin Word ở đây
+            link.click();
+          }
+          if (response.Type == "xlsx") {
+            var binary_string = window.atob(response.BaseType);
+            var len = binary_string.length;
+            var bytes = new Uint8Array(len);
+            for (var i = 0; i < len; i++) {
+              bytes[i] = binary_string.charCodeAt(i);
+            }
+            let blob = new Blob([bytes.buffer], { type: 'application/vnd.openxmlformats-ficedocument.spreadsheetml.sheet;charset=utf-8' });
+            var link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = "file.xlsx";
+            link.click();
+          }
+  
+          if (response.Type == "pdf") {
+              const modalRef = this.modalService.open(ViewPdfComponent, { size: 'xl' });
+              modalRef.componentInstance.response = response.BaseType;
+              modalRef.result.then(
+                () => {
+                  this.isLoadingForm$.next(false);
+                }
+              );
+            }
+  
+            if (response.Type == "xls") {
+              var binary_string = window.atob(response);
+              var len = binary_string.length;
+              var bytes = new Uint8Array(len);
+              for (var i = 0; i < len; i++) {
+                bytes[i] = binary_string.charCodeAt(i);
+              }
+              let blob = new Blob([bytes.buffer], { type: 'application/vnd.ms-excel' });
+              var link = document.createElement('a');
+              link.href = window.URL.createObjectURL(blob);
+              link.download = "TenFile.xls"; // Đổi tên file thành tên mong muốn với định dạng .xls
+              link.click();
+              
+            }
+  
+        }
+      }), finalize(() => {
+        setTimeout(() => {
+          this.isLoadingForm$.next(false);
+        }, 2000);
+      })
+    }
+    
     updateStatus(idKhaoSat: number, status:number) {
       this.confirmationDialogService.confirm('Thông báo', 'Bạn muốn cập nhật trạng thái?')
         .then((confirmed) => {

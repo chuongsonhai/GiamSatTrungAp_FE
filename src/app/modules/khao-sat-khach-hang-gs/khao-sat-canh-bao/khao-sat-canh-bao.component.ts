@@ -110,6 +110,22 @@ export class KhaoSatCanhBaoComponent implements OnInit {
 
   }
 
+  public upload(event) {
+    if (event.target.files && event.target.files.length > 0) {
+        const file = event.target.files[0];
+        this.handleFileInput(event.target.files);
+    }
+}
+handleFileInput(file: FileList) {
+  this.fileToUpload = file.item(0);
+  let reader = new FileReader();
+  reader.onload = ((event: any) => {
+      this.File = event.target.result;
+  });
+  reader.readAsDataURL(this.fileToUpload);
+  //reader.onloadend = function (e) {};
+}
+
   loadData() {
     if (this.auth.checkPermission('GSCD-X3') == true) {
       this.allowGSCD.next( this.auth.checkPermission('GSCD-X3'));
@@ -156,6 +172,7 @@ export class KhaoSatCanhBaoComponent implements OnInit {
           TEN_KH: res.data.TEN_KH,
           DIA_CHI: res.data.DIA_CHI,
           SDT: res.data.DIEN_THOAI,
+          FILE_DINHKEM:'',
           // HANGMUC_KHAOSAT: res.data.HANGMUC_KHAOSAT.toString(),
         });
 
@@ -191,6 +208,7 @@ export class KhaoSatCanhBaoComponent implements OnInit {
       TEN_KH: [this.TEN_KH],
       DIA_CHI: [this.DIA_CHI],
       SDT: [this.SDT],
+      FILE_DINHKEM:'',
       // HANGMUC_KHAOSAT: [this.HANGMUC_KHAOSAT],
     });
   }
@@ -231,6 +249,7 @@ export class KhaoSatCanhBaoComponent implements OnInit {
           TEN_KH: res.data.TEN_KH,
           DIA_CHI: res.data.DIA_CHI,
           SDT: res.data.SDT,
+          FILE_DINHKEM:'',
           // HANGMUC_KHAOSAT: [this.HANGMUC_KHAOSAT],
         });
         this.khaoSat = res.data;
@@ -254,7 +273,7 @@ export class KhaoSatCanhBaoComponent implements OnInit {
     debugger;
     if (this.idKhaoSat && this.auth.checkPermission('GSCD-X3') == true) {
       this.khaoSat.ID = this.idKhaoSat;
-      const sbUpdate = this.KSservice.updateKhaoSat(this.khaoSat).pipe(
+      const sbUpdate = this.KSservice.updateKhaoSat(this.fileToUpload,this.khaoSat).pipe(
         tap(() => {
           this.modal.close();
         }),
@@ -273,13 +292,18 @@ export class KhaoSatCanhBaoComponent implements OnInit {
         }
       });
       this.subscriptions.push(sbUpdate);
-    } else {
+    } 
+    
+    this.formGroup.markAllAsTouched();
+    const formValues1 = this.formGroup.value;
+    this.khaoSat = Object.assign(new KhaoSat(), formValues1);
+    if (this.idKhaoSat && this.auth.checkPermission('GSCD-DV') == true) {
       debugger;
-      this.khaoSat.ID = 0;
+      this.khaoSat.ID = this.idKhaoSat;
       this.khaoSat.MA_YCAU = this.maYeuCau;
       this.khaoSat.DIA_CHI = this.DIA_CHI;
       this.khaoSat.SDT = this.SDT;
-      const sbUpdate = this.KSservice.createKhaoSat(this.khaoSat).pipe(
+      const sbUpdate = this.KSservice.updateKhaoSat(this.fileToUpload,this.khaoSat).pipe(
         tap(() => {
           this.modal.close();
         }),
@@ -288,7 +312,34 @@ export class KhaoSatCanhBaoComponent implements OnInit {
           return of(this.khaoSat);
         }),
       ).subscribe(res => {
-        if (res.success && this.auth.checkPermission('GSCD-X3') == true) {
+        if (res.success) {
+          this.toastr.success("Tạo mới phản hồi thành công", "Thông báo");
+          this.khaoSat = res;
+        }
+        else {
+          this.toastr.error(res.message, "Thông báo");
+          return of(this.khaoSat);
+        }
+      });
+      this.subscriptions.push(sbUpdate);
+    }
+
+    else {
+      debugger;
+      this.khaoSat.ID = 0;
+      this.khaoSat.MA_YCAU = this.maYeuCau;
+      this.khaoSat.DIA_CHI = this.DIA_CHI;
+      this.khaoSat.SDT = this.SDT;
+      const sbUpdate = this.KSservice.createKhaoSat(this.fileToUpload,this.khaoSat).pipe(
+        tap(() => {
+          this.modal.close();
+        }),
+        catchError((errorMessage) => {
+          this.toastr.error("Có lỗi xảy ra, vui lòng thực hiện lại", "Thông báo");
+          return of(this.khaoSat);
+        }),
+      ).subscribe(res => {
+        if (res.success) {
           this.toastr.success("Tạo mới phản hồi thành công", "Thông báo");
           this.khaoSat = res;
         }

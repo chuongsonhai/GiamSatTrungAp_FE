@@ -55,12 +55,13 @@ export class KhaoSatGiamSatService extends TableService<DanhSachKhaoSat> impleme
         );
     }
 
-    updateKhaoSat(item: any): Observable<any> {
+    updateKhaoSat(File: File, item: any): Observable<any> {
         const url = `${environment.apiUrl}/KhaoSat/edit`;
         this._isLoading$.next(true);
         this._errorMessage.next('');
         const formData = new FormData();
         formData.append('data', JSON.stringify(item));
+        formData.append('File', File);
         return this.http.post<any>(url, formData, { reportProgress: true }).pipe(            
             catchError(err => {
                 this.toastr.error("Có lỗi xảy ra, vui lòng thực hiện lại");
@@ -72,12 +73,13 @@ export class KhaoSatGiamSatService extends TableService<DanhSachKhaoSat> impleme
         );
     }
 
-    createKhaoSat(item: any): Observable<any> {
+    createKhaoSat(File: File,item: any): Observable<any> {
         const url = `${environment.apiUrl}/KhaoSat/add`;
         this._isLoading$.next(true);
         this._errorMessage.next('');
         const formData = new FormData();
         formData.append('data', JSON.stringify(item));
+        formData.append('File', File);
         return this.http.post<any>(url, formData, { reportProgress: true }).pipe(            
             catchError(err => {
                 this.toastr.error("Có lỗi xảy ra, vui lòng thực hiện lại");
