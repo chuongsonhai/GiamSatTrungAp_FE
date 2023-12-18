@@ -121,7 +121,13 @@
                         <td>{{item.Y_KIEN_KH}}</td>
                         <td>{{item.PHAN_HOI}}</td>
                         <td>{{item.NGAY}}</td>
-                        <td><a (click)="view(item.FILE_DINHKEM)" target="_blank"><i class="fa fa-image"></i></a></td>
+                        <td>
+                            <ng-container *ngIf="item.FILE_DINHKEM">
+                              <a (click)="view(item.FILE_DINHKEM)" target="_blank">
+                                <i class="fa fa-image"></i>
+                              </a>
+                            </ng-container>
+                          </td>
                         <td>
                             <!-- <a *ngIf="((allowGSCD | async) && item.TRANGTHAI != 6)" (click)="edit(item.ID)"class="btn btn-primary">Sửa khảo sát </a> -->
                             <a *ngIf="(item.TRANGTHAI != 6)" (click)="edit(item.ID)"class="btn btn-primary">Sửa khảo sát </a>

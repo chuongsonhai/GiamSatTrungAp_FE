@@ -294,35 +294,35 @@ handleFileInput(file: FileList) {
       this.subscriptions.push(sbUpdate);
     } 
     
-    this.formGroup.markAllAsTouched();
-    const formValues1 = this.formGroup.value;
-    this.khaoSat = Object.assign(new KhaoSat(), formValues1);
-    if (this.idKhaoSat && this.auth.checkPermission('GSCD-DV') == true) {
-      debugger;
-      this.khaoSat.ID = this.idKhaoSat;
-      this.khaoSat.MA_YCAU = this.maYeuCau;
-      this.khaoSat.DIA_CHI = this.DIA_CHI;
-      this.khaoSat.SDT = this.SDT;
-      const sbUpdate = this.KSservice.updateKhaoSat(this.fileToUpload,this.khaoSat).pipe(
-        tap(() => {
-          this.modal.close();
-        }),
-        catchError((errorMessage) => {
-          this.toastr.error("Có lỗi xảy ra, vui lòng thực hiện lại", "Thông báo");
-          return of(this.khaoSat);
-        }),
-      ).subscribe(res => {
-        if (res.success) {
-          this.toastr.success("Tạo mới phản hồi thành công", "Thông báo");
-          this.khaoSat = res;
-        }
-        else {
-          this.toastr.error(res.message, "Thông báo");
-          return of(this.khaoSat);
-        }
-      });
-      this.subscriptions.push(sbUpdate);
-    }
+    // this.formGroup.markAllAsTouched();
+    // const formValues1 = this.formGroup.value;
+    // this.khaoSat = Object.assign(new KhaoSat(), formValues1);
+    // if (this.idKhaoSat && this.auth.checkPermission('GSCD-DV') == true) {
+    //   debugger;
+    //   this.khaoSat.ID = this.idKhaoSat;
+    //   this.khaoSat.MA_YCAU = this.maYeuCau;
+    //   this.khaoSat.DIA_CHI = this.DIA_CHI;
+    //   this.khaoSat.SDT = this.SDT;
+    //   const sbUpdate = this.KSservice.updateKhaoSat(this.fileToUpload,this.khaoSat).pipe(
+    //     tap(() => {
+    //       this.modal.close();
+    //     }),
+    //     catchError((errorMessage) => {
+    //       this.toastr.error("Có lỗi xảy ra, vui lòng thực hiện lại", "Thông báo");
+    //       return of(this.khaoSat);
+    //     }),
+    //   ).subscribe(res => {
+    //     if (res.success) {
+    //       this.toastr.success("Tạo mới phản hồi thành công", "Thông báo");
+    //       this.khaoSat = res;
+    //     }
+    //     else {
+    //       this.toastr.error(res.message, "Thông báo");
+    //       return of(this.khaoSat);
+    //     }
+    //   });
+    //   this.subscriptions.push(sbUpdate);
+    // }
 
     else {
       debugger;
@@ -354,7 +354,43 @@ handleFileInput(file: FileList) {
 
   }
 
+  save1() {
+   
+    
+    this.formGroup.markAllAsTouched();
+    const formValues1 = this.formGroup.value;
+    this.khaoSat = Object.assign(new KhaoSat(), formValues1);
+    if (this.idKhaoSat && this.auth.checkPermission('GSCD-DV') == true) {
+      debugger;
+      this.khaoSat.ID = this.idKhaoSat;
+      this.khaoSat.MA_YCAU = this.maYeuCau;
+      this.khaoSat.DIA_CHI = this.DIA_CHI;
+      this.khaoSat.SDT = this.SDT;
+      const sbUpdate = this.KSservice.updateKhaoSat(this.fileToUpload,this.khaoSat).pipe(
+        tap(() => {
+          this.modal.close();
+        }),
+        catchError((errorMessage) => {
+          this.toastr.error("Có lỗi xảy ra, vui lòng thực hiện lại", "Thông báo");
+          return of(this.khaoSat);
+        }),
+      ).subscribe(res => {
+        if (res.success) {
+          this.toastr.success("Tạo mới phản hồi thành công", "Thông báo");
+          this.khaoSat = res;
+        }
+        else {
+          this.toastr.error(res.message, "Thông báo");
+          return of(this.khaoSat);
+        }
+      });
+      this.subscriptions.push(sbUpdate);
+    }
 
+
+
+
+  }
 
   // helpers for View
   isControlValid(controlName: string): boolean {

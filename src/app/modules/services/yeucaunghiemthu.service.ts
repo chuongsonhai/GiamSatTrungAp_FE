@@ -17,6 +17,7 @@ import { ChartResponseModel } from '../models/response.model';
 })
 export class YeuCauNghiemThuService extends TableService<YeuCauNghiemThu> implements OnDestroy{
     API_URL = `${environment.apiUrl}/ycaunghiemthu`;
+    API_URL1 = `${environment.apiUrl}/Dashboard`;
     constructor(@Inject(HttpClient) http, @Inject(AuthenticationService) authService, @Inject(ToastrService) toastr) {
         super(http, authService, toastr);
     }
@@ -83,7 +84,39 @@ export class YeuCauNghiemThuService extends TableService<YeuCauNghiemThu> implem
                 return of({ data: [], total: 0, success: false, error: "", message: "" });
             })
         );
-    }   
+    }  
+    
+    public getList1(): any {        
+        const url = `${this.API_URL1}/dashboard/canhbao`;
+        this._errorMessage.next('');
+        const objRequest = {maDViQLy: '-1'};
+        return this.http.post<any>(url, objRequest).pipe(
+            tap((res) => {
+                this._chartResult$.next(res.data);
+            }),
+            catchError(err => {
+                this._errorMessage.next(err);
+                return of({ data: [], total: 0, success: false, error: "", message: "" });
+            })
+        );
+    } 
+
+    public getList3(): any {        
+        const url = `${this.API_URL1}/dashboard/thoigiancapdien`;
+        this._errorMessage.next('');
+        const objRequest = {maDViQLy: '-1'};
+        return this.http.post<any>(url, objRequest).pipe(
+            tap((res) => {
+                this._chartResult$.next(res.data);
+            }),
+            catchError(err => {
+                this._errorMessage.next(err);
+                return of({ data: [], total: 0, success: false, error: "", message: "" });
+            })
+        );
+    } 
+
+
 
     public getListHSo(maDViQLy: string, maYCau: string): any {
         const url = `${this.API_URL}/listhso`;

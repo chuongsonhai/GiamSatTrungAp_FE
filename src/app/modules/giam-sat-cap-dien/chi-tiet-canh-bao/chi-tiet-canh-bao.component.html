@@ -176,7 +176,13 @@
                                 <td>{{item.noiDungPhanHoi}}</td>
                                 <td>{{item.nguoiGui}}</td>
                                 <td>{{item.thoiGianGui}}</td>
-                                <td><a (click)="view(item.FILE_DINHKEM)" target="_blank"><i class="fa fa-image"></i></a></td>
+                                <td>
+                                    <ng-container *ngIf="item.FILE_DINHKEM">
+                                      <a (click)="view(item.FILE_DINHKEM)" target="_blank">
+                                        <i class="fa fa-image"></i>
+                                      </a>
+                                    </ng-container>
+                                  </td>
                                 <td>
                                     <a *ngIf="(allowPHGS | async)" (click)="edit(item.ID)"><i class="fa fa-edit"></i> </a>
                                     <a *ngIf="(allowGSCD | async)" (click)="deletePH(item.ID)"><i class="fa fa-trash-alt"></i></a>

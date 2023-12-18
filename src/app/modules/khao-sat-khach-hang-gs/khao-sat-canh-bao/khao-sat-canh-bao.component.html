@@ -254,7 +254,7 @@
                     </div>
                 </div> 
 
-                <div class="form-group row">
+                <div class="form-group row" *ngIf="!isPhanHoiDv">
                     <div class="col-lg-12">
                         <label>Chọn file</label>
                         <input placeholder="Chọn file" class="form-control" formControlName="FILE_DINHKEM" type="file"
@@ -266,10 +266,17 @@
             </form>
         </ng-container>
     </div>
-    <div class="modal-footer">
+    <div class="modal-footer" *ngIf="!isPhanHoiDv">
         <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
         <ng-container>
             <button *ngIf="( allowGSCD | async ) "  type="submit" [disabled]="formGroup.invalid" class="btn btn-primary btn-elevate" (click)="save()">Lưu thông tin</button>
+        </ng-container>
+    </div>
+
+    <div class="modal-footer" *ngIf="isPhanHoiDv">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container>
+            <button *ngIf="( allowGSCD | async ) "  type="submit" [disabled]="formGroup.invalid" class="btn btn-primary btn-elevate" (click)="save1()">Lưu thông tin</button>
         </ng-container>
     </div>
 </div>
