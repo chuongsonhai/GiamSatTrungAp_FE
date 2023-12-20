@@ -99,7 +99,8 @@ export class DashboardComponent implements OnInit,
 
     //chart2
     const a2 = this._user$.maDViQLy == 'PD' ? '-1' : this._user$.maDViQLy
-    this.yeuCauNghiemThuService.getList2(a2).subscribe(response => {
+    this.yeuCauNghiemThuService.getList2(a2).subscribe((response:any) => {
+
       const data = response.data; // Assuming response contains a 'data' property
     
       // Ensure the data fields are numeric before using them in the chart
