@@ -14,6 +14,7 @@ import DateTimeUtil from 'src/app/_metronic/shared/datetime.util';
 import * as ApexCharts from 'apexcharts'
 import { Organization } from 'src/app/modules/models/organization.model';
 import { data } from 'jquery';
+import { DecimalPipe } from '@angular/common';
 
 
 @Component({
@@ -30,6 +31,9 @@ export class DashboardComponent implements OnInit,
   _isLoadingForm$ = this.isLoadingForm$.asObservable();
   madvi: string;
   soLuongDaGui: number;
+  // SoLuongKhaoSatThanhCong:DecimalPipe
+  // SoLuongKhaoSatThatBai:DecimalPipe
+  // soLuongKhaoSatDungNgang:DecimalPipe
   _user$: UserModel;
   optionscollumn: any
   options: any
@@ -61,64 +65,74 @@ export class DashboardComponent implements OnInit,
         this.router.navigate(['/']);
       });
     this.notifies();
+    
     // setTimeout(() => {
     //   this.renderChart();
     // }, 1000);
 
         //chart1
-    this.yeuCauNghiemThuService.getList1().subscribe(x => {
-      this.optionscollumn = {
-        chart: {
-          type: 'bar',
-          height: 480,
-          width: '100%'
-        },
-        series: [{
-          name: 'sales',
-          data: 
-            x.data.map(x => x.soLuongDaGui)
-          
-        }],
-        xaxis: {
-          categories: 
-            x.data.map(x => x.madvi)
-          
-        }
-      }
-      var chartcolumn = new ApexCharts(document.querySelector("#chartcolumn"), this.optionscollumn);
 
-      chartcolumn.render();  
-    })
+        const a = this._user$.maDViQLy == 'PD' ? '-1' : this._user$.maDViQLy
+        console.log(a)
+
+        this.yeuCauNghiemThuService.getList1(a).subscribe((x: any) => {
+       console.log(x)
+          this.optionscollumn = {
+            chart: {
+              type: 'bar',
+              height: 480,
+              width: '100%'
+            },
+            series: [{
+              name: 'sales',
+              data: x.data.map((item: any) => item.soLuongDaGui)
+            }],
+            xaxis: {
+              categories: x.data.map((item: any) => item.madvi)
+            }
+          };
+          const chartcolumn = new ApexCharts(document.querySelector("#chartcolumn"), this.optionscollumn);
+        
+          chartcolumn.render();  
+        });
+        
 
     //chart2
-    this.yeuCauNghiemThuService.getList1().subscribe(x => {
-
-      this.optionspie = {
-        chart: {
-          type: 'pie',
-          height: 480,
-        },
-        // series: [{
-        //   name: 'sales',
-        //   data: 
-        //     x.data.map(x => x.socb)
-          
-        // }],
-
-        series: [44,55,41],
-        labels: ["Số lượng thành công", "Số lượng thất bại", "Số lượng dừng ngang"],
+    const a2 = this._user$.maDViQLy == 'PD' ? '-1' : this._user$.maDViQLy
+    this.yeuCauNghiemThuService.getList2(a2).subscribe(response => {
+      const data = response.data; // Assuming response contains a 'data' property
+    
+      // Ensure the data fields are numeric before using them in the chart
+      const successfulCount = parseFloat(data.SoLuongKhaoSatThanhCong);
+      const failedCount = parseFloat(data.SoLuongKhaoSatThatBai);
+      const stoppedCount = parseFloat(data.soLuongKhaoSatDungNgang);
+    
+      // Check if the parsed values are valid numbers
+      if (!isNaN(successfulCount) && !isNaN(failedCount) && !isNaN(stoppedCount)) {
+        this.optionspie = {
+          chart: {
+            type: 'pie',
+            height: 480,
+          },
+          series: [successfulCount, failedCount, stoppedCount],
+          labels: ["Số lượng thành công", "Số lượng thất bại", "Số lượng dừng ngang"],
+        };
+    
+        var chartpie = new ApexCharts(document.querySelector("#chartpie"), this.optionspie);
+        chartpie.render();
+      } else {
+        // Handle case where data couldn't be parsed to numbers
+        console.error('Invalid data format for the chart');
       }
-      var chartpie = new ApexCharts(document.querySelector("#chartpie"), this.optionspie);
-
-      chartpie.render();
-    }
-    );
+    });
+    
+    
     
 
     //chart3
-    this.yeuCauNghiemThuService.getList3().subscribe(x => {
-      console.log(3)
-
+    const a3 = this._user$.maDViQLy == 'PD' ? '-1' : this._user$.maDViQLy
+    this.yeuCauNghiemThuService.getList3(a3).subscribe((x: any) => {
+      console.log(a3)
       this.options = {
         chart: {
           type: 'bar',
@@ -135,8 +149,7 @@ export class DashboardComponent implements OnInit,
         },
         series: [{
           name: 'sales',
-          data: 
-            x.data.map(x => x.socb)
+          data: x.data.map((item: any) =>item.socb)
           
         }],
 
@@ -167,7 +180,7 @@ export class DashboardComponent implements OnInit,
       chart.render(); 
     });
 
-  }
+   }
 
   renderChart() {
     var dauthang = new Date(this.startDate.getFullYear(), this.startDate.getMonth(), 1);
@@ -213,7 +226,7 @@ export class DashboardComponent implements OnInit,
   allowGetAll = new BehaviorSubject<boolean>(false);
   notifies() {
     const filter = { status: 0, maDViQLy: this._user$.maDViQLy };
-    console.log(this._user$.maDViQLy);
+    // console.log(this._user$.maDViQLy);
     const sb = this.service.getNotifies(filter).pipe(
       catchError((errorMessage) => {
         return of([]);

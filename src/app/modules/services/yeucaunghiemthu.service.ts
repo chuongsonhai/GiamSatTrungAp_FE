@@ -86,10 +86,11 @@ export class YeuCauNghiemThuService extends TableService<YeuCauNghiemThu> implem
         );
     }  
     
-    public getList1(): any {        
+    public getList1(maDVi:string): any {        
         const url = `${this.API_URL1}/dashboard/canhbao`;
         this._errorMessage.next('');
-        const objRequest = {maDViQLy: '-1'};
+        const objRequest = {filterdashboardcanhbao:{madvi: maDVi}};
+        console.log(objRequest)
         return this.http.post<any>(url, objRequest).pipe(
             tap((res) => {
                 this._chartResult$.next(res.data);
@@ -101,10 +102,25 @@ export class YeuCauNghiemThuService extends TableService<YeuCauNghiemThu> implem
         );
     } 
 
-    public getList3(): any {        
+    public getList2(maDVi:string): any {        
+        const url = `${this.API_URL1}/dashboard/khaosat`;
+        this._errorMessage.next('');
+        const objRequest = {Filterdashboadkhaosat:{madvi: maDVi}};
+        return this.http.post<any>(url, objRequest).pipe(
+            tap((res) => {
+                this._chartResult$.next(res.data);
+            }),
+            catchError(err => {
+                this._errorMessage.next(err);
+                return of({ data: [], total: 0, success: false, error: "", message: "" });
+            })
+        );
+    } 
+
+    public getList3(maDVi:string): any {        
         const url = `${this.API_URL1}/dashboard/thoigiancapdien`;
         this._errorMessage.next('');
-        const objRequest = {maDViQLy: '-1'};
+        const objRequest = {Filtertgcd:{donViQuanLy: maDVi}};
         return this.http.post<any>(url, objRequest).pipe(
             tap((res) => {
                 this._chartResult$.next(res.data);
