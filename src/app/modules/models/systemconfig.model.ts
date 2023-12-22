@@ -14,6 +14,12 @@ export class CauHinhCanhBao {
 	
 }
 
+export class UserNhanCanhbao {
+    MA_DVIQLY: string;
+    USER_ID: number;
+	
+}
+
 export class LogCanhBao {
     ID: number;
     CANHBAO_ID: number;

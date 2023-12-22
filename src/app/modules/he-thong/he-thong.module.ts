@@ -59,6 +59,7 @@ import { CauHinhCanhBaoComponent } from './cau-hinh-canh-bao/cau-hinh-canh-bao.c
 import { UpdateCauHinhCanhBaoComponent } from './cau-hinh-canh-bao/update-cau-hinh-canh-bao/update-cau-hinh-canh-bao.component';
 import { LogCanhBaoComponent } from './log-canh-bao/log-canh-bao.component';
 import { CauHinhNhanCanhBaoComponent } from './cau-hinh-canh-bao/cau-hinh-nhan-canh-bao/cau-hinh-nhan-canh-bao.component';
+import { UserNhanCanhbaoComponent } from './user-nhan-canhbao/user-nhan-canhbao.component';
 
 @NgModule({
     declarations: [
@@ -90,7 +91,8 @@ import { CauHinhNhanCanhBaoComponent } from './cau-hinh-canh-bao/cau-hinh-nhan-c
         CauHinhCanhBaoComponent,
         UpdateCauHinhCanhBaoComponent,
         LogCanhBaoComponent,
-        CauHinhNhanCanhBaoComponent
+        CauHinhNhanCanhBaoComponent,
+        UserNhanCanhbaoComponent
     ],
     imports: [
         HeThongRoutingModule,

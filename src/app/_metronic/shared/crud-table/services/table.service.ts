@@ -26,6 +26,8 @@ export abstract class TableService<T> {
    protected http: HttpClient;
   // API URL has to be overrided
   API_URL = `${environment.apiUrl}/endpoint`;
+  API_URL1 = `${environment.apiUrl}/EmailZalo`;
+  API_URL2 = `${environment.apiUrl}/users`;
   constructor(http: HttpClient, private authService: AuthenticationService, protected toastr: ToastrService) {
     this.http = http;
   }
@@ -77,6 +79,21 @@ export abstract class TableService<T> {
       finalize(() => this._isLoading$.next(false))
     );
   }
+
+  getItemByIduser(key: any): Observable<any> {
+    this._isLoading$.next(true);
+    this._errorMessage.next('');
+    const url = `${this.API_URL1}/${key}`;
+    return this.http.get<any>(url).pipe(
+      catchError(err => {        
+        this._errorMessage.next(err);
+        console.error('GET ITEM BY ID', key, err);
+        return of({ ID: undefined });
+      }),
+      finalize(() => this._isLoading$.next(false))
+    );
+  }
+
 
   // UPDATE
   update(item: any): Observable<any> {

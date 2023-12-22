@@ -1,0 +1,42 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            Thêm tài khoản nhận cảnh báo
+        </div>
+    </div>
+    <div class="overlay overlay-block cursor-default modal-body" style="min-height: 404px;">   
+        <ng-container>
+            <form action="#" class="form form-label-right" [formGroup]="formGroup">                
+                <input type="hidden" name="ID" value="{{idPhanHoi}}">
+              
+
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        <label> User nhận cảnh báo </label>
+                        <!-- <input type="text" class="form-control" name="USER_ID" formControlName="USER_ID" />    -->
+                        <select class="form-control" name="USER_ID" formControlName="USER_ID">
+                        <option [value]="item.userId" *ngFor="let item of userNhanCanhBaooo">
+                            {{item.maDViQLy}} - {{item.username}}
+                        </option>   
+                    </select>         
+                    </div>               
+                </div>     
+                
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        <label>Mã đơn vị</label>
+                        <input type="text" class="form-control" name="MA_DVIQLY" formControlName="MA_DVIQLY" />
+                    </div> 
+                </div> 
+
+                             
+            </form>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+        <ng-container>
+            <button type="submit" [disabled]="formGroup.invalid" class="btn btn-primary btn-elevate" (click)="save()">Lưu thông tin</button>
+        </ng-container>
+    </div>
+</div>

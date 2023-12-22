@@ -19,8 +19,11 @@
                         </option>
                     </select>
                 </div>
-                
-                
+     
+                <div class="col-lg-9 text-right" style="padding: 30px;">
+                    <button  class="btn btn-primary mr-2 right" style="float: right;" (click)="createPH(id)"> Thêm mới</button>
+     
+            </div>
             </div>
             
         </div>
@@ -36,12 +39,7 @@
                     <th>
                         Tên nhân sự
                     </th>
-                    <th>
-                        Email
-                    </th>
-                    <th>
-                        Điện thoại
-                    </th>
+                
                     <th>Tương tác</th>
                     
                     
@@ -52,12 +50,10 @@
                         <!-- <td>{{item.TenKhachHang !== "" ? item.TenKhachHang : item.NguoiYeuCau}}</td> -->
                         <td>{{item.MA_DVIQLY}}</td>
                         <td>{{item.USER_ID}}</td>
-                        <td>text cứng</td>
-                        <td>text cứng</td>
                         <td style="text-align: center;">
-                            <a  style="padding-right: 10px;"> <i class="fa fa-plus text-primary"></i></a>
-                            <!-- <a (click)="histories(item.MaYeuCau)" title="Xem lịch sử xử lý yêu cầu"> <i class="fa fa-history text-primary"></i></a> -->
-                        </td>
+                            <a  style="display: none;" (click)="update(item.ID)"> <i class="fa fa-edit text-primary"></i></a>
+                            <a (click)="deletePH(item.ID)"><i class="fa fa-trash-alt text-primary"></i></a>
+                        </td>  
                     </tr>
 
                 </tbody>

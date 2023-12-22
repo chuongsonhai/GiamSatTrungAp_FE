@@ -29,6 +29,9 @@ import { ConfirmationDialogService } from 'src/app/modules/share-component/confi
 import { HopDongService } from 'src/app/modules/services/hopdong.service';
 import { KhaoSatKhachHangGsService } from 'src/app/modules/services/khaosatkhachanggiamsat.service';
 import { CauHinhNguoiNhanCanhBaoService } from 'src/app/modules/services/cauhinhnguoinhancanhbao.service';
+import { UserNhanCanhbaoComponent } from '../../user-nhan-canhbao/user-nhan-canhbao.component';
+import { ResponseModel } from 'src/app/modules/models/response.model';
+import { CanhBaoGiamSatService } from 'src/app/modules/services/canhbaogiamsat.service';
 
 @Component({
   selector: 'app-cau-hinh-nhan-canh-bao',
@@ -47,20 +50,39 @@ IFilterView,
 IGroupingView,
 ISearchView,
 IFilterView {
+  viewbuton: boolean = true;
+  EMPTY: any;
+  private subscriptions: Subscription[] = [];
+  id: number;
+  isLoadingForm$ = new BehaviorSubject<boolean>(false);
+  filterGroup: FormGroup;
+  idCanhBao: number
+  maLoaiCanhBao: number
+  noiDungCanhBao: string
+  thoiGianGui: string
+  NOIDUNG_PHANHOI_X3: string
+  NGUOI_PHANHOI_X3: string
+  donViQuanLy: string
+  trangThai: number
+  trangThaiHienNut: number
+  idYeuCau: number
+  maYeuCau: string
+  tenKhachHang: string
+  soDienThoai: string
+  trangThaiYeuCau: string
+  NGUYENHHAN_CANHBAO: number
+  KETQUA_GIAMSAT: string
 paginator: PaginatorState;
 sorting: SortState;
 grouping: GroupingState;
 isLoading: boolean;
-filterGroup: FormGroup;
-searchGroup: FormGroup;
-EMPTY: any;
-private subscriptions: Subscription[] = [];
 toDate = new Date();
 fromDate = new Date(this.toDate.getFullYear(), this.toDate.getMonth(), 1);
 constructor(
   private fb: FormBuilder,
   private modalService: NgbModal,
   public service: CauHinhNguoiNhanCanhBaoService,
+  public servicecb: CanhBaoGiamSatService,
   public commonService: CommonService,
   private auth: AuthenticationService,
   private confirmationDialogService: ConfirmationDialogService,
@@ -73,6 +95,7 @@ constructor(
     HoSos: [],
   }
 }
+  searchGroup: FormGroup;
 _user$: UserModel;
 allowGetAll = new BehaviorSubject<boolean>(false);
 // angular lifecircle hooks
@@ -126,6 +149,7 @@ filter() {
   }
   filter['maDViQLy'] = maDViQLy;
   
+  
   this.service.patchState({ filter });
 
 }
@@ -165,7 +189,63 @@ paginate(paginator: PaginatorState) {
 }
 // actions
 
-// form actions
+// // form actions
+// public reloadForm(reload: boolean) {
+//   if (reload) {
+//     this.loadData();
+//   }
+// }
+createPH(idCanhBao: number) {
+  const modalRef = this.modalService.open(UserNhanCanhbaoComponent, { size: 'md' });
+  modalRef.componentInstance.id  = idCanhBao;
+  modalRef.componentInstance.idPhanHoi= null;
+  modalRef.result.then(
+    () => {
+      this.isLoadingForm$.next(true);
+      // this.reloadForm(true);
+      this.filter();
+      this.isLoadingForm$.next(false);
+    }
+  );
+}
+
+update(id: string) {
+  const modalRef = this.modalService.open(UserNhanCanhbaoComponent, { size: 'md' });
+  modalRef.componentInstance.id = id;
+  modalRef.result.then(
+    () => {
+      this.isLoadingForm$.next(true);
+      this.filter();
+      this.isLoadingForm$.next(false);
+    }
+  );
+}
+
+deletePH(idPhanHoi: number) {
+  this.confirmationDialogService.confirm('Thông báo', 'Bạn muốn xóa phản hồi?')
+    .then((confirmed) => {
+      if (confirmed) {
+        const sbSign = this.servicecb.deleteUserNhan(idPhanHoi).pipe(
+          catchError((errorMessage) => {
+            this.toastr.error("Có lỗi xảy ra, vui lòng thực hiện lại", "Thông báo");
+            return of(undefined);
+          }),
+          finalize(() => {
+          }))
+          .subscribe((res: ResponseModel) => {
+            if (res.success) {
+              this.isLoadingForm$.next(true);
+              this.filter();
+              this.isLoadingForm$.next(false);
+              this.toastr.success("Thực hiện thành công", "Thành công");
+            }
+            else
+              this.toastr.error(res.message, "Thông báo");
+          })
+      }
+    });
+}
+
 
 delete(id: number) {
 }
