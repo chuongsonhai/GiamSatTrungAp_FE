@@ -30,9 +30,9 @@
         <div class="table-responsive angular-bootstrap-table">
             <table class="table table-head-custom table-vertical-center overflow-hidden">
                 <thead>
-                    <th>
+                    <!-- <th>
                         ID
-                    </th>
+                    </th> -->
                     <th>
                         Mã đơn vị quản lý
                     </th>
@@ -46,10 +46,10 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of service.items$ | async; let i=index;">
-                        <td>{{item.ID}}</td>
+                        <!-- <td>{{item.ID}}</td> -->
                         <!-- <td>{{item.TenKhachHang !== "" ? item.TenKhachHang : item.NguoiYeuCau}}</td> -->
                         <td>{{item.MA_DVIQLY}}</td>
-                        <td>{{item.USER_ID}}</td>
+                        <td>{{item.USERNAME}}</td>
                         <td style="text-align: center;">
                             <a  style="display: none;" (click)="update(item.ID)"> <i class="fa fa-edit text-primary"></i></a>
                             <a (click)="deletePH(item.ID)"><i class="fa fa-trash-alt text-primary"></i></a>

@@ -50,7 +50,8 @@ export abstract class TableService<T> {
 
   // READ (Returning filtered list of entities)
   public find(tableState: any): Observable<TableResponseModel<T>> {
-    const url = this.API_URL + '/filter';
+     const url = this.API_URL + '/filter';
+    // const url = this.API_URL1 + '/filternguoinhan';
     this._errorMessage.next('');
     return this.http.post<TableResponseModel<T>>(url, tableState).pipe(
       catchError((err: HttpErrorResponse) => {
@@ -65,6 +66,8 @@ export abstract class TableService<T> {
       })
     );
   }
+
+  
 
   getItemById(key: any): Observable<any> {
     this._isLoading$.next(true);

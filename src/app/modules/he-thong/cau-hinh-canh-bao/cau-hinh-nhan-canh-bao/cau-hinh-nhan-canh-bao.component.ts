@@ -50,12 +50,14 @@ IFilterView,
 IGroupingView,
 ISearchView,
 IFilterView {
+[x: string]: any;
   viewbuton: boolean = true;
   EMPTY: any;
   private subscriptions: Subscription[] = [];
   id: number;
   isLoadingForm$ = new BehaviorSubject<boolean>(false);
   filterGroup: FormGroup;
+  userNhanCanhBaooo: UserModel[] = [];
   idCanhBao: number
   maLoaiCanhBao: number
   noiDungCanhBao: string
@@ -117,6 +119,7 @@ ngOnInit(): void {
       if (res.success) {
         this.organizations = res.data;
         this.orgCode = this.organizations[0].orgCode;
+        this.userNhanCanhBaooo = res.data;
         this.filterForm();
         this.filter();
       }
