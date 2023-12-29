@@ -359,7 +359,7 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
 
   view(path: string) {
     this.isLoadingForm$.next(true);
-    this.commonService.getPDF(path).subscribe((response) => {
+    this.commonService.getPDF1(path).subscribe((response) => {
       // console.log(response)
       // var filetype=path.split(".")[1];
       // if (filetype === 'pdf') {

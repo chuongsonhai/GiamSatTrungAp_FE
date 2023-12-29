@@ -9,8 +9,11 @@ export const environment = {
   isMockEnabled: false,
   apiUrl: 'http://localhost:25586/api',
   // apiUrl: 'http://10.9.8.51:2468/api',
-  ssoURL:'http://14.238.40.33:6801/sso/login?appCode=DAUNOI_TRUNGAP&redirectUrl=http://localhost:4200/auth/login',
-  ssoLogout: 'http://14.238.40.33:6801/sso/login?appCode=DAUNOI_TRUNGAP&redirectUrl=http://localhost:4200/auth/login'
+  // ssoURL:'http://14.238.40.33:6801/sso/login?appCode=DAUNOI_TRUNGAP&redirectUrl=http://localhost:4200/auth/login',
+  // ssoLogout: 'http://14.238.40.33:6801/sso/login?appCode=DAUNOI_TRUNGAP&redirectUrl=http://localhost:4200/auth/login'
+
+  ssoURL:'https://sso.evnhanoi.vn/sso/login?appCode=DAUNOI_TRUNGAP&redirectUrl=http://localhost:4200/auth/login',
+  ssoLogout: 'https://sso.evnhanoi.vn/sso/logout?appCode=DAUNOI_TRUNGAP&redirectUrl=http://localhost:4200/auth/login'
 };
 
 /*

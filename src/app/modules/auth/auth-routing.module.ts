@@ -19,6 +19,10 @@ const routes: Routes = [
         data: { returnUrl: window.location.pathname, ticket: ''}
       },      
       {
+        path: 'login/:paramticket',
+        component: LoginComponent,
+      }, 
+      {
         path: 'logout',
         component: LogoutComponent
       }

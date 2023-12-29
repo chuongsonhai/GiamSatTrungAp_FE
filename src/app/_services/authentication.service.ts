@@ -103,6 +103,7 @@ export class AuthenticationService {
             // remove user from local storage to log user out
             localStorage.removeItem(this.authLocalStorageTicket);
             window.location.href = environment.ssoLogout;
+            console.log(environment.ssoLogout)
         }
     }
 

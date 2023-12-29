@@ -227,6 +227,18 @@ export class CommonService {
     }
 
     public getPDF(path: string): any {
+        const url = `${environment.apiUrl}/sitedata/GetByteArray1/?path=${path}`;
+        this._errorMessage.next('');
+        return this.http.get<any>(url).pipe(
+            catchError(err => {
+                this._errorMessage.next(err);
+                return of(undefined);
+            }),
+            finalize(() => this._isLoading$.next(false))
+        );
+    }   
+    
+    public getPDF1(path: string): any {
         const url = `${environment.apiUrl}/sitedata/GetByteArray/?path=${path}`;
         this._errorMessage.next('');
         return this.http.get<any>(url).pipe(
@@ -236,7 +248,7 @@ export class CommonService {
             }),
             finalize(() => this._isLoading$.next(false))
         );
-    }    
+    } 
 
     protected _capdienaps$ = new BehaviorSubject<CapDienAp[]>([]);
 

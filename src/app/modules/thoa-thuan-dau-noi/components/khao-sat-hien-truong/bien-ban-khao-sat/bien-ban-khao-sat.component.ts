@@ -91,7 +91,6 @@ export class BienBanKSComponent implements OnInit, OnDestroy {
     }, 2000);
     if (this.congVanYeuCau.MaYeuCau !== undefined) {
       this.loadData();
-      debugger;
     }
   }
 
@@ -99,6 +98,7 @@ export class BienBanKSComponent implements OnInit, OnDestroy {
   base64String: string;
   FileBase64: string;
   getPDFBBKS(path: string) {
+    console.log(path)
     this.commonService.getPDF(path).subscribe((response) => {
       var binary_string = window.atob(response);
       this.FileBase64 = response;
@@ -142,6 +142,7 @@ export class BienBanKSComponent implements OnInit, OnDestroy {
       if (result.success) {
         this.BienBanKSData = result.data;
         this.safeSrc = null;
+        console.log(result.data)
         this.getPDFBBKS(this.BienBanKSData.BienBanKS.Data);
         setTimeout(() => {
           this.isLoadingForm$.next(false);

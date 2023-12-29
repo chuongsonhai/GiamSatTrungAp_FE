@@ -80,7 +80,6 @@ export class PhanCongKSComponent implements OnInit, OnDestroy {
     }
   }
   checkSelect(ma){
-    debugger;
     if(ma!=null){
       return this.formGroup.value.MA_NVIEN_KS===ma;
     }

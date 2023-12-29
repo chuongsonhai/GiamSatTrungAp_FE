@@ -12,6 +12,7 @@ import { FormGroup } from '@angular/forms';
 import { CommonService } from '../../../services/common.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { ViewPdfComponent } from 'src/app/modules/share-component/view-pdf/view-pdf.component';
 
 @Component({
   selector: 'app-khao-sat-hien-truong',
@@ -34,6 +35,7 @@ export class KhaoSatHienTruongComponent implements OnInit, OnDestroy {
   constructor(
     public service: BienBanKSService,
     private sanitizer: DomSanitizer,
+    private modalService: NgbModal,
     public CommonService: CommonService,        
   ) {
     this.reloadForm = new EventEmitter<boolean>();
@@ -82,6 +84,11 @@ export class KhaoSatHienTruongComponent implements OnInit, OnDestroy {
   getPDF(path: string) {
     this.isLoadingForm$.next(true);
     this.CommonService.getPDF(path).subscribe((response) => {
+      if (response === undefined || response === null) {
+  
+      }
+      else {
+        if (response.Type == "") {
       var binary_string = window.atob(response);
       var len = binary_string.length;
       var bytes = new Uint8Array(len);
@@ -91,6 +98,18 @@ export class KhaoSatHienTruongComponent implements OnInit, OnDestroy {
       let file = new Blob([bytes.buffer], { type: 'application/pdf' });
       this.srcCV = URL.createObjectURL(file);
       this.safeSrcCV = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(file));
+    
+      // if (response.Type == "") {
+      //   const modalRef = this.modalService.open(ViewPdfComponent, { size: 'xl' });
+      //   modalRef.componentInstance.response = response.BaseType;
+      //   modalRef.result.then(
+      //     () => {
+      //       this.isLoadingForm$.next(false);
+      //     }
+      //   );
+      //  }
+      }
+        }
     }), finalize(() => {
       setTimeout(() => {
         this.isLoadingForm$.next(false);

@@ -41,20 +41,38 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-    let returnUrl = this.router.url;
-    let indexTicket = returnUrl.indexOf("?ticket=");
-    if (indexTicket >= 0) {
-      this.submited = true;
-      let ticketVal = returnUrl.substring(indexTicket);
-      let ticket = ticketVal.replace("?ticket=", "");
-      console.log(ticketVal);
-      this.authService.auth(ticket).pipe(first()).subscribe(res => {
-        if (res) {
-          this.router.navigate(['/']);
-        }
-      });
-    }    
-  }
+    // let returnUrl = this.router.url;
+
+    // let indexTicket = returnUrl.indexOf("paramTicket=");
+    // console.log(indexTicket)
+    // if (indexTicket >= 0) {
+    //   this.submited = true;
+    //   let ticketVal = returnUrl.substring(indexTicket);
+    //   let ticket = ticketVal.replace("paramTicket=", "");
+    //   console.log(ticket);
+    //   this.authService.auth(ticket).pipe(first()).subscribe(res => {
+    //     if (res) {
+    //       this.router.navigate(['/']);
+    //     }
+    //   });
+    // }    
+
+    this.route.params.subscribe(params => {
+      const param = params['paramticket']; // Thay 'paramName' bằng tên tham số bạn đặt trong route
+      if(param != null){
+
+        this.authService.auth(param).pipe(first()).subscribe(res => {
+          if (res) {
+            this.router.navigate(['/']);
+          }
+        });
+      }
+      
+      // Sau khi lấy được giá trị, bạn có thể sử dụng paramValue ở đây
+      console.log(param); // Ví dụ: In giá trị tham số ra console
+    });
+  
+}
 
   initForm() {
     this.defaultAuth.username = "";

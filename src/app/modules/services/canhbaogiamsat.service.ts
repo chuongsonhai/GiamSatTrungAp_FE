@@ -92,6 +92,7 @@ export class CanhBaoGiamSatService extends TableService<CanhBaoGiamSat> implemen
 
     deleteUserNhan(idPhanHoi:number) {
         const url = `${this.API_URL1}/delete/`+idPhanHoi;
+        console.log(url)
         return this.http.get<any>(url, { params: {} }).pipe(
             tap((res) => {
             }),
