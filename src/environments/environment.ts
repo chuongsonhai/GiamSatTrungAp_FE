@@ -14,6 +14,8 @@ export const environment = {
 
   ssoURL:'https://sso.evnhanoi.vn/sso/login?appCode=DAUNOI_TRUNGAP&redirectUrl=http://localhost:4200/auth/login',
   ssoLogout: 'https://sso.evnhanoi.vn/sso/logout?appCode=DAUNOI_TRUNGAP&redirectUrl=http://localhost:4200/auth/login'
+
+
 };
 
 /*
