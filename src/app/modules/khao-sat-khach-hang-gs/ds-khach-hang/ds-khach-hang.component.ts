@@ -65,7 +65,7 @@ export class DsKhachHangComponent implements
   EMPTY: any;
   private subscriptions: Subscription[] = [];
   toDate = new Date();
-  fromDate = new Date(this.toDate.getFullYear(), this.toDate.getMonth()-8, 1);
+  fromDate = new Date(this.toDate.getFullYear(), this.toDate.getMonth(), 1);
   constructor(
     private fb: FormBuilder,
     private modalService: NgbModal,
