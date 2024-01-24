@@ -3,7 +3,11 @@ export const environment = {
   appVersion: '1.0',
   USERDATA_KEY: 'authf649fc9a5f55',
   isMockEnabled: true,
+
+  //api --prod
   apiUrl: 'https://apitrungap.evnhanoi.vn/api',
+
+  // //api --staging
   // apiUrl: 'http://10.9.171.17:2468/api',
   
   //sso product mới

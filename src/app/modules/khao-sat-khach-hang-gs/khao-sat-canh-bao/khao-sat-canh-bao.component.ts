@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { BehaviorSubject, Subscription, merge, of } from 'rxjs';
 import { CanhBaoGiamSatService } from '../../services/canhbaogiamsat.service';
 import { CommonService } from '../../services/common.service';
@@ -164,6 +164,9 @@ handleFileInput(file: FileList) {
           KSAT_CHI_PHI: res.data.KSAT_CHI_PHI == null ? null :res.data.KSAT_CHI_PHI.toString(),
           DGHL_CAPDIEN: res.data.DGHL_CAPDIEN == null ? null :res.data.DGHL_CAPDIEN.toString(),
           TRANGTHAI_GOI: res.data.TRANGTHAI_GOI == null ? null :res.data.TRANGTHAI_GOI.toString(),
+  
+          
+
           Y_KIEN_KH: res.data.Y_KIEN_KH,
           NOIDUNG: res.data.NOIDUNG,
           PHAN_HOI: res.data.PHAN_HOI,
@@ -180,6 +183,7 @@ handleFileInput(file: FileList) {
       }
     });
   }
+
   loadForm() {
 
     this.formGroup = this.fb.group({
@@ -222,6 +226,7 @@ handleFileInput(file: FileList) {
     ).subscribe((res) => {
       if (res) {
         this.formGroup = this.fb.group({
+          
           ID: this.idKhaoSat,
           MA_YCAU: [this.maYeuCau],
           NGUOI_KS: this.user.username,
@@ -239,7 +244,7 @@ handleFileInput(file: FileList) {
           DGNT_MINH_BACH: [this.DGNT_MINH_BACH],
           DGNT_CHU_DAO: [this.DGNT_CHU_DAO],
           KSAT_CHI_PHI: [this.KSAT_CHI_PHI],
-          DGHL_CAPDIEN: [this.DGHL_CAPDIEN],
+          DGHL_CAPDIEN: [this.DGHL_CAPDIEN], 
           TRANGTHAI_GOI: [this.TRANGTHAI_GOI, Validators.required],
           NGUOI_KSAT: this.user.username,
           Y_KIEN_KH: [this.Y_KIEN_KH],
@@ -250,13 +255,14 @@ handleFileInput(file: FileList) {
           DIA_CHI: res.data.DIA_CHI,
           SDT: res.data.SDT,
           FILE_DINHKEM:'',
-          // HANGMUC_KHAOSAT: [this.HANGMUC_KHAOSAT],
         });
         this.khaoSat = res.data;
         this.isLoadingForm$.next(false);
+
       }
     });
   }
+
 
 
   closeModal() {
@@ -270,7 +276,6 @@ handleFileInput(file: FileList) {
     this.formGroup.markAllAsTouched();
     const formValues = this.formGroup.value;
     this.khaoSat = Object.assign(new KhaoSat(), formValues);
-    debugger;
     if (this.idKhaoSat && this.auth.checkPermission('GSCD-X3') == true) {
       this.khaoSat.ID = this.idKhaoSat;
       const sbUpdate = this.KSservice.updateKhaoSat(this.fileToUpload,this.khaoSat).pipe(
@@ -291,41 +296,10 @@ handleFileInput(file: FileList) {
           return of(this.khaoSat);
         }
       });
-      this.subscriptions.push(sbUpdate);
+     this.subscriptions.push(sbUpdate);
     } 
-    
-    // this.formGroup.markAllAsTouched();
-    // const formValues1 = this.formGroup.value;
-    // this.khaoSat = Object.assign(new KhaoSat(), formValues1);
-    // if (this.idKhaoSat && this.auth.checkPermission('GSCD-DV') == true) {
-    //   debugger;
-    //   this.khaoSat.ID = this.idKhaoSat;
-    //   this.khaoSat.MA_YCAU = this.maYeuCau;
-    //   this.khaoSat.DIA_CHI = this.DIA_CHI;
-    //   this.khaoSat.SDT = this.SDT;
-    //   const sbUpdate = this.KSservice.updateKhaoSat(this.fileToUpload,this.khaoSat).pipe(
-    //     tap(() => {
-    //       this.modal.close();
-    //     }),
-    //     catchError((errorMessage) => {
-    //       this.toastr.error("Có lỗi xảy ra, vui lòng thực hiện lại", "Thông báo");
-    //       return of(this.khaoSat);
-    //     }),
-    //   ).subscribe(res => {
-    //     if (res.success) {
-    //       this.toastr.success("Tạo mới phản hồi thành công", "Thông báo");
-    //       this.khaoSat = res;
-    //     }
-    //     else {
-    //       this.toastr.error(res.message, "Thông báo");
-    //       return of(this.khaoSat);
-    //     }
-    //   });
-    //   this.subscriptions.push(sbUpdate);
-    // }
 
     else {
-      debugger;
       this.khaoSat.ID = 0;
       this.khaoSat.MA_YCAU = this.maYeuCau;
       this.khaoSat.DIA_CHI = this.DIA_CHI;
@@ -339,16 +313,26 @@ handleFileInput(file: FileList) {
           return of(this.khaoSat);
         }),
       ).subscribe(res => {
-        if (res.success) {
+        if (res.success && this.khaoSat.TRANGTHAI_GOI == 0 && this.khaoSat.DGHL_CAPDIEN != null) {
+            this.toastr.success("Tạo mới phản hồi thành công", "Thông báo");
+            this.khaoSat = res;
+        }
+       else if (res.success && this.khaoSat.TRANGTHAI_GOI == 1 && this.khaoSat.DGHL_CAPDIEN == null) {
           this.toastr.success("Tạo mới phản hồi thành công", "Thông báo");
           this.khaoSat = res;
-        }
+      }
+      else if (res.success && this.khaoSat.TRANGTHAI_GOI == 2 && this.khaoSat.DGHL_CAPDIEN == null) {
+        this.toastr.success("Tạo mới phản hồi thành công", "Thông báo");
+        this.khaoSat = res;
+    }
         else {
-          this.toastr.error(res.message, "Thông báo");
+          // this.toastr.error(res.message, "Thông báo");
+          this.toastr.error("Không được để trống thông tin khảo sát", "Thông báo");
           return of(this.khaoSat);
         }
+
       });
-      this.subscriptions.push(sbUpdate);
+     this.subscriptions.push(sbUpdate);
     }
 
 
@@ -361,7 +345,6 @@ handleFileInput(file: FileList) {
     const formValues1 = this.formGroup.value;
     this.khaoSat = Object.assign(new KhaoSat(), formValues1);
     if (this.idKhaoSat && this.auth.checkPermission('GSCD-DV') == true) {
-      debugger;
       this.khaoSat.ID = this.idKhaoSat;
       this.khaoSat.MA_YCAU = this.maYeuCau;
       this.khaoSat.DIA_CHI = this.DIA_CHI;

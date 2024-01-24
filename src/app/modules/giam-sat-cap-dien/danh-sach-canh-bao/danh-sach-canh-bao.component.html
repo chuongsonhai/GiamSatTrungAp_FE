@@ -105,9 +105,13 @@
         <div class="table-responsive angular-bootstrap-table">
             <table class="table table-head-custom table-vertical-center overflow-hidden">
                 <thead>
+                    <th style="width: 10px">
+                        STT
+                    </th>
                     <th style="width: 40px;text-align: center;">
                         ID
                     </th>
+                    
                     <th style="width: 210px">
                         Nội dung cảnh báo
                     </th>
@@ -133,6 +137,7 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of service.items$ | async; let i=index;">
+                        <td>{{ i + paginator.pageSize * (paginator.page - 1) + 1 }}</td>
                         <td>{{item.id}}</td>
                         <!-- <td>{{item.TenKhachHang !== "" ? item.TenKhachHang : item.NguoiYeuCau}}</td> -->
                         <td style="width: 210px" >{{item.noiDungCanhBao}}</td>
