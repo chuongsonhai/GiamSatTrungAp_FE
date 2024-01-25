@@ -333,7 +333,7 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
       .then((confirmed) => {
         if (confirmed) {
           var aaaa = this.filterGroup.controls.NGUYENHHAN_CANHBAO.value
-          var kqgs = this.filterGroup.controls.KETQUA_GIAMSAT.value
+          var kqgs = this.filterGroup.controls.KETQUA_GIAMSAT.value == null ? null : this.filterGroup.controls.KETQUA_GIAMSAT.value;
 
           // const sbSign = this.service.updateStatus(idCanhBao,status,aaaa).pipe(
           const sbSign = this.service.updateStatus(idCanhBao, status, aaaa, kqgs).pipe(
