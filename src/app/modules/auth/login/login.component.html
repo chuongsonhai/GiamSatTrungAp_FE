@@ -19,7 +19,7 @@
       <!--begin::Form group-->
       <div class="form-group">
         <label class="font-size-h6 font-weight-bolder text-dark">Tài khoản</label>
-        <input class="form-control form-control-solid" type="username" name="username" formControlName="username"
+        <input class="form-control form-control-solid" disabled="disabled" type="username" name="username" formControlName="username"
           autocomplete="off" placeholder="Tài khoản đăng nhập"
           [ngClass]="{ 'is-invalid': loginForm.controls['username'].invalid }" />
         <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
@@ -41,7 +41,7 @@
           <label class="font-size-h6 font-weight-bolder text-dark pt-5">Mật khẩu</label>
         </div>
   
-        <input class="form-control form-control-solid" type="password" name="password" autocomplete="off"
+        <input class="form-control form-control-solid" disabled="disabled" type="password" name="password" autocomplete="off"
           formControlName="password" placeholder="Mật khẩu đăng nhập"
           [ngClass]="{ 'is-invalid': loginForm.controls['password'].invalid }" />
         <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
