@@ -6,6 +6,7 @@ import { AuthenticationService } from 'src/app/_services/authentication.service'
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonService } from '../../services/base.service';
 import { environment } from 'src/environments/environment';
+import { CanhBaoGiamSatService } from '../../services/canhbaogiamsat.service';
 
 @Component({
   selector: 'app-login',
@@ -32,6 +33,7 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthenticationService,
     public commonService: CommonService,
+    public service: CanhBaoGiamSatService,
     private route: ActivatedRoute,
     private router: Router
   ) {
@@ -72,6 +74,17 @@ export class LoginComponent implements OnInit {
       console.log(param); // Ví dụ: In giá trị tham số ra console
     });
   
+}
+
+save() {
+
+  this.service.downloadApk().subscribe((data: Blob) => {
+    const blob = new Blob([data], { type: 'application/vnd.android.package-archive' });
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = 'app-release.apk';
+    link.click();
+  });
 }
 
   initForm() {

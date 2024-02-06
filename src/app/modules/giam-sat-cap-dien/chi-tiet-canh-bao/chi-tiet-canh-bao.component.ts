@@ -148,37 +148,37 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
         // console.log(res);
         var loaiCB = "";
         if (res.data.ThongTinCanhBao.maLoaiCanhBao == 1) {
-          loaiCB = "Tiếp nhận yêu cầu cấp điện lập thỏa thuận đấu nối của khách hàng";
+          loaiCB = "Giám sát thời gian tiếp nhận yêu cầu cấp điện lập thỏa thuận đấu nối của khách hàng";
         } else if (res.data.ThongTinCanhBao.maLoaiCanhBao == 2) {
-          loaiCB = "Thời gian thực hiện lập thỏa thuận đấu nối";
+          loaiCB = "Giám sát thời gian thực hiện lập thỏa thuận đấu nối";
         } else if (res.data.ThongTinCanhBao.maLoaiCanhBao == 3) {
-          loaiCB = "Thời gian tiếp nhận yêu cầu kiểm tra đóng điện và nghiệm thu";
+          loaiCB = "Giám sát thời gian tiếp nhận yêu cầu kiểm tra điểm đóng điện và nghiệm thu";
         } else if (res.data.ThongTinCanhBao.maLoaiCanhBao == 4) {
-          loaiCB = "Thời gian dự thảo và ký hợp đồng mua bán điện";
+          loaiCB = "Giám sát thời gian dự thảo và ký hợp đồng mua bán điện";
         } else if (res.data.ThongTinCanhBao.maLoaiCanhBao == 5) {
-          loaiCB = "Thời gian thực hiện kiểm tra điều kiện kỹ thuật điểm đấu nối và nghiệm thu";
+          loaiCB = "Giám sát thời gian thực hiện kiểm tra điều kiện kỹ thuật điểm đấu nối và nghiệm thu";
         } else if (res.data.ThongTinCanhBao.maLoaiCanhBao == 6) {
-          loaiCB = "Giám sát thời gian nghiệm thu yêu cầu cấp điện mới trung áp";
+          loaiCB = "Giám sát thời gian thực hiện cấp điện mới trung áp";
         } else if (res.data.ThongTinCanhBao.maLoaiCanhBao == 7) {
-          loaiCB = "Cảnh báo các bộ hồ sơ sắp hết hạn hiệu lực thỏa thuận đấu nối";
-        } else if (res.data.ThongTinCanhBao.maLoaiCanhBao == 8) {
-          loaiCB = "Thời gian thực hiện cấp điện mới trung áp";
-        } else if (res.data.ThongTinCanhBao.maLoaiCanhBao == 9) {
           loaiCB = "Giám sát việc từ chối tiếp nhận yêu cầu cấp điện/thỏa thuận đấu nối";
+        } else if (res.data.ThongTinCanhBao.maLoaiCanhBao == 8) {
+          loaiCB = "Giám sát trờ ngại khảo sát lập thỏa thuận đấu nối";
+        } else if (res.data.ThongTinCanhBao.maLoaiCanhBao == 9) {
+          loaiCB = "Giám sát việc từ chối tiếp nhận yêu cầu lập thỏa thuận đấu nối";
         } else if (res.data.ThongTinCanhBao.maLoaiCanhBao == 10) {
-          loaiCB = " Giám sát trờ ngại khảo sát lập thỏa thuận đấu nối";
-        } else if (res.data.ThongTinCanhBao.maLoaiCanhBao == 11) {
-          loaiCB = "Giám sát việc hủy yêu cầu lập thỏa thuận đấu nối";
-        } else if (res.data.ThongTinCanhBao.maLoaiCanhBao == 12) {
           loaiCB = "Giám sát việc từ chối tiếp nhận yêu cầu kiểm tra điều kiện đóng điện điểm đấu nối và nghiệm thu";
-        } else if (res.data.ThongTinCanhBao.maLoaiCanhBao == 13) {
+        } else if (res.data.ThongTinCanhBao.maLoaiCanhBao == 11) {
           loaiCB = "Giám sát nguyên nhân khách hàng từ chối ký thỏa thuận đấu nối";
-        } else if (res.data.ThongTinCanhBao.maLoaiCanhBao == 14) {
-          loaiCB = "Giám sát trở ngại khi kiểm tra điều kiện đóng điện điểm đấu nối.";
-        } else if (res.data.ThongTinCanhBao.maLoaiCanhBao == 15) {
+        } else if (res.data.ThongTinCanhBao.maLoaiCanhBao == 12) {
+          loaiCB = "Giám sát trở ngại khi kiểm tra điều kiện đóng điện điểm đấu nối";
+        } else if (res.data.ThongTinCanhBao.maLoaiCanhBao == 13) {
           loaiCB = "Giám sát trở ngại khi thi công treo tháo";
-        } else if (res.data.ThongTinCanhBao.maLoaiCanhBao == 16) {
+        } else if (res.data.ThongTinCanhBao.maLoaiCanhBao == 14) {
           loaiCB = "Giám sát nguyên nhân khách hàng từ chối ký hợp đồng mua bán điện";
+        } else if (res.data.ThongTinCanhBao.maLoaiCanhBao == 15) {
+          loaiCB = "Giám sát thời gian nghiệm thu yêu cầu cấp điện mới trung áp";
+        } else if (res.data.ThongTinCanhBao.maLoaiCanhBao == 16) {
+          loaiCB = "Cảnh báo các bộ hồ sơ sắp hết hạn hiệu lực thỏa thuận đấu nối";
         }
         var trangTahiCB = "";
         if (res.data.ThongTinCanhBao.trangThai == 1) {

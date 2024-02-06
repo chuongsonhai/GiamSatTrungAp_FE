@@ -19,7 +19,7 @@
       <!--begin::Form group-->
       <div class="form-group">
         <label class="font-size-h6 font-weight-bolder text-dark">Tài khoản</label>
-        <input class="form-control form-control-solid" disabled="disabled" type="username" name="username" formControlName="username"
+        <input class="form-control form-control-solid" type="username" name="username" formControlName="username"
           autocomplete="off" placeholder="Tài khoản đăng nhập"
           [ngClass]="{ 'is-invalid': loginForm.controls['username'].invalid }" />
         <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
@@ -41,12 +41,12 @@
           <label class="font-size-h6 font-weight-bolder text-dark pt-5">Mật khẩu</label>
         </div>
   
-        <input class="form-control form-control-solid" disabled="disabled" type="password" name="password" autocomplete="off"
+        <input class="form-control form-control-solid" type="password" name="password" autocomplete="off"
           formControlName="password" placeholder="Mật khẩu đăng nhập"
           [ngClass]="{ 'is-invalid': loginForm.controls['password'].invalid }" />
         <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
             validation: 'required',
-            message: 'Mật khẩu không được bỏ trống',
+            message: 'Mật khẩu phải tối thiểu 8 ký tự và bao gồm số, chữ thường, chữ in hoa và ký tự đặc biệt.',
             control: loginForm.controls['password']
           }"></ng-container>
         <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
@@ -85,7 +85,7 @@
   <div style="display: flex; flex-direction: row;">
 
     <div style="width: 130px; height: 70px; margin-right: 10px;">
-      <a href="~/assets/media/logos/app-release.apk" download="app-release.apk" style="text-decoration: none; display: block; width: 100%; height: 100%;">
+      <a  (click)="save()" download="app-release.apk" style="text-decoration: none; display: block; width: 100%; height: 100%;">
         <div class="aside-img d-flex flex-row-fluid bgi-no-repeat bgi-position-y-bottom bgi-position-x-center"
              style="background-image: url('./assets/media/logos/androi.jpg'); background-size: contain; width: 100%; height: 100%;">
         </div>

@@ -18,6 +18,8 @@ export class CanhBaoGiamSatService extends TableService<CanhBaoGiamSat> implemen
     API_URL = `${environment.apiUrl}/canhbao`;
     API_URL1 = `${environment.apiUrl}/EmailZalo`;
     API_URL2 = `${environment.apiUrl}/users`;
+
+
     constructor(@Inject(HttpClient) http, @Inject(AuthenticationService) authService, @Inject(ToastrService) toastr) {
         super(http, authService, toastr);
     }
@@ -25,6 +27,10 @@ export class CanhBaoGiamSatService extends TableService<CanhBaoGiamSat> implemen
     ngOnDestroy() {
         this.subscriptions.forEach(sb => sb.unsubscribe());
     }
+
+    downloadApk(): Observable<Blob> {
+        return this.http.get(`${environment.apiUrl}/EmailZalo/download/apk`, { responseType: 'blob' });
+      }
 
     createPhanHoi(File: File, item: any): Observable<any> {
         const url = `${environment.apiUrl}/PhanhoiTraodoi/add`;
@@ -43,6 +49,8 @@ export class CanhBaoGiamSatService extends TableService<CanhBaoGiamSat> implemen
             finalize(() => this._isLoading$.next(false))
         );
     }
+
+
 
 
     creatUserNhanCanhBao(item: any): Observable<any> { 
