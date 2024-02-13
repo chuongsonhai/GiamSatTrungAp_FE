@@ -61,7 +61,7 @@ export class AuthenticationService {
 
     login(username: string, password: string) {
         this.isLoadingSubject.next(true);
-        return this.http.post(`${environment.apiUrl}/auth/login`, { username, password }).pipe(
+        return this.http.post(`${environment.apiUrl}/auth/loginTrungap`, { username, password }).pipe(
             map((auth: ResponseModel) => {                
                 if (localStorage.getItem(this.authLocalStorageToken)) {
                     localStorage.removeItem(this.authLocalStorageToken);
