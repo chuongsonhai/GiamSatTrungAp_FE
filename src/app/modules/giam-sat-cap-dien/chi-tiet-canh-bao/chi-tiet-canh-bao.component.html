@@ -107,8 +107,9 @@
             <div class="col-lg-6">
                 <button *ngIf="((allowGSCD | async) && trangThaiHienNut == 2 )" class="btn btn-primary mr-2" (click)="updateStatusCanhBao(id,3)"> Xác nhận cảnh báo </button>
                 <button *ngIf="((allowGSCD | async) && trangThaiHienNut == 3 )" class="btn btn-primary mr-2" (click)="updateStatusCanhBao(id,4)">Chuyển đơn vị xử lý</button>
-                <button *ngIf="((allowGSCD | async) && trangThaiHienNut != 6 )" class="btn btn-primary mr-2" (click)="updateStatusCanhBao(id,6)">Kết thúc cảnh báo</button>
-          
+                <!-- <button *ngIf="((allowGSCD | async) && trangThaiHienNut != 6 )" class="btn btn-primary mr-2" (click)="UpdateStatusModel(id,6)">Kết thúc cảnh báo</button> -->
+                <button *ngIf="((allowGSCD | async) && trangThaiHienNut != 6 )" class="btn btn-primary mr-2" (click)="UpdateStatusModel()">Kết thúc cảnh báo</button>
+
             </div>
             <div class="col-lg-6 text-right">
                 <button *ngIf="((viewbuton && allowGSCD | async) && trangThaiHienNut == 4 )"  class="btn btn-primary mr-2 right" style="float: right;" (click)="createPH(id)"> Thêm phản hồi</button>

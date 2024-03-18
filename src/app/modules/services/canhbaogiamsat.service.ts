@@ -153,5 +153,24 @@ export class CanhBaoGiamSatService extends TableService<CanhBaoGiamSat> implemen
             })
         );
     }
+
+    updateStatusModel( model: any): Observable<any> {
+        const url = `${environment.apiUrl}/canhbao/UpdateStatusModel`;
+
+        return this.http.post<any>(url,  model ).pipe(
+            catchError(err => {
+                this.toastr.error("Có lỗi xảy ra, vui lòng thực hiện lại");
+                this._errorMessage.next(err);
+                console.log(err);
+                return of(undefined);
+            }),
+            finalize(() => this._isLoading$.next(false))
+        );
+    }
+    
+    
+
+    
+
 }
 

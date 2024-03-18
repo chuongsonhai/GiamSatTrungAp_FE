@@ -97,6 +97,7 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
       noiDungCanhBao: '',
       NGUYENHHAN_CANHBAO: 1,
       KETQUA_GIAMSAT: '',
+
     });
     const subscribe = this.commonService.getDonVis().pipe(
       catchError(err => {
@@ -356,6 +357,44 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
         }
       });
   }
+
+  UpdateStatusModel() {
+    this.confirmationDialogService.confirm('Thông báo', 'Bạn muốn cập nhật trạng thái?')
+      .then((confirmed) => {
+        if (confirmed) {
+     
+          const model = {
+            ID: this.id,
+            NGUYENHHAN_CANHBAO: this.filterGroup.controls.NGUYENHHAN_CANHBAO.value,
+            KETQUA_GIAMSAT: this.filterGroup.controls.KETQUA_GIAMSAT.value == null ? null : this.filterGroup.controls.KETQUA_GIAMSAT.value
+          };
+       //console.log(model);
+       
+          const sb = this.service.updateStatusModel(model).pipe(
+            catchError((errorMessage) => {
+              this.toastr.error("Có lỗi xảy ra, vui lòng thực hiện lại", "Thông báo");
+              return of(undefined);
+            }),
+            finalize(() => {
+            }))
+            .subscribe((res: ResponseModel) => {
+              if (res.success) {
+                this.isLoadingForm$.next(true);
+                this.reloadForm(true);
+                this.isLoadingForm$.next(false);
+                this.toastr.success("Thực hiện thành công", "Thành công");
+              }
+              else
+                this.toastr.error(res.message, "Thông báo");
+            })
+        }
+      });
+  }
+  
+
+
+
+
 
   view(path: string) {
     this.isLoadingForm$.next(true);
