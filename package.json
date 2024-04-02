@@ -15,7 +15,7 @@
     "@angular-devkit/core": "^11.2.13",
     "@angular/animations": "~11.0.0",
     "@angular/cdk": "^11.2.13",
-    "@angular/cli": "^11.2.14",
+    "@angular/cli": "^11.2.19",
     "@angular/common": "~11.0.0",
     "@angular/compiler": "~11.0.0",
     "@angular/core": "~11.0.0",
