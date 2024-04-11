@@ -51,6 +51,7 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
   trangThaiYeuCau: string
   NGUYENHHAN_CANHBAO: number
   KETQUA_GIAMSAT: string
+  NGUOI_GIAMSAT: string
   phanHoi: LichSuTuongTac[]
   LichSuTuongTac: any
   organizations: Organization[] = [];
@@ -97,6 +98,7 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
       noiDungCanhBao: '',
       NGUYENHHAN_CANHBAO: 1,
       KETQUA_GIAMSAT: '',
+      NGUOI_GIAMSAT:''
 
     });
     const subscribe = this.commonService.getDonVis().pipe(
@@ -221,7 +223,7 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
 
         this.phanHoi = res.data.DanhSachPhanHoi;
         this.LichSuTuongTac = res.data.DanhSachTuongTac;
-        console.log(res.data.DanhSachPhanHoi)
+        // console.log(res.data.DanhSachPhanHoi)
         if (res.data.DanhSachPhanHoi.length > 0) {
           this.viewbuton = false;
         } else {
@@ -366,17 +368,21 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
           const model = {
             ID: this.id,
             NGUYENHHAN_CANHBAO: this.filterGroup.controls.NGUYENHHAN_CANHBAO.value,
-            KETQUA_GIAMSAT: this.filterGroup.controls.KETQUA_GIAMSAT.value == null ? null : this.filterGroup.controls.KETQUA_GIAMSAT.value
+            KETQUA_GIAMSAT: this.filterGroup.controls.KETQUA_GIAMSAT.value == null ? null : this.filterGroup.controls.KETQUA_GIAMSAT.value,
+            NGUOI_GIAMSAT: this.auth.currentUserValue.username
           };
-       //console.log(model);
        
           const sb = this.service.updateStatusModel(model).pipe(
+            
             catchError((errorMessage) => {
               this.toastr.error("Có lỗi xảy ra, vui lòng thực hiện lại", "Thông báo");
               return of(undefined);
-            }),
+            }
+          
+          ),
             finalize(() => {
             }))
+    
             .subscribe((res: ResponseModel) => {
               if (res.success) {
                 this.isLoadingForm$.next(true);
@@ -386,7 +392,9 @@ export class ChiTietCanhBaoComponent implements OnInit, OnDestroy {
               }
               else
                 this.toastr.error(res.message, "Thông báo");
-            })
+            }
+          
+          )
         }
       });
   }
