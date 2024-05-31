@@ -28,7 +28,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class HoanThanhComponent implements OnInit, OnDestroy {
   @Input() congVanYeuCau: CongVanYeuCau;
-
+ listdonvi: any;
   thoaThuanDauNoi: ThoaThuanDauNoi;
   EMPTY: any;
 
@@ -69,7 +69,9 @@ export class HoanThanhComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.commonService.getDonVis().subscribe(x => this.listdonvi = x.data),
     this.loadForm();
+
     this.isLoadingForm$.next(true);
     setTimeout(() => {
       this.isLoadingForm$.next(false);
@@ -138,9 +140,11 @@ export class HoanThanhComponent implements OnInit, OnDestroy {
 
   formGroup: FormGroup;
   loadForm() {
+
     try {
       this.formGroup = this.fb.group({
-        MA_DVIQLY: [this.congVanYeuCau.MaDViQLy]
+        MA_DVIQLY: this.congVanYeuCau.MaDViQLy,
+        
       });
     }
     catch (error) {

@@ -53,7 +53,7 @@
                             <label>Đơn vị tiếp nhận <span style="color:red">*</span></label>
                             <select class="form-control" name="MA_DVIQLY" formControlName="MA_DVIQLY">
                                 <option value="" selected>--- Đơn vị ---</option>
-                                <option [value]="item.orgCode" *ngFor="let item of commonService.donvis$ | async">
+                                <option [value]="item.orgCode" *ngFor="let item of listdonvi ">
                                     {{item.orgCode}} - {{item.orgName}}
                                 </option>
                             </select>
