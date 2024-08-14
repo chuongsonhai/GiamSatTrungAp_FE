@@ -145,8 +145,10 @@
                     <th>
                         Trạng thái khảo sát
                     </th>
-                    <th>Điện thoại</th>
+                    <th>Điện thoại yêu cầu</th>
                     <th>Email</th>
+                    <th>Điện thoại khách hàng</th>
+                    <th>Ngày hoàn thành</th>
                     <th>Tương tác</th>
                     
                     
@@ -162,6 +164,9 @@
                         <td>{{item.TrangThai_khaosat}}</td>
                         <td>{{item.DienThoai}}</td>
                         <td>{{item.Email}}</td>
+                        <td>{{item.sdt_cmis}}</td>
+                        <td>{{ item.NGAY_HTHANH | date: 'dd/MM/yyyy' }}</td>
+
                         <td style="text-align: center;">
                             <a [routerLink]="'/kskh/detail/' + item.MaYeuCau" style="padding-right: 10px;"> <i
                                     class="fa fa-eye text-primary"></i></a>

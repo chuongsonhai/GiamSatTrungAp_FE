@@ -7,8 +7,10 @@ export const environment = {
   appVersion: 'v1.0',
   USERDATA_KEY: 'hrmauthf649fc9a5f55',
   isMockEnabled: false,
-  apiUrl: 'http://localhost:25586/api',
+
+  apiUrl: 'http://10.9.8.51:2468/api',
   // apiUrl: 'https://apitrungap.evnhanoi.vn/api',
+
   // apiUrl: 'http://10.9.8.51:2468/api',
   // ssoURL:'http://14.238.40.33:6801/sso/login?appCode=DAUNOI_TRUNGAP&redirectUrl=http://localhost:4200/auth/login',
   // ssoLogout: 'http://14.238.40.33:6801/sso/login?appCode=DAUNOI_TRUNGAP&redirectUrl=http://localhost:4200/auth/login'
