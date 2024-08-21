@@ -63,6 +63,7 @@ export class KhaoSatCanhBaoComponent implements OnInit {
   PHAN_HOI: string;
   GHI_CHU: string;
   TEN_KH: string;
+  SDT_KH: number;
   private subscriptions: Subscription[] = [];
   allowGSCD = new BehaviorSubject<boolean>(true);
   allowPHGS = new BehaviorSubject<boolean>(false);
@@ -175,6 +176,7 @@ handleFileInput(file: FileList) {
           TEN_KH: res.data.TEN_KH,
           DIA_CHI: res.data.DIA_CHI,
           SDT: res.data.DIEN_THOAI,
+          SDT_KH: res.data.SDT_KH,
           FILE_DINHKEM:'',
           // HANGMUC_KHAOSAT: res.data.HANGMUC_KHAOSAT.toString(),
         });
@@ -212,6 +214,7 @@ handleFileInput(file: FileList) {
       TEN_KH: [this.TEN_KH],
       DIA_CHI: [this.DIA_CHI],
       SDT: [this.SDT],
+      SDT_KH: [this.SDT_KH],
       FILE_DINHKEM:'',
       // HANGMUC_KHAOSAT: [this.HANGMUC_KHAOSAT],
     });
@@ -254,6 +257,7 @@ handleFileInput(file: FileList) {
           TEN_KH: res.data.TEN_KH,
           DIA_CHI: res.data.DIA_CHI,
           SDT: res.data.SDT,
+          SDT_KH: res.data.SDT_KH,
           FILE_DINHKEM:'',
         });
         this.khaoSat = res.data;
