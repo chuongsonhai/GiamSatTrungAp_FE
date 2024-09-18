@@ -54,6 +54,9 @@
                     <th style="width: 130px">
                         Ngày kết thúc
                     </th>
+                    <th style="width: 140px;text-align: center;">
+                        Ngày thực hiện
+                    </th>
                     <th style="width: 120px">
                         Số ngày
                     </th>
@@ -72,6 +75,7 @@
                         <td>{{item.MA_BPHAN_NHAN}}/{{item.MA_NVIEN_NHAN}}</td>
                         <td>{{item.NGAY_BDAU}}</td>
                         <td>{{item.NGAY_KTHUC}}</td>
+                        <td>{{item.NGAY_TAO}}</td>
                         <td style="text-align: center;">{{item.SO_NGAY_LVIEC}}</td>
                         <td style="text-align: center;">
                             <span *ngIf="item.TRANG_THAI==0">Mới tạo</span>

@@ -170,7 +170,7 @@ export class ListBienBanTTComponent implements
   view(maYC: string) {
     this.isLoadingForm$.next(true);
         const sb = this.service.detailList(maYC).subscribe((result: any) => {
-          debugger;
+  
             if (result) {
               const modalRef = this.modalService.open(ViewPdfComponent, { size: 'xl' });
               modalRef.componentInstance.response = result;
