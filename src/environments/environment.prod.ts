@@ -8,7 +8,7 @@ export const environment = {
   apiUrl: 'https://apitrungap.evnhanoi.vn/api',
 
   // //api --staging
-  // apiUrl: 'https://10.9.169.7:2468/api',
+  // apiUrl: 'http://10.9.8.51:2468/api',
   
   //sso product mới
   ssoURL:'https://sso.evnhanoi.vn/sso/login?appCode=DAUNOI_TRUNGAP&redirectUrl=https://trungap.evnhanoi.vn/auth/login',

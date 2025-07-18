@@ -72,7 +72,7 @@ export class DashboardComponent implements OnInit,
 
         //chart1
 
-        const a = this._user$.maDViQLy == 'PD' ? '-1' : this._user$.maDViQLy
+        const a = this._user$.maDViQLy == 'HN' ? '-1' : this._user$.maDViQLy
         console.log(a)
 
         this.yeuCauNghiemThuService.getList1(a).subscribe((x: any) => {
@@ -98,7 +98,7 @@ export class DashboardComponent implements OnInit,
         
 
     //chart2
-    const a2 = this._user$.maDViQLy == 'PD' ? '-1' : this._user$.maDViQLy
+    const a2 = this._user$.maDViQLy == 'HN' ? '-1' : this._user$.maDViQLy
     this.yeuCauNghiemThuService.getList2(a2).subscribe((response:any) => {
 
       const data = response.data; // Assuming response contains a 'data' property
@@ -131,7 +131,7 @@ export class DashboardComponent implements OnInit,
     
 
     //chart3
-    const a3 = this._user$.maDViQLy == 'PD' ? '-1' : this._user$.maDViQLy
+    const a3 = this._user$.maDViQLy == 'HN' ? '-1' : this._user$.maDViQLy
     this.yeuCauNghiemThuService.getList3(a3).subscribe((x: any) => {
       console.log(a3)
       this.options = {
@@ -234,7 +234,7 @@ export class DashboardComponent implements OnInit,
       }), finalize(() => {
         this._user$ = this.auth.currentUserValue;
         this.isLoadingForm$.next(false);
-        this.allowGetAll.next(this.auth.isSysAdmin() && this._user$.maDViQLy == 'PD');
+        this.allowGetAll.next(this.auth.isSysAdmin() && this._user$.maDViQLy == 'HN');
 
       })
     ).subscribe(res => {
@@ -243,7 +243,7 @@ export class DashboardComponent implements OnInit,
 
         this._items$.next(res.data);
         // console.log(res.data)
-        this.allowGetAll.next(this.auth.isSysAdmin() && this._user$.maDViQLy == 'PD');
+        this.allowGetAll.next(this.auth.isSysAdmin() && this._user$.maDViQLy == 'HN');
         this.organizations = res.data;
       }
     });

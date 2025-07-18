@@ -82,7 +82,7 @@ import { AuthenticationService } from 'src/app/_services/authentication.service'
   ngOnInit(): void {
     this.filterForm();
     this._user$ = this.auth.currentUserValue;
-    this.allowGetAll.next(this.auth.isSysAdmin() && this._user$.maDViQLy =='PD');
+    this.allowGetAll.next(this.auth.isSysAdmin() && this._user$.maDViQLy =='HN');
     const sb = this.service.isLoading$.subscribe(res => this.isLoading = res);
     this.subscriptions.push(sb);
     this.grouping = this.service.grouping;
@@ -119,7 +119,7 @@ import { AuthenticationService } from 'src/app/_services/authentication.service'
       DanhGiaNT: -1,
       ChiPhiKhachHang: -1,
       DanhGiaHaiLong: -1,
-      maDViQLy: this.orgCode == 'PD' ? '-1' : this.orgCode,
+      maDViQLy: this.orgCode == 'HN' ? '-1' : this.orgCode,
       fromdate:DateTimeUtil.convertDateToStringVNDefaulDateNow(this._fromDate),
       todate:DateTimeUtil.convertDateToStringVNDefaulDateNow(this.toDate),
     });

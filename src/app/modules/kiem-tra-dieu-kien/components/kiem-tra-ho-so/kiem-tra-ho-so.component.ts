@@ -109,7 +109,7 @@ export class KiemTraHoSoComponent implements OnInit, OnDestroy {
   submited = new BehaviorSubject<boolean>(false);
 
   xacNhanHoSo() {
-    if(this.congVanYeuCau.MaDViQLy!=="PD"){
+    if(this.congVanYeuCau.MaDViQLy!=="HN"){
       const modalRef = this.modalService.open(ApproveNghiemThuTemplateComponent, { size: 'lg' });
       modalRef.componentInstance.congVanYeuCau = this.congVanYeuCau;
       modalRef.componentInstance.approveModel.subscribe((resultModel) => {

@@ -90,8 +90,8 @@ export class DanhSachCanhBaoComponent implements
     this._user$ = this.auth.currentUserValue;
     // console.log(this._user$);
     // console.log("âcscác",this.auth.isSysAdmin())
-    // console.log("âcscác111",this.auth.isSysAdmin() && this._user$.maDViQLy =='PD')
-    this.allowGetAll.next(this.auth.isSysAdmin() && this._user$.maDViQLy =='PD');
+
+    this.allowGetAll.next(this.auth.isSysAdmin() && this._user$.maDViQLy =='HN');
     const sb = this.service.isLoading$.subscribe(res => this.isLoading = res);
     this.subscriptions.push(sb);
     this.grouping = this.service.grouping;
@@ -121,7 +121,7 @@ export class DanhSachCanhBaoComponent implements
   // filtration
   filterForm() {
     this.filterGroup = this.fb.group({
-      maDViQLy: this.orgCode == 'PD' ? '-1' : this.orgCode, 
+      maDViQLy: this.orgCode == 'HN' ? '-1' : this.orgCode, 
       keyword: [''],
       trangThai: -1,
       SoLanGui: [''],

@@ -81,7 +81,7 @@ _user$: UserModel;
   ngOnInit(): void {
     this.filterForm();
     this._user$ = this.auth.currentUserValue;
-    this.allowGetAll.next(this.auth.isSysAdmin() && this._user$.maDViQLy =='PD');
+    this.allowGetAll.next(this.auth.isSysAdmin() && this._user$.maDViQLy =='HN');
     const sb = this.service.isLoading$.subscribe(res => this.isLoading = res);
     this.subscriptions.push(sb);
     this.grouping = this.service.grouping;
@@ -110,7 +110,7 @@ _user$: UserModel;
     this.filterGroup = this.fb.group({
       keyword: [''],
       status: -1,
-      maDViQLy: this.orgCode == 'PD' ? '-1' : this.orgCode,
+      maDViQLy: this.orgCode == 'HN' ? '-1' : this.orgCode,
       MaLoaiCanhBao: ['-1'],
       fromdate:DateTimeUtil.convertDateToStringVNDefaulDateNow(this._fromDate),
       todate:DateTimeUtil.convertDateToStringVNDefaulDateNow(this.toDate),
