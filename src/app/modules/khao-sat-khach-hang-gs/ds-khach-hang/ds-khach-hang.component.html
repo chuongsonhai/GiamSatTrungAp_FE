@@ -12,7 +12,7 @@
                     <label>Đơn vị quản lý</label>
                     <select class="form-control" name="maDViQLy" formControlName="maDViQLy">
                         <ng-container *ngIf="allowGetAll | async">
-                            <option  value=" ">-- Chọn tất cả --</option>
+                            <option  value="-1">-- Chọn tất cả --</option>
                           </ng-container>
                         <option [value]="item.orgCode" *ngFor="let item of organizations">
                             {{item.orgCode}} - {{item.orgName}}

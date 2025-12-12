@@ -1,4 +1,6 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component, OnInit, OnDestroy, Input, Output, EventEmitter
+} from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { YeuCauNghiemThu } from 'src/app/modules/models/yeucaunghiemthu.model';
@@ -7,14 +9,21 @@ import { BienBanKTService } from 'src/app/modules/services/bienbankt.service';
 import { ConfirmationDialogService } from 'src/app/modules/share-component/confirmation-dialog/confirmation-dialog.service';
 import { FormBuilder } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { BehaviorSubject, interval, Observable, of, Subscription } from 'rxjs';
-import { catchError, finalize, first, takeWhile, tap } from 'rxjs/operators';
-import { ApproveModel, CancelModel, SignModel } from 'src/app/modules/models/bienbanks.model';
+import { BehaviorSubject, interval, of, Subscription } from 'rxjs';
+import { catchError, finalize, first, tap, takeWhile } from 'rxjs/operators';
+import {
+  ApproveModel,
+  CancelModel,
+  SignModel
+} from 'src/app/modules/models/bienbanks.model';
 import { BienBanKTData } from 'src/app/modules/models/bienbanksdata.model';
 import { TaoBienBanKiemTraComponent } from '../tao-bien-ban-kiem-tra/tao-bien-ban-kiem-tra.component';
 import { CancelBusinessComponent } from 'src/app/modules/share-component/cancel-business/cancel-business.component';
 import { AuthenticationService } from 'src/app/_services/authentication.service';
+
 declare var SignHubExt: any;
+declare var $: any;
+
 @Component({
   selector: 'app-bien-ban-ktdd',
   templateUrl: './bien-ban-ktdd.component.html',
@@ -22,7 +31,7 @@ declare var SignHubExt: any;
 })
 export class BienBanKTDDComponent implements OnInit, OnDestroy {
   @Input() congVanYeuCau: YeuCauNghiemThu;
-  @Output() public reloadData: EventEmitter<boolean>;
+  @Output() public reloadData: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   EMPTY: any;
   BienBanKTData: BienBanKTData;
@@ -30,7 +39,7 @@ export class BienBanKTDDComponent implements OnInit, OnDestroy {
   allowApprove = new BehaviorSubject<boolean>(false);
   allowSign = new BehaviorSubject<boolean>(false);
   txtFileBase64Sign = '';
-  
+
   constructor(
     private auth: AuthenticationService,
     public commonService: CommonService,
@@ -39,42 +48,46 @@ export class BienBanKTDDComponent implements OnInit, OnDestroy {
     private sanitizer: DomSanitizer,
     private modalService: NgbModal,
     private fb: FormBuilder,
-    private toastr: ToastrService) {
-
+    private toastr: ToastrService
+  ) {
     this.allowCancel.next(auth.isSysAdmin() || auth.checkPermission('YCNT-HUYKQKT'));
     this.allowApprove.next(auth.isSysAdmin() || auth.checkPermission('YCNT-DUYETBBKT'));
     this.allowSign.next(auth.isSysAdmin() || auth.checkPermission('YCNT-KYBBKT'));
 
-    this.reloadData = new EventEmitter<boolean>();
     this.EMPTY = {
       deptId: 0,
       staffCode: '',
       ngayHen: '',
       noiDung: '',
       maCViec: ''
-    }
+    };
   }
 
-  tabs = {
-    KetQuaKT: 1,
-    BienBanKT: 2
-  };
-
+  tabs = { KetQuaKT: 1, BienBanKT: 2 };
   src: string;
   safeSrc: SafeResourceUrl;
-
   isLoadingForm$ = new BehaviorSubject<boolean>(false);
+  activeTabId = this.tabs.KetQuaKT;
+  submited = new BehaviorSubject<boolean>(false);
+  cancelModel: CancelModel;
+  signModel: SignModel;
+  SIGN_EMPTY = { id: 0, binary_string: undefined };
+  FileBase64: string;
+  base64String: string;
 
-  activeTabId = this.tabs.KetQuaKT; // 0 => Basic info;
+  private subscriptions: Subscription[] = [];
 
   ngOnInit() {
     this.isLoadingForm$.next(true);
-    setTimeout(() => {
-      this.isLoadingForm$.next(false);
-    }, 2000);
-    if (this.congVanYeuCau.MaYeuCau !== undefined) {
+    setTimeout(() => this.isLoadingForm$.next(false), 2000);
+
+    if (this.congVanYeuCau?.MaYeuCau !== undefined) {
       this.loadData();
     }
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(sb => sb.unsubscribe());
   }
 
   loadData() {
@@ -83,60 +96,68 @@ export class BienBanKTDDComponent implements OnInit, OnDestroy {
 
     const sb = this.service.getItem(this.congVanYeuCau.MaYeuCau).pipe(
       first(),
-      catchError((errorMessage) => {
+      catchError(() => {
         this.isLoadingForm$.next(false);
         return of(this.BienBanKTData);
       }),
       finalize(() => this.isLoadingForm$.next(false))
     ).subscribe((result) => {
       if (result.success) {
-        debugger;
         this.BienBanKTData = result.data;
         this.safeSrc = null;
         this.getPDF(this.BienBanKTData.BienBanKT.Data);
-        this.isLoadingForm$.next(true);
-        setTimeout(() => {
-          this.isLoadingForm$.next(false);
-        }, 2000);
       }
     });
+
+    this.subscriptions.push(sb);
   }
 
-  base64String: string;
-  FileBase64: string;
-  getPDF(path: string): any {
+  getPDF(path: string): void {
     this.isLoadingForm$.next(true);
-    this.commonService.getPDF(path).subscribe((response) => {
-      this.FileBase64 = response;
-      var binary_string = window.atob(response);
-      this.base64String = binary_string;
-      var len = binary_string.length;
-      var bytes = new Uint8Array(len);
-      for (var i = 0; i < len; i++) {
-        bytes[i] = binary_string.charCodeAt(i);
-      }
-      let file = new Blob([bytes.buffer], { type: 'application/pdf' });
-      var src = URL.createObjectURL(file);
-      var safeSrc = this.sanitizer.bypassSecurityTrustResourceUrl(src);
-      this.src = src;
-      this.safeSrc = safeSrc;
-    }), finalize(() => this.isLoadingForm$.next(false))
-  }
 
-  getUrl() {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(this.src);
+    this.commonService.getPDF(path).pipe(
+      catchError(err => {
+        this.toastr.error("Không thể tải file PDF", "Lỗi");
+        return of(null);
+      }),
+      finalize(() => this.isLoadingForm$.next(false))
+    ).subscribe((response) => {
+      if (!response) return;
+
+      try {
+        this.FileBase64 = response;
+        const binary_string = window.atob(response);
+        const len = binary_string.length;
+        const bytes = new Uint8Array(len);
+
+        for (let i = 0; i < len; i++) {
+          bytes[i] = binary_string.charCodeAt(i);
+        }
+
+        const file = new Blob([bytes.buffer], { type: 'application/pdf' });
+
+        if (file.type === 'application/pdf') {
+          const src = URL.createObjectURL(file);
+          this.src = src;
+          this.safeSrc = this.sanitizer.bypassSecurityTrustResourceUrl(src);
+        } else {
+          this.toastr.warning('File không đúng định dạng PDF!', 'Cảnh báo');
+        }
+      } catch {
+        this.toastr.error('Lỗi khi xử lý file PDF', 'Lỗi');
+      }
+    });
   }
 
   changeTab(tabId: number) {
     this.activeTabId = tabId;
   }
 
-  submited = new BehaviorSubject<boolean>(false);
-
   create() {
     this.submited.next(true);
     const modalRef = this.modalService.open(TaoBienBanKiemTraComponent, { size: 'xl' });
     modalRef.componentInstance.bienBanKT = this.BienBanKTData.BienBanKT;
+
     modalRef.result.then(() => {
       this.submited.next(false);
       this.isLoadingForm$.next(true);
@@ -145,8 +166,6 @@ export class BienBanKTDDComponent implements OnInit, OnDestroy {
       this.isLoadingForm$.next(false);
     });
   }
-
-  cancelModel: CancelModel;
 
   huyKQua() {
     const modalRef = this.modalService.open(CancelBusinessComponent, { size: 'lg' });
@@ -158,41 +177,40 @@ export class BienBanKTDDComponent implements OnInit, OnDestroy {
         this.cancelModel.noiDung = resultModel.noiDung;
       }
     });
-    modalRef.result.then(
-      () => {
-        if (this.cancelModel !== undefined) {
-          this.confirmationDialogService.confirm('Thông báo', 'Sau khi hủy cần thực hiện lại kiểm tra điều kiện đóng điện điểm đấu nối, bạn có muốn hủy?')
-            .then((confirmed) => {
-              if (confirmed) {
-                this.submited.next(true);
-                const sbSign = this.service.huyKetQua(this.cancelModel).pipe(
-                  tap(() => {
-                    this.isLoadingForm$.next(true);
-                    this.reloadData.emit(true);
-                    this.isLoadingForm$.next(false);
-                  }),
-                  catchError((errorMessage) => {
-                    this.submited.next(false);
-                    this.toastr.error("Có lỗi xảy ra, vui lòng thực hiện lại", "Thông báo");
-                    return of(undefined);
-                  }),
-                ).subscribe((res) => {
+
+    modalRef.result.then(() => {
+      if (this.cancelModel) {
+        this.confirmationDialogService.confirm('Thông báo', 'Sau khi hủy cần thực hiện lại kiểm tra điều kiện đóng điện điểm đấu nối, bạn có muốn hủy?')
+          .then((confirmed) => {
+            if (confirmed) {
+              const sbSign = this.service.huyKetQua(this.cancelModel).pipe(
+                tap(() => {
+                  this.isLoadingForm$.next(true);
+                  this.reloadData.emit(true);
+                  this.isLoadingForm$.next(false);
+                }),
+                catchError(() => {
                   this.submited.next(false);
-                  if (res.success) {
-                    this.loadData();
-                    this.toastr.success("Đã hủy kết quả kiểm tra điều kiện đóng điện điểm đấu nối", "Thành công");
-                  }
-                  else
-                    this.toastr.error("Có lỗi xảy ra, vui lòng thực hiện lại", "Thông báo");
-                });
-              }
-            });
-        }
-      });
+                  this.toastr.error("Có lỗi xảy ra, vui lòng thực hiện lại", "Thông báo");
+                  return of(undefined);
+                }),
+              ).subscribe((res) => {
+                this.submited.next(false);
+                if (res.success) {
+                  this.loadData();
+                  this.toastr.success("Đã hủy kết quả kiểm tra", "Thành công");
+                } else {
+                  this.toastr.error("Có lỗi xảy ra", "Thông báo");
+                }
+              });
+              this.subscriptions.push(sbSign);
+            }
+          });
+      }
+    });
   }
 
   cancel() {
-    
     this.confirmationDialogService.confirm('Thông báo', 'Bạn có muốn khảo sát lại?')
       .then((confirmed) => {
         if (confirmed) {
@@ -203,23 +221,24 @@ export class BienBanKTDDComponent implements OnInit, OnDestroy {
               this.reloadData.emit(true);
               this.isLoadingForm$.next(false);
             }),
-            catchError((errorMessage) => {
+            catchError(() => {
               this.submited.next(false);
-              this.toastr.error("Có lỗi xảy ra, vui lòng thực hiện lại", "Thông báo");
+              this.toastr.error("Có lỗi xảy ra", "Thông báo");
               return of(undefined);
             }),
           ).subscribe((res) => {
             this.submited.next(false);
             if (res.success) {
-              this.toastr.success("Đã hủy kết quả khảo sát lưới điện", "Thành công");
+              this.toastr.success("Đã hủy kết quả khảo sát", "Thành công");
+            } else {
+              this.toastr.error("Có lỗi xảy ra", "Thông báo");
             }
-            else
-              this.toastr.error("Có lỗi xảy ra, vui lòng thực hiện lại", "Thông báo");
           });
+
+          this.subscriptions.push(sbSign);
         }
       });
-
-}
+  }
 
   approve() {
     this.confirmationDialogService.confirm('Thông báo', 'Bạn muốn duyệt biên bản?')
@@ -227,14 +246,17 @@ export class BienBanKTDDComponent implements OnInit, OnDestroy {
         if (confirmed) {
           this.isLoadingForm$.next(true);
           this.submited.next(true);
-          let approveModel = Object.assign(new ApproveModel(), this.EMPTY);
+
+          const approveModel = Object.assign(new ApproveModel(), this.EMPTY);
           approveModel.id = this.BienBanKTData.BienBanKT.ID;
+
           const sbSign = this.service.approve(approveModel).pipe(
-            catchError((errorMessage) => {
+            catchError(() => {
               this.submited.next(false);
-              this.toastr.error("Có lỗi xảy ra, vui lòng thực hiện lại", "Thông báo");
+              this.toastr.error("Có lỗi xảy ra", "Thông báo");
               return of(this.BienBanKTData);
-            }), finalize(() => {
+            }),
+            finalize(() => {
               this.isLoadingForm$.next(true);
               this.reloadData.emit(true);
               this.isLoadingForm$.next(false);
@@ -244,20 +266,14 @@ export class BienBanKTDDComponent implements OnInit, OnDestroy {
             if (res.success) {
               this.loadData();
               this.toastr.success("Đã duyệt biên bản", "Thành công");
+            } else {
+              this.toastr.error("Có lỗi xảy ra", "Thông báo");
             }
-            else
-              this.toastr.error("Có lỗi xảy ra, vui lòng thực hiện lại", "Thông báo");
           });
+
           this.subscriptions.push(sbSign);
         }
       });
-  }
-
-  signModel: SignModel;
-
-  SIGN_EMPTY:{
-    id: 0,
-    binary_string: undefined
   }
 
   sign() {
@@ -267,6 +283,7 @@ export class BienBanKTDDComponent implements OnInit, OnDestroy {
           this.submited.next(true);
           this.signModel = Object.assign(new SignModel(), this.SIGN_EMPTY);
           this.signModel.id = this.BienBanKTData.BienBanKT.ID;
+
           const sbSign = this.service.sign(this.signModel).pipe(
             tap(() => {
               this.isLoadingForm$.next(true);
@@ -274,48 +291,48 @@ export class BienBanKTDDComponent implements OnInit, OnDestroy {
               this.reloadData.emit(true);
               this.isLoadingForm$.next(false);
             }),
-            catchError((errorMessage) => {
+            catchError(() => {
               this.submited.next(false);
-              this.toastr.error("Có lỗi xảy ra, vui lòng thực hiện lại", "Thông báo");
+              this.toastr.error("Có lỗi xảy ra", "Thông báo");
               return of(this.BienBanKTData);
             }),
           ).subscribe((res) => {
             this.submited.next(false);
             if (res.success) {
               this.toastr.success("Đã gửi yêu cầu", "Thành công");
+            } else {
+              this.toastr.error("Có lỗi xảy ra", "Thông báo");
             }
-            else
-              this.toastr.error("Có lỗi xảy ra, vui lòng thực hiện lại", "Thông báo");
           });
+
+          this.subscriptions.push(sbSign);
         }
       });
   }
-  kySoNhanVien(){
-    var Sign = new SignHubExt();
+
+  kySoNhanVien() {
+    const Sign = new SignHubExt();
     Sign.initialize("NGƯỜI KIỂM TRA", this.FileBase64);
-    var timer = interval(1000)
-    .pipe(takeWhile(val => val<20))
-    .subscribe(() => {
-      if($('#txtFileBase64Sign').val().toString()!=""){
+
+    const timer = interval(1000).pipe(takeWhile(val => val < 20)).subscribe(() => {
+      const signed = $('#txtFileBase64Sign').val()?.toString();
+      if (signed) {
         timer.unsubscribe();
+        this.txtFileBase64Sign = signed;
         this.guiXacNhan();
       }
-    
     });
   }
-  guiXacNhan(){
-    this.confirmationDialogService.confirm('Thông báo', 'Bạn muốn gửi yêu cầu ký biên bản?')
-    .then((confirmed) => {
-      if (confirmed) {
-        this.submited.next(true);
 
-        //Cần ghép hàm ký số USB token tại đây
-        //Sau khi ký xong sẽ có base64string của file pdf, gán vào đối tượng signModel
-        this.txtFileBase64Sign =$('#txtFileBase64Sign').val().toString();
-        if (this.txtFileBase64Sign!=null && this.txtFileBase64Sign!="") {
+  guiXacNhan() {
+    this.confirmationDialogService.confirm('Thông báo', 'Bạn muốn gửi yêu cầu ký biên bản?')
+      .then((confirmed) => {
+        if (confirmed && this.txtFileBase64Sign) {
+          this.submited.next(true);
           this.signModel = Object.assign(new SignModel(), this.SIGN_EMPTY);
           this.signModel.id = this.BienBanKTData.BienBanKT.ID;
           this.signModel.binary_string = this.txtFileBase64Sign;
+
           const sbSign = this.service.signRemote(this.signModel).pipe(
             tap(() => {
               this.isLoadingForm$.next(true);
@@ -323,66 +340,22 @@ export class BienBanKTDDComponent implements OnInit, OnDestroy {
               this.reloadData.emit(true);
               this.isLoadingForm$.next(false);
             }),
-            catchError((errorMessage) => {
+            catchError(() => {
               this.submited.next(false);
-              this.toastr.error("Có lỗi xảy ra, vui lòng thực hiện lại", "Thông báo");
+              this.toastr.error("Có lỗi xảy ra", "Thông báo");
               return of(this.BienBanKTData);
             }),
           ).subscribe((res) => {
             this.submited.next(false);
             if (res.success) {
               this.toastr.success("Đã gửi yêu cầu", "Thành công");
+            } else {
+              this.toastr.error("Có lỗi xảy ra", "Thông báo");
             }
-            else
-              this.toastr.error("Có lỗi xảy ra, vui lòng thực hiện lại", "Thông báo");
           });
-        }
-        
-      }
-    });
-  }
 
-  signremote() {
-    this.confirmationDialogService.confirm('Thông báo', 'Bạn muốn gửi yêu cầu ký biên bản?')
-      .then((confirmed) => {
-        if (confirmed) {
-          this.submited.next(true);
-
-          //Cần ghép hàm ký số USB token tại đây
-          //Sau khi ký xong sẽ có base64string của file pdf, gán vào đối tượng signModel
-
-          this.signModel = Object.assign(new SignModel(), this.SIGN_EMPTY);
-          this.signModel.id = this.BienBanKTData.BienBanKT.ID;
-          this.signModel.binary_string = this.base64String;
-          const sbSign = this.service.signRemote(this.signModel).pipe(
-            tap(() => {
-              this.isLoadingForm$.next(true);
-              this.loadData();
-              this.reloadData.emit(true);
-              this.isLoadingForm$.next(false);
-            }),
-            catchError((errorMessage) => {
-              this.submited.next(false);
-              this.toastr.error("Có lỗi xảy ra, vui lòng thực hiện lại", "Thông báo");
-              return of(this.BienBanKTData);
-            }),
-          ).subscribe((res) => {
-            this.submited.next(false);
-            if (res.success) {
-              this.toastr.success("Đã gửi yêu cầu", "Thành công");
-            }
-            else
-              this.toastr.error("Có lỗi xảy ra, vui lòng thực hiện lại", "Thông báo");
-          });
+          this.subscriptions.push(sbSign);
         }
       });
-  }
-
-
-
-  private subscriptions: Subscription[] = [];
-
-  ngOnDestroy() {
-    this.subscriptions.forEach(sb => sb.unsubscribe());
   }
 }

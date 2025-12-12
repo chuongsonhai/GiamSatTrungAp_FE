@@ -1,6 +1,15 @@
+<!-- du-thao-hop-dong-dien.component.html -->
+
 <div class="pdf-container">
-    <ng-container *ngIf="!(isLoadingForm$ | async) && safeSrc">
-        <iframe width="100%" onload="this.style.height=(window.outerHeight / 2) +'px';" frameBorder="0"
-            [src]="getUrl()"></iframe>
-    </ng-container>
+  <ng-container *ngIf="!(isLoadingForm$ | async) && safeSrc">
+    <iframe
+      [src]="getUrl()"
+      width="100%"
+      height="600px"
+      frameborder="0"
+      title="Hợp đồng điện"
+      sandbox="allow-same-origin allow-scripts"
+      aria-label="PDF Viewer"
+    ></iframe>
+  </ng-container>
 </div>

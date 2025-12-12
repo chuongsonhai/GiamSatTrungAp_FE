@@ -1,127 +1,116 @@
 <ng-container *ngIf="isLoadingForm$ | async; else showData">
   <div class="overlay-layer bg-transparent">
-    <div class="spinner spinner-lg spinner-success"><span style="padding-left:35px;">Đang tải dữ liệu, vui lòng
-        chờ</span></div>
+    <div class="spinner spinner-lg spinner-success">
+      <span style="padding-left:35px;">Đang tải dữ liệu, vui lòng chờ</span>
+    </div>
   </div>
 </ng-container>
+
 <ng-template #showData>
-  <form action="#" class="form form-label-right">
+  <form class="form form-label-right">
     <div class="pb-5">
       <div class="row">
+        <!-- Cột bên trái: Thông tin yêu cầu -->
         <div class="col-lg-3">
           <div class="form-group">
-            <label>{{congVanYeuCau.DuAnDien}}</label>
+            <label>{{ congVanYeuCau?.DuAnDien }}</label>
           </div>
           <div class="form-group">
-            <label>Người yêu cầu: {{congVanYeuCau.NguoiYeuCau}}</label>
+            <label>Người yêu cầu: {{ congVanYeuCau?.NguoiYeuCau }}</label>
           </div>
           <div class="form-group">
-            <label>Mã yêu cầu: {{congVanYeuCau.MaYeuCau}}</label>
+            <label>Mã yêu cầu: {{ congVanYeuCau?.MaYeuCau }}</label>
           </div>
           <div class="aside-menu">
             <ul class="nav menu-nav tabs">
-              <li class="nav-item" (click)="changeTab(tabs.ThoaThuanDauNoi)"
-                [class.active]="activeTabId === tabs.ThoaThuanDauNoi">
+              <li class="nav-item" *ngFor="let tab of [
+                { id: tabs.ThoaThuanDauNoi, name: 'Thỏa thuận đấu nối' },
+                { id: tabs.PhuLucHopDong, name: 'Phụ lục hợp đồng' },
+                { id: tabs.HopDongMuaBan, name: 'Hợp đồng mua bán điện' },
+                { id: tabs.PhanCongThiCong, name: 'Phân công thi công' },
+                { id: tabs.BienBanTreoThao, name: 'Biên bản treo tháo' },
+                { id: tabs.BienBanNghiemThu, name: 'Biên bản nghiệm thu' },
+                { id: tabs.TaiLieuNghiemThu, name: 'Hồ sơ nghiệm thu' }
+              ]"
+              (click)="changeTab(tab.id)"
+              [class.active]="activeTabId === tab.id">
                 <a class="nav-link" data-toggle="tab" role="button"
-                  [attr.aria-selected]="activeTabId === tabs.ThoaThuanDauNoi"
-                  [class.active]="activeTabId === tabs.ThoaThuanDauNoi">
-                  <span class="menu-text">Thỏa thuận đấu nối</span>
-                </a>
-              </li>
-              <li class="nav-item" (click)="changeTab(tabs.PhuLucHopDong)"
-                [class.active]="activeTabId === tabs.PhuLucHopDong">
-                <a class="nav-link" data-toggle="tab" role="button"
-                  [attr.aria-selected]="activeTabId === tabs.PhuLucHopDong"
-                  [class.active]="activeTabId === tabs.PhuLucHopDong">
-                  <span class="menu-text">Phụ lục hợp đồng</span>
-                </a>
-              </li>
-              <li class="nav-item" (click)="changeTab(tabs.HopDongMuaBan)"
-                [class.active]="activeTabId === tabs.HopDongMuaBan">
-                <a class="nav-link" data-toggle="tab" role="button"
-                  [attr.aria-selected]="activeTabId === tabs.HopDongMuaBan"
-                  [class.active]="activeTabId === tabs.HopDongMuaBan">
-                  <span class="menu-text">Hợp đồng mua bán điện</span>
-                </a>
-              </li>
-              <li class="nav-item" (click)="changeTab(tabs.PhanCongThiCong)"
-                [class.active]="activeTabId === tabs.PhanCongThiCong">
-                <a class="nav-link" data-toggle="tab" role="button"
-                  [attr.aria-selected]="activeTabId === tabs.PhanCongThiCong"
-                  [class.active]="activeTabId === tabs.PhanCongThiCong">
-                  <span class="menu-text">Phân công thi công</span>
-                </a>
-              </li>              
-              <li class="nav-item" (click)="changeTab(tabs.BienBanTreoThao)"
-                [class.active]="activeTabId === tabs.BienBanTreoThao">
-                <a class="nav-link" data-toggle="tab" role="button"
-                  [attr.aria-selected]="activeTabId === tabs.BienBanTreoThao"
-                  [class.active]="activeTabId === tabs.BienBanTreoThao">
-                  <span class="menu-text">Biên bản treo tháo</span>
-                </a>
-              </li>
-              
-              <li class="nav-item" (click)="changeTab(tabs.BienBanNghiemThu)"
-                [class.active]="activeTabId === tabs.BienBanNghiemThu">
-                <a class="nav-link" data-toggle="tab" role="button"
-                  [attr.aria-selected]="activeTabId === tabs.BienBanNghiemThu"
-                  [class.active]="activeTabId === tabs.BienBanNghiemThu">
-                  <span class="menu-text">Biên bản nghiệm thu</span>
-                </a>
-              </li>
-              <li class="nav-item" (click)="changeTab(tabs.TaiLieuNghiemThu)"
-                [class.active]="activeTabId === tabs.TaiLieuNghiemThu">
-                <a class="nav-link" data-toggle="tab" role="button"
-                  [attr.aria-selected]="activeTabId === tabs.TaiLieuNghiemThu"
-                  [class.active]="activeTabId === tabs.TaiLieuNghiemThu">
-                  <span class="menu-text">Hồ sơ nghiệm thu</span>
+                  [attr.aria-selected]="activeTabId === tab.id"
+                  [class.active]="activeTabId === tab.id">
+                  <span class="menu-text">{{ tab.name }}</span>
                 </a>
               </li>
             </ul>
           </div>
         </div>
+
+        <!-- Cột bên phải: Nội dung tab -->
         <div class="col-lg-9" style="border: 1px #eee solid;">
-          <ng-container *ngIf="activeTabId === tabs.ThoaThuanDauNoi">
+          <!-- Thỏa thuận đấu nối -->
+          <ng-container *ngIf="activeTabId === tabs.ThoaThuanDauNoi && srcTTDN">
             <div class="pdf-container">
-              <ng-container *ngIf="!(isLoadingForm$ | async) && safeSrcTTDN">
-                <iframe class="iframe-pdf" width="100%" onload="this.style.height=(window.outerHeight / 2) +'px';"
-                  frameBorder="0" [src]="getUrl('BBDN')"></iframe>
-              </ng-container>
+              <iframe class="iframe-pdf"
+                [src]="srcTTDN"
+                width="100%"
+                height="600px"
+                frameBorder="0"
+                type="application/pdf"
+                sandbox="allow-same-origin allow-scripts allow-popups allow-forms">
+              </iframe>
             </div>
           </ng-container>
+
+          <!-- Phân công thi công -->
           <ng-container *ngIf="activeTabId === tabs.PhanCongThiCong && congVanYeuCau">
             <app-phan-cong-thi-cong [congVanYeuCau]="congVanYeuCau"></app-phan-cong-thi-cong>
-          </ng-container>          
+          </ng-container>
 
+          <!-- Biên bản treo tháo -->
           <ng-container *ngIf="activeTabId === tabs.BienBanTreoThao && congVanYeuCau">
             <app-bb-treo-thao [congVanYeuCau]="congVanYeuCau"></app-bb-treo-thao>
           </ng-container>
+
+          <!-- Hồ sơ nghiệm thu -->
           <ng-container *ngIf="activeTabId === tabs.TaiLieuNghiemThu && congVanYeuCau">
             <app-tai-lieu-nghiem-thu [congVanYeuCau]="congVanYeuCau"></app-tai-lieu-nghiem-thu>
           </ng-container>
+
+          <!-- Phụ lục hợp đồng -->
           <ng-container *ngIf="activeTabId === tabs.PhuLucHopDong && congVanYeuCau">
-            <app-phu-luc-hop-dong [congVanYeuCau]="congVanYeuCau" ></app-phu-luc-hop-dong>
+            <app-phu-luc-hop-dong [congVanYeuCau]="congVanYeuCau"></app-phu-luc-hop-dong>
           </ng-container>
 
-          <ng-container *ngIf="activeTabId === tabs.BienBanNghiemThu && congVanYeuCau">
+          <!-- Biên bản nghiệm thu -->
+          <ng-container *ngIf="activeTabId === tabs.BienBanNghiemThu && src">
             <div class="pdf-container">
-              <ng-container *ngIf="!(isLoadingForm$ | async) && src">
-                <iframe class="iframe-pdf" width="100%" onload="this.style.height=(window.outerHeight / 2)+'px';"
-                  frameBorder="0" [src]="getUrl('BBNT')"></iframe>
-              </ng-container>
+              <iframe class="iframe-pdf"
+                [src]="src"
+                width="100%"
+                height="600px"
+                frameBorder="0"
+                type="application/pdf"
+                sandbox="allow-same-origin allow-scripts allow-popups allow-forms">
+              </iframe>
             </div>
           </ng-container>
 
+          <!-- Hợp đồng mua bán -->
           <ng-container *ngIf="activeTabId === tabs.HopDongMuaBan && congVanYeuCau">
             <app-hop-dong-dien [congVanYeuCau]="congVanYeuCau"></app-hop-dong-dien>
           </ng-container>
         </div>
+
+        <!-- Nút xử lý biên bản -->
         <div class="col-lg-12 text-right" *ngIf="activeTabId === tabs.BienBanNghiemThu && congVanYeuCau">
-          <button type="button" *ngIf="BienBanNT && BienBanNT.TrangThai === 0" (click)="create()"
+          <button type="button"
+            *ngIf="BienBanNT?.TrangThai === 0"
+            (click)="create()"
             class="btn btn-primary mr-2">
             <i class="fa fa-upload"></i> Upload biên bản
           </button>
-          <button type="button" *ngIf="BienBanNT && BienBanNT.TrangThai === 0 && BienBanNT.ID > 0" (click)="approve()"
+          <button type="button"
+            *ngIf="BienBanNT?.TrangThai === 0 && BienBanNT?.ID > 0"
+            (click)="approve()"
             class="btn btn-success mr-2">
             <i class="fa fa-check"></i> Xác nhận
           </button>

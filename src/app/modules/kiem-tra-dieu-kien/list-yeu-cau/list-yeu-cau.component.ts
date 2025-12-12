@@ -81,7 +81,7 @@ export class ListYeuCauComponent implements
   ngOnInit(): void {
     this.filterForm();
     this._user$ = this.auth.currentUserValue;
-    this.allowGetAll.next(this.auth.isSysAdmin() && this._user$.maDViQLy=='HN');
+    this.allowGetAll.next(this.auth.isSysAdmin() && this._user$.maDViQLy=='HN' || this._user$.maDViQLy =='X0206');
     const sb = this.service.isLoading$.subscribe(res => this.isLoading = res);
     this.subscriptions.push(sb);
     this.grouping = this.service.grouping;

@@ -1,6 +1,11 @@
 <div class="pdf-container">
-    <ng-container *ngIf="!(isLoadingForm$ | async) && safeSrc">
-        <iframe width="100%" onload="this.style.height=(window.outerHeight / 2) +'px';" frameBorder="0"
-            [src]="getUrl()"></iframe>
-    </ng-container>
+  <ng-container *ngIf="!(isLoadingForm$ | async) && safeSrc">
+    <iframe
+      width="100%"
+      [src]="safeSrc"
+      sandbox="allow-same-origin allow-scripts"
+      frameBorder="0"
+      (load)="onIframeLoad($event)">
+    </iframe>
+  </ng-container>
 </div>

@@ -1,105 +1,96 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, of, Subscription } from 'rxjs';
-import { catchError, finalize, first } from 'rxjs/operators';
+import { BehaviorSubject, Subscription, of } from 'rxjs';
+import { catchError, first } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { CreateThietBiComponent } from './create-thiet-bi/create-thiet-bi.component';
 import { ThietBi } from 'src/app/modules/models/thietbi.model';
 import { ThietBiService } from 'src/app/modules/services/thietbi.service';
 import { CongVanYeuCauService } from 'src/app/modules/services/congvanyeucau.service';
 import { CommonService } from 'src/app/modules/services/common.service';
 
-
 @Component({
   selector: 'app-thiet-bi',
   templateUrl: './thiet-bi.component.html',
   styleUrls: ['./thiet-bi.component.scss']
 })
-export class ThietBiComponent implements OnInit {
+export class ThietBiComponent implements OnInit, OnDestroy {
 
-  private subscriptions: Subscription[] = [];
   @Input() congvanid: number;
-  status: number;
   thietBi: ThietBi;
   isLoadingForm$ = new BehaviorSubject<boolean>(false);
-  src: string;
-  safeSrc: SafeResourceUrl;
-  height: string;
+  pdfUrl: SafeResourceUrl;
+  private subscriptions: Subscription[] = [];
 
   constructor(
-    public route: ActivatedRoute,
-    public CongVanYeuCauService: CongVanYeuCauService,
+    private route: ActivatedRoute,
+    private CongVanYeuCauService: CongVanYeuCauService,
     private sanitizer: DomSanitizer,
-    public CommonService: CommonService,
-    public service: ThietBiService,
+    private CommonService: CommonService,
+    private service: ThietBiService,
     private modalService: NgbModal,
-    private fb: FormBuilder,) {
+    private fb: FormBuilder
+  ) {}
 
+  ngOnInit() {
+    this.isLoadingForm$.next(true);
+    this.loadData();
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
   create() {
     const modalRef = this.modalService.open(CreateThietBiComponent, { size: 'xl' });
     modalRef.componentInstance._ThietBi = this.thietBi;
-    modalRef.result.then(
-      () => {
-        this.isLoadingForm$.next(true);
-        this.loadData();
-        this.isLoadingForm$.next(false);
-      }
-    );
-  }
-
-  ngOnInit() {
-    this.isLoadingForm$.next(true);
-    this.height = window.outerHeight / 2 + 'px'
-    setTimeout(() => {
-      this.isLoadingForm$.next(false);
-    }, 1000);
-    this.loadData();
-    this.isLoadingForm$.next(false);
+    modalRef.result.then(() => {
+      this.isLoadingForm$.next(true);
+      this.loadData();
+    });
   }
 
   loadData() {
     this.isLoadingForm$.next(true);
-    const sb = this.service.getItem(this.congvanid).pipe(
+    const sub = this.service.getItem(this.congvanid).pipe(
       first(),
-      catchError((errorMessage) => {
+      catchError(() => {
         this.isLoadingForm$.next(false);
-        return of(this.thietBi);
+        return of(null);
       })
     ).subscribe((result: ThietBi) => {
       if (result) {
         this.thietBi = result;
-        this.getPDF(result.Data);
-        setTimeout(() => {
-          this.isLoadingForm$.next(false);
-        }, 1000);
+        this.loadPDF(result.Data);
+      } else {
         this.isLoadingForm$.next(false);
       }
     });
+
+    this.subscriptions.push(sub);
   }
 
-  getPDF(path: string) {
-    this.isLoadingForm$.next(true);
-    this.CommonService.getPDF(path).subscribe((response) => {
-      var binary_string = window.atob(response);
-      var len = binary_string.length;
-      var bytes = new Uint8Array(len);
-      for (var i = 0; i < len; i++) {
-        bytes[i] = binary_string.charCodeAt(i);
+  loadPDF(path: string) {
+    const sub = this.CommonService.getPDF(path).pipe(first()).subscribe(response => {
+      const binary = atob(response);
+      const len = binary.length;
+      const bytes = new Uint8Array(len);
+      for (let i = 0; i < len; i++) {
+        bytes[i] = binary.charCodeAt(i);
       }
-      let file = new Blob([bytes.buffer], { type: 'application/pdf' });
-      this.src = URL.createObjectURL(file);
-      this.safeSrc = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(file));
-    }), finalize(() => this.isLoadingForm$.next(false))
-  }
-  getUrl() {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(this.src);
+      const blob = new Blob([bytes.buffer], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+      this.pdfUrl = url; // Use directly without sanitization
+      this.isLoadingForm$.next(false);
+    }, () => this.isLoadingForm$.next(false));
+
+    this.subscriptions.push(sub);
   }
 
-  ngOnDestroy(): void {
-    this.subscriptions.forEach(sb => sb.unsubscribe());
+  get safeUrl(): SafeResourceUrl {
+    // Sanitize here if really needed, but source is trusted Blob URL
+    return this.sanitizer.bypassSecurityTrustResourceUrl(this.pdfUrl as string);
   }
 }

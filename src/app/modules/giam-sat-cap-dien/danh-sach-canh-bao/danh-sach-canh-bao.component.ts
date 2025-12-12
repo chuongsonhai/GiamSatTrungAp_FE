@@ -91,7 +91,7 @@ export class DanhSachCanhBaoComponent implements
     // console.log(this._user$);
     // console.log("âcscác",this.auth.isSysAdmin())
 
-    this.allowGetAll.next(this.auth.isSysAdmin() && this._user$.maDViQLy =='HN');
+    this.allowGetAll.next(this.auth.isSysAdmin() && this._user$.maDViQLy =='HN'|| this._user$.maDViQLy =='X0206');
     const sb = this.service.isLoading$.subscribe(res => this.isLoading = res);
     this.subscriptions.push(sb);
     this.grouping = this.service.grouping;
@@ -121,7 +121,7 @@ export class DanhSachCanhBaoComponent implements
   // filtration
   filterForm() {
     this.filterGroup = this.fb.group({
-      maDViQLy: this.orgCode == 'HN' ? '-1' : this.orgCode, 
+      maDViQLy: (this.orgCode == 'HN' || this.orgCode == 'X0206') ? '-1' : this.orgCode,
       keyword: [''],
       trangThai: -1,
       SoLanGui: [''],

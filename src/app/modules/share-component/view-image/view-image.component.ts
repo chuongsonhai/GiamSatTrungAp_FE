@@ -1,6 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -8,37 +7,39 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './view-image.component.html',
   styleUrls: ['./view-image.component.scss']
 })
-export class ViewImageComponent implements OnInit {
+export class ViewImageComponent implements OnInit, OnDestroy {
   @Input() response: string;
-  isLoading: boolean;
-  isLocked: boolean;
+
+  isLoadingForm$ = new BehaviorSubject<boolean>(true);
   private subscriptions: Subscription[] = [];
-  isLoadingForm$ = new BehaviorSubject<boolean>(false);
 
-  constructor(private sanitizer: DomSanitizer,  public modal: NgbActiveModal,) { }
-  safeSrc: SafeResourceUrl;
-  height:string;
-  src: string;
+  imageSrc: string | null = null;
+  imageHeight: string = '400px';
+
+  constructor(public modal: NgbActiveModal) {}
+
   ngOnInit(): void {
-    this.getPdf();
-  }
-  getPdf() {
-    var binary_string = window.atob(this.response);
-    var len = binary_string.length;
-    var bytes = new Uint8Array(len);
-    for (var i = 0; i < len; i++) {
-      bytes[i] = binary_string.charCodeAt(i);
+    if (this.response) {
+      this.loadImageFromBase64(this.response);
+    } else {
+      this.isLoadingForm$.next(false);
     }
-    let file = new Blob([bytes.buffer], { type: 'image/png' });
-    this.src = URL.createObjectURL(file);
-    this.safeSrc = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(file));
-    this.height=window.outerHeight/2+'px';
-  }
-  getUrl() {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(this.src);
-  }
-  ngOnDestroy() {
-    this.subscriptions.forEach((sb) => sb.unsubscribe());
   }
 
+  loadImageFromBase64(base64Str: string): void {
+    try {
+      // Assuming the base64 string is just the raw base64, add prefix
+      this.imageSrc = `data:image/png;base64,${base64Str}`;
+      this.imageHeight = (window.outerHeight / 2) + 'px';
+    } catch (error) {
+      console.error('Error decoding base64 image:', error);
+      this.imageSrc = null;
+    } finally {
+      this.isLoadingForm$.next(false);
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
 }

@@ -1,28 +1,38 @@
 <ng-container *ngIf="isLoadingForm$ | async; else showData">
-    <div class="overlay-layer bg-transparent">
-        <div class="spinner spinner-lg spinner-success"><span style="padding-left:35px;">Đang tải dữ liệu, vui lòng
-                chờ</span></div>
+  <div class="overlay-layer bg-transparent">
+    <div class="spinner spinner-lg spinner-success">
+      <span style="padding-left:35px;">Đang tải dữ liệu, vui lòng chờ</span>
     </div>
+  </div>
 </ng-container>
+
 <ng-template #showData>
-    <div class="modal-content">
-        <div class="modal-header">
-            <div class="modal-title h4" id="example-modal-sizes-title-lg">
-                <h3 class="card-label"></h3>
-            </div>
-            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <div class="pdf-container">
-                <ng-container *ngIf="!(isLoadingForm$ | async) && src">
-                    <img class="iframe-pdf" width="100%" onload="this.style.height=(window.outerHeight / 2)+'px';" frameBorder="0" [src]="getUrl()" />
-                </ng-container>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-danger btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
-        </div>
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-title h4">
+        <h3 class="card-label">Xem Hình Ảnh</h3>
+      </div>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
+    <div class="modal-body">
+      <div class="pdf-container">
+        <ng-container *ngIf="imageSrc; else noImage">
+          <img
+            [src]="imageSrc"
+            [style.height]="imageHeight"
+            width="100%"
+            alt="Hình ảnh"
+          />
+        </ng-container>
+        <ng-template #noImage>
+          <p class="text-danger">Không thể tải hình ảnh.</p>
+        </ng-template>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger btn-elevate mr-2" (click)="modal.dismiss()">Thoát</button>
+    </div>
+  </div>
 </ng-template>

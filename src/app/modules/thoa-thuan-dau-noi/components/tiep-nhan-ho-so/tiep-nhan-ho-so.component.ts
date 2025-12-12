@@ -171,7 +171,7 @@ export class TiepNhanHoSoComponent implements OnInit, OnDestroy {
   submited = new BehaviorSubject<boolean>(false);
 
   duyetHoSo() {
-    if(this.congVanYeuCau.MaDViQLy!=="HN"){
+    if(this.congVanYeuCau.MaDViQLy!=="HN" ){
       const modalRef = this.modalService.open(ApproveDocumentTemplateComponent, { size: 'lg' });
       modalRef.componentInstance.congVanYeuCau = this.congVanYeuCau;
       modalRef.componentInstance.truongBoPhan = false;

@@ -1,124 +1,125 @@
 <div class="card card-custom gutter-b">
-    <div class="card-header">
-        <div class="card-title">
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <li class="nav-item" (click)="changeTab(tabs.KetQuaTC)" [class.active]="activeTabId === tabs.KetQuaTC">
-                    <a class="nav-link" data-toggle="tab" role="button"
-                        [attr.aria-selected]="activeTabId === tabs.KetQuaTC"
-                        [class.active]="activeTabId === tabs.KetQuaTC">
-                        <span class="menu-text">Kết quả thi công</span>
-                    </a>
-                </li>
-                <li class="nav-item" (click)="changeTab(tabs.BienBanTT)"
-                    [class.active]="activeTabId === tabs.BienBanTT">
-                    <a class="nav-link" data-toggle="tab" role="button"
-                        [attr.aria-selected]="activeTabId === tabs.BienBanTT"
-                        [class.active]="activeTabId === tabs.BienBanTT">
-                        <span class="menu-text">Biên bản treo tháo</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
+  <div class="card-header">
+    <div class="card-title">
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" (click)="changeTab(tabs.KetQuaTC)" [class.active]="activeTabId === tabs.KetQuaTC">
+          <a class="nav-link" data-toggle="tab" role="button"
+             [attr.aria-selected]="activeTabId === tabs.KetQuaTC"
+             [class.active]="activeTabId === tabs.KetQuaTC">
+            <span class="menu-text">Kết quả thi công</span>
+          </a>
+        </li>
+        <li class="nav-item" (click)="changeTab(tabs.BienBanTT)" [class.active]="activeTabId === tabs.BienBanTT">
+          <a class="nav-link" data-toggle="tab" role="button"
+             [attr.aria-selected]="activeTabId === tabs.BienBanTT"
+             [class.active]="activeTabId === tabs.BienBanTT">
+            <span class="menu-text">Biên bản treo tháo</span>
+          </a>
+        </li>
+      </ul>
     </div>
-    <div class="card-body">
-        <div class="col-xl-12 col-xxl-12">
-            <div class="tab-content mt-5" id="myTabContent">
-                <ng-container *ngIf="activeTabId === tabs.KetQuaTC && congVanYeuCau">
-                    <app-ket-qua-thi-cong [congVanYeuCau]="congVanYeuCau" (reloadData)="reloadData($event)">
-                    </app-ket-qua-thi-cong>
-                </ng-container>
-                <ng-container *ngIf="activeTabId === tabs.BienBanTT && BienBanTTData">
-                    <ng-container>
-                        <div class="pdf-container" style="min-height: 400px;"
-                            *ngIf="BienBanTTData && BienBanTTData.BienBanTT.TRANG_THAI >= 1">
-                            <ng-container *ngIf="!(isLoadingForm$ | async) && safeSrc">
-                                <iframe width="100%" onload="this.style.height=(window.outerHeight / 2) +'px';"
-                                    frameBorder="0" [src]="getUrl()"></iframe>
-                            </ng-container>
-                        </div>
-                        <div *ngIf="BienBanTTData && BienBanTTData.BienBanTT.TRANG_THAI === 0"
-                            class="overlay overlay-block cursor-default modal-body">
-                            <div class="form-group row">
-                                <div class="col-lg-6">
-                                    <label>Tên khách hàng</label>
-                                    <label class="form-control">{{BienBanTTData.BienBanTT.TEN_KHACHHANG}}</label>
-                                </div>
-                                <div class="col-lg-6">
-                                    <label>Số điện thoại </label>
-                                    <label class="form-control">{{BienBanTTData.BienBanTT.SDT_KHACHHANG}}</label>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-lg-6">
-                                    <label>Tên người đại diện</label>
-                                    <label class="form-control">{{BienBanTTData.BienBanTT.NGUOI_DDIEN}}</label>
-                                </div>
-                                <div class="col-lg-6">
-                                    <label>Địa chỉ sử dụng điện</label>
-                                    <label class="form-control">{{BienBanTTData.BienBanTT.DIA_DIEM}}</label>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-lg-6">
-                                    <label>Lý do treo tháo</label>
-                                    <label class="form-control">{{BienBanTTData.BienBanTT.LY_DO}}</label>
-                                </div>
-                                <div class="col-lg-6">
-                                    <label>Mô tả</label>
-                                    <label class="form-control">{{BienBanTTData.BienBanTT.MO_TA}}</label>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-lg-4">
-                                    <label>Mã điểm đo</label>
-                                    <label class="form-control">{{BienBanTTData.BienBanTT.MA_DDO}}</label>
-                                </div>
-                                <div class="col-lg-4">
-                                    <label>Mã trạm</label>
-                                    <label class="form-control">{{BienBanTTData.BienBanTT.MA_TRAM}}</label>
-                                </div>
-                                <div class="col-lg-4">
-                                    <label>Mã số GCS</label>
-                                    <label class="form-control">{{BienBanTTData.BienBanTT.MA_GCS}}</label>
-                                </div>
-                            </div>
-                        </div>
-                    </ng-container>
-                </ng-container>
-            </div>
-        </div>
-    </div>
-    <div class="card-footer text-right" *ngIf="activeTabId === tabs.BienBanTT">
-        <ng-container>
-            <i *ngIf="BienBanTTData.BienBanTT.NoiDungXuLy"
-                style="color: red;">({{BienBanTTData.BienBanTT.NoiDungXuLy}})</i>
-            <!-- <button (click)="create()" type="button"
-                *ngIf="BienBanTTData.BienBanTT.ID > 0 && BienBanTTData.BienBanTT.TRANG_THAI === 0"
-                class="btn btn-warning mr-2 text-uppercase">
-                <i class="fa fa-eye"></i> Xem chi tiết</button> -->
-            <button type="button"
-                *ngIf="(allowCancel | async) && BienBanTTData && 2 > BienBanTTData.BienBanTT.TRANG_THAI"
-                class="btn btn-danger mr-2 text-uppercase" (click)="huyKQua()">
-                <i class="fa fa-trash"></i> Hủy duyệt
-            </button>
+  </div>
 
-            <button type="button"
-                *ngIf="BienBanTTData && !BienBanTTData.BienBanTT.KyNVTT"
-                class="btn btn-success mr-2 text-uppercase" (click)="signNVien(true)">
-                <i class="fa fa-check"></i> Ký NV treo tháo
-            </button>
+  <div class="card-body">
+    <div class="col-xl-12 col-xxl-12">
+      <div class="tab-content mt-5" id="myTabContent">
 
-            <button type="button"
-                *ngIf="BienBanTTData && !BienBanTTData.BienBanTT.KyNVNP"
-                class="btn btn-success mr-2 text-uppercase" (click)="signNVien(false)">
-                <i class="fa fa-check"></i> Ký NV niêm phong
-            </button>
-
-            <!-- <button type="button" [disabled]="submited| async"
-                *ngIf="BienBanTTData.BienBanTT.ID > 0 && BienBanTTData.BienBanTT.TRANG_THAI === 0"
-                class="btn btn-success text-uppercase mr-2" (click)="approve()">
-                <i class="fa fa-check"></i> Xác nhận
-            </button> -->
+        <!-- Tab Kết quả thi công -->
+        <ng-container *ngIf="activeTabId === tabs.KetQuaTC && congVanYeuCau">
+          <app-ket-qua-thi-cong [congVanYeuCau]="congVanYeuCau" (reloadData)="reloadData($event)">
+          </app-ket-qua-thi-cong>
         </ng-container>
+
+        <!-- Tab Biên bản treo tháo -->
+        <ng-container *ngIf="activeTabId === tabs.BienBanTT && BienBanTTData">
+          <div class="pdf-container" style="min-height: 400px;"
+               *ngIf="BienBanTTData.BienBanTT?.TRANG_THAI >= 1">
+            <ng-container *ngIf="!(isLoadingForm$ | async) && safeSrc">
+              <iframe width="100%" frameBorder="0" [src]="getUrl()"
+                      onload="this.style.height=(window.outerHeight / 2) +'px';"></iframe>
+            </ng-container>
+          </div>
+
+          <div *ngIf="BienBanTTData.BienBanTT?.TRANG_THAI === 0"
+               class="overlay overlay-block cursor-default modal-body">
+            <div class="form-group row">
+              <div class="col-lg-6">
+                <label>Tên khách hàng</label>
+                <label class="form-control">{{ BienBanTTData.BienBanTT.TEN_KHACHHANG }}</label>
+              </div>
+              <div class="col-lg-6">
+                <label>Số điện thoại</label>
+                <label class="form-control">{{ BienBanTTData.BienBanTT.SDT_KHACHHANG }}</label>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-lg-6">
+                <label>Tên người đại diện</label>
+                <label class="form-control">{{ BienBanTTData.BienBanTT.NGUOI_DDIEN }}</label>
+              </div>
+              <div class="col-lg-6">
+                <label>Địa chỉ sử dụng điện</label>
+                <label class="form-control">{{ BienBanTTData.BienBanTT.DIA_DIEM }}</label>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-lg-6">
+                <label>Lý do treo tháo</label>
+                <label class="form-control">{{ BienBanTTData.BienBanTT.LY_DO }}</label>
+              </div>
+              <div class="col-lg-6">
+                <label>Mô tả</label>
+                <label class="form-control">{{ BienBanTTData.BienBanTT.MO_TA }}</label>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-lg-4">
+                <label>Mã điểm đo</label>
+                <label class="form-control">{{ BienBanTTData.BienBanTT.MA_DDO }}</label>
+              </div>
+              <div class="col-lg-4">
+                <label>Mã trạm</label>
+                <label class="form-control">{{ BienBanTTData.BienBanTT.MA_TRAM }}</label>
+              </div>
+              <div class="col-lg-4">
+                <label>Mã số GCS</label>
+                <label class="form-control">{{ BienBanTTData.BienBanTT.MA_GCS }}</label>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+      </div>
     </div>
+  </div>
+
+  <!-- Footer các nút thao tác -->
+  <div class="card-footer text-right" *ngIf="activeTabId === tabs.BienBanTT">
+    <ng-container *ngIf="BienBanTTData?.BienBanTT">
+      <i *ngIf="BienBanTTData.BienBanTT.NoiDungXuLy" style="color: red;">
+        ({{ BienBanTTData.BienBanTT.NoiDungXuLy }})
+      </i>
+
+      <button type="button"
+              *ngIf="(allowCancel | async) && BienBanTTData.BienBanTT.TRANG_THAI < 2"
+              class="btn btn-danger mr-2 text-uppercase"
+              (click)="huyKQua()">
+        <i class="fa fa-trash"></i> Hủy duyệt
+      </button>
+
+      <button type="button"
+              *ngIf="!BienBanTTData.BienBanTT.KyNVTT"
+              class="btn btn-success mr-2 text-uppercase"
+              (click)="signNVien(true)">
+        <i class="fa fa-check"></i> Ký NV treo tháo
+      </button>
+
+      <button type="button"
+              *ngIf="!BienBanTTData.BienBanTT.KyNVNP"
+              class="btn btn-success mr-2 text-uppercase"
+              (click)="signNVien(false)">
+        <i class="fa fa-check"></i> Ký NV niêm phong
+      </button>
+    </ng-container>
+  </div>
 </div>

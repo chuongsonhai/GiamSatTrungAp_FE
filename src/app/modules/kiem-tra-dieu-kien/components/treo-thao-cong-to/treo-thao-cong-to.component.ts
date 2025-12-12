@@ -1,4 +1,6 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component, OnInit, OnDestroy, Input, Output, EventEmitter
+} from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { YeuCauNghiemThu } from 'src/app/modules/models/yeucaunghiemthu.model';
@@ -6,10 +8,9 @@ import { CommonService } from 'src/app/modules/services/base.service';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
-import { catchError, finalize, first, tap } from 'rxjs/operators';
+import { BehaviorSubject, of, Subscription } from 'rxjs';
+import { catchError, finalize, first } from 'rxjs/operators';
 import { BienBanTTService } from 'src/app/modules/services/bienbantt.service';
-import { ConfirmationDialogService } from 'src/app/modules/share-component/confirmation-dialog/confirmation-dialog.service';
 import { BienBanTTData } from 'src/app/modules/models/bienbantt.model';
 
 @Component({
@@ -19,28 +20,17 @@ import { BienBanTTData } from 'src/app/modules/models/bienbantt.model';
 })
 export class TreoThaoCongToComponent implements OnInit, OnDestroy {
   @Input() congVanYeuCau: YeuCauNghiemThu;
-  @Output() public reloadForm: EventEmitter<boolean>;
+  @Output() public reloadForm = new EventEmitter<boolean>();
 
-  EMPTY: any;
+  EMPTY = {
+    deptId: 0,
+    staffCode: '',
+    ngayHen: '',
+    noiDung: '',
+    maCViec: ''
+  };
+
   BienBanTTData: BienBanTTData;
-  constructor(
-    public commonService: CommonService,
-    public service: BienBanTTService,
-    private sanitizer: DomSanitizer,
-    private modalService: NgbModal,
-    private fb: FormBuilder,
-    private router: Router,
-    private toastr: ToastrService) {
-
-    this.reloadForm = new EventEmitter<boolean>();
-    this.EMPTY = {
-      deptId: 0,
-      staffCode: '',
-      ngayHen: '',
-      noiDung: '',
-      maCViec: ''
-    }
-  }
 
   tabs = {
     ThoaThuanDauNoi: 1,
@@ -50,110 +40,113 @@ export class TreoThaoCongToComponent implements OnInit, OnDestroy {
     BienBanTreoThao: 5,
   };
 
-  srcCV: string;
-  safeSrcCV: SafeResourceUrl;
-
-  srcTTDN: string;
-  safeSrcTTDN: SafeResourceUrl;
-
-  srcBBNT: string;
-  safeSrcBBNT: SafeResourceUrl;
+  safeSrcCV: SafeResourceUrl = null;
+  safeSrcTTDN: SafeResourceUrl = null;
+  safeSrcBBNT: SafeResourceUrl = null;
 
   isLoadingForm$ = new BehaviorSubject<boolean>(false);
+  activeTabId = this.tabs.ThoaThuanDauNoi;
 
-  activeTabId = this.tabs.ThoaThuanDauNoi; // 0 => Basic info;
+  private subscriptions: Subscription[] = [];
+
+  constructor(
+    public commonService: CommonService,
+    public service: BienBanTTService,
+    private sanitizer: DomSanitizer,
+    private modalService: NgbModal,
+    private fb: FormBuilder,
+    private router: Router,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit() {
     this.isLoadingForm$.next(true);
-    setTimeout(() => {
-      this.isLoadingForm$.next(false);
-    }, 1000);
-    if (this.congVanYeuCau && this.congVanYeuCau.ID > 0) {
-      this.getPDF(this.congVanYeuCau.PdfBienBanDN, "BBDN");
-        if (this.congVanYeuCau.Data && this.congVanYeuCau.Data !== undefined) {
-          this.getPDF(this.congVanYeuCau.Data, "CVYC");
-        }
+    setTimeout(() => this.isLoadingForm$.next(false), 1000);
+
+    if (this.congVanYeuCau?.ID > 0) {
+      if (this.congVanYeuCau.PdfBienBanDN) {
+        this.loadPDF(this.congVanYeuCau.PdfBienBanDN, 'BBDN');
+      }
+      if (this.congVanYeuCau.Data) {
+        this.loadPDF(this.congVanYeuCau.Data, 'CVYC');
+      }
       this.loadData();
     }
   }
 
   loadData() {
     this.isLoadingForm$.next(true);
-    const sb = this.service.getItem(this.congVanYeuCau.ID).pipe(
+    const sub = this.service.getItem(this.congVanYeuCau.ID).pipe(
       first(),
-      catchError((errorMessage) => {
-        this.isLoadingForm$.next(false);
+      catchError(() => {
         return of(this.BienBanTTData);
       }),
       finalize(() => this.isLoadingForm$.next(false))
-    ).subscribe((BienBanTTData: BienBanTTData) => {
-      if (BienBanTTData) {
-        this.BienBanTTData = BienBanTTData;
-        this.isLoadingForm$.next(true);
-        setTimeout(() => {
-          this.isLoadingForm$.next(false);
-        }, 2000);
+    ).subscribe((data: BienBanTTData) => {
+      if (data) {
+        this.BienBanTTData = data;
       }
     });
+
+    this.subscriptions.push(sub);
   }
 
-  getPDF(path: string, key: string): any {
+  loadPDF(path: string, key: string): void {
     this.isLoadingForm$.next(true);
-    this.commonService.getPDF(path).subscribe((response) => {
-      var binary_string = window.atob(response);
-      var len = binary_string.length;
-      var bytes = new Uint8Array(len);
-      for (var i = 0; i < len; i++) {
-        bytes[i] = binary_string.charCodeAt(i);
-      }
-      let file = new Blob([bytes.buffer], { type: 'application/pdf' });
-      var src = URL.createObjectURL(file);
-      var safeSrc = this.sanitizer.bypassSecurityTrustResourceUrl(src);
-      if (key === "CVYC") {
-        this.srcCV = src;
-        this.safeSrcCV = safeSrc;
-      }
-      if (key === "BBDN") {
-        this.srcTTDN = src;
-        this.safeSrcTTDN = safeSrc;
-      }
-      if (key === "BBNT") {
-        this.srcBBNT = src;
-        this.safeSrcBBNT = safeSrc;
-      }
-    }), finalize(() => this.isLoadingForm$.next(false))
-  }
+    this.commonService.getPDF(path).pipe(
+      finalize(() => this.isLoadingForm$.next(false))
+    ).subscribe((base64Pdf: string) => {
+      try {
+        const byteCharacters = atob(base64Pdf);
+        const byteArrays = new Uint8Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteArrays[i] = byteCharacters.charCodeAt(i);
+        }
 
-  getUrl(key: string) {
-    if (key === 'CVYC') return this.sanitizer.bypassSecurityTrustResourceUrl(this.srcCV);
-    if (key === 'BBDN') return this.sanitizer.bypassSecurityTrustResourceUrl(this.srcTTDN);
-    else return this.sanitizer.bypassSecurityTrustResourceUrl(this.srcBBNT);
+        const blob = new Blob([byteArrays], { type: 'application/pdf' });
+        const objectUrl = URL.createObjectURL(blob);
+
+        const safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(objectUrl);
+
+        switch (key) {
+          case 'CVYC':
+            this.safeSrcCV = safeUrl;
+            break;
+          case 'BBDN':
+            this.safeSrcTTDN = safeUrl;
+            break;
+          case 'BBNT':
+            this.safeSrcBBNT = safeUrl;
+            break;
+        }
+      } catch (error) {
+        console.error('PDF decode failed', error);
+        this.toastr.error('Lỗi tải file PDF');
+      }
+    });
   }
 
   changeTab(tabId: number) {
     this.activeTabId = tabId;
   }
-  
-  public reloadTab(reload: boolean) {
+
+  reloadTab(reload: boolean) {
     if (reload) {
       this.isLoadingForm$.next(true);
       if (this.activeTabId > 1) {
-        this.activeTabId = this.activeTabId - 1;
-        this.changeTab(this.activeTabId);
+        this.activeTabId -= 1;
       }
+      this.changeTab(this.activeTabId);
       this.isLoadingForm$.next(false);
     }
   }
 
-  public reloadData(reload: boolean) {
+  reloadData(reload: boolean) {
     this.loadData();
     this.reloadForm.emit(reload);
   }
 
-  private subscriptions: Subscription[] = [];
-
   ngOnDestroy() {
-    this.subscriptions.forEach(sb => sb.unsubscribe());
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
-
 }

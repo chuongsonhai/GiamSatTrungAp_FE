@@ -1,11 +1,17 @@
 <div class="pdf-container">
-    <ng-container *ngIf="!(isLoadingForm$ | async) && src">
-        <iframe class="iframe-pdf" width="100%" onload="this.style.height=(window.outerHeight / 2)+'px';"
-            frameBorder="0" [src]="getUrl()"></iframe>
-    </ng-container>
+  <ng-container *ngIf="!(isLoadingForm$ | async) && pdfUrl">
+    <iframe
+      class="iframe-pdf"
+      width="100%"
+      [style.height]="'500px'"
+      frameborder="0"
+      [src]="safeUrl">
+    </iframe>
+  </ng-container>
 </div>
+
 <div class="card-footer text-right">
-    <button type="button" class="btn btn-primary mr-2" (click)="create()"><i class="fa fa-plus-circle"></i>
-        Lập bảng kê
-    </button>
+  <button type="button" class="btn btn-primary mr-2" (click)="create()">
+    <i class="fa fa-plus-circle"></i> Lập bảng kê
+  </button>
 </div>

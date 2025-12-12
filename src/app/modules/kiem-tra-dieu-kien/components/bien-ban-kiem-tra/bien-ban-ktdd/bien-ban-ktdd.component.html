@@ -1,85 +1,103 @@
 <ng-container *ngIf="isLoadingForm$ | async; else showData">
-    <div class="overlay-layer bg-transparent">
-        <div class="spinner spinner-lg spinner-success"><span style="padding-left:35px;">Đang tải dữ liệu, vui lòng
-                chờ</span></div>
+  <div class="overlay-layer bg-transparent">
+    <div class="spinner spinner-lg spinner-success">
+      <span style="padding-left:35px;">Đang tải dữ liệu, vui lòng chờ</span>
     </div>
+  </div>
 </ng-container>
+
 <ng-template #showData>
-    <div class="card card-custom gutter-b">
-        <div class="card-header">
-            <div class="card-title">
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                    <li class="nav-item" (click)="changeTab(tabs.KetQuaKT)"
-                        [class.active]="activeTabId === tabs.KetQuaKT">
-                        <a class="nav-link" data-toggle="tab" role="button"
-                            [attr.aria-selected]="activeTabId === tabs.KetQuaKT"
-                            [class.active]="activeTabId === tabs.KetQuaKT">
-                            <span class="menu-text">Kết quả kiểm tra</span>
-                        </a>
-                    </li>
-                    <li class="nav-item" (click)="changeTab(tabs.BienBanKT)"
-                        [class.active]="activeTabId === tabs.BienBanKT">
-                        <a class="nav-link" data-toggle="tab" role="button"
-                            [attr.aria-selected]="activeTabId === tabs.BienBanKT"
-                            [class.active]="activeTabId === tabs.BienBanKT">
-                            <span class="menu-text">Biên bản kiểm tra</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <span *ngIf="BienBanKTData.BienBanKT.TroNgai && (BienBanKTData.BienBanKT.MaTroNgai !== '' && BienBanKTData.BienBanKT.MaTroNgai !== null)" style="float: right;" class="label label-light-danger label-pill label-inline mr-2">{{BienBanKTData.BienBanKT.MaTroNgai}} -
-                {{BienBanKTData.BienBanKT.TroNgai}}</span>
-                <span *ngIf="BienBanKTData.BienBanKT.TroNgai && (BienBanKTData.BienBanKT.MaTroNgai === '' || BienBanKTData.BienBanKT.MaTroNgai === null)" style="float: right;" class="label label-light-danger label-pill label-inline mr-2">Khách hàng y/c chỉnh sửa : 
-                    {{BienBanKTData.BienBanKT.TroNgai}}</span>
-        </div>        
-        <div class="card-body">
-            <div class="col-xl-12 col-xxl-12">
-                <div class="tab-content mt-5" id="myTabContent">
-                    <ng-container *ngIf="activeTabId === tabs.KetQuaKT && BienBanKTData">
-                        <app-ket-qua-kiem-tra [KetQuaKT]="BienBanKTData.KetQuaKT">
-                        </app-ket-qua-kiem-tra>
-                    </ng-container>
-                    <ng-container *ngIf="activeTabId === tabs.BienBanKT && BienBanKTData">
-                        <ng-container>
-                            <div class="pdf-container">
-                                <ng-container *ngIf="!(isLoadingForm$ | async)  && safeSrc !== null">
-                                    <iframe width="100%" onload="this.style.height=(window.outerHeight / 2) +'px';"
-                                        frameBorder="0" [src]="getUrl()"></iframe>
-                                </ng-container>
-                            </div>
-                        </ng-container>
-                    </ng-container>
-                </div>
-            </div>
-        </div>
-        <div class="card-footer text-right" *ngIf="activeTabId === tabs.BienBanKT && BienBanKTData">
-            <ng-container>
-                <!-- <button type="button" *ngIf="(allowCancel | async) && BienBanKTData && BienBanKTData.BienBanKT.ID > 0 && 3 > BienBanKTData.BienBanKT.TrangThai"
-                    class="btn btn-danger mr-2 text-uppercase" (click)="huyKQua()">
-                    <i class="fa fa-trash"></i> Hủy duyệt
-                </button> -->
+  <div class="card card-custom gutter-b">
+    <div class="card-header">
+      <div class="card-title">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item" (click)="changeTab(tabs.KetQuaKT)"
+              [class.active]="activeTabId === tabs.KetQuaKT">
+            <a class="nav-link" data-toggle="tab" role="button"
+               [attr.aria-selected]="activeTabId === tabs.KetQuaKT"
+               [class.active]="activeTabId === tabs.KetQuaKT">
+              <span class="menu-text">Kết quả kiểm tra</span>
+            </a>
+          </li>
+          <li class="nav-item" (click)="changeTab(tabs.BienBanKT)"
+              [class.active]="activeTabId === tabs.BienBanKT">
+            <a class="nav-link" data-toggle="tab" role="button"
+               [attr.aria-selected]="activeTabId === tabs.BienBanKT"
+               [class.active]="activeTabId === tabs.BienBanKT">
+              <span class="menu-text">Biên bản kiểm tra</span>
+            </a>
+          </li>
+        </ul>
+      </div>
 
-                <button type="button" *ngIf="(allowCancel | async) && BienBanKTData && BienBanKTData.BienBanKT.ID > 0 && 5 > congVanYeuCau.TrangThai && BienBanKTData.BienBanKT.TrangThai !== 0 && BienBanKTData.BienBanKT.TrangThai !== 2"
-                    class="btn btn-warning mr-2 text-uppercase" (click)="cancel()">
-                    <i class="fa fa-trash"></i> Kiểm tra lại
-                </button>
+      <span *ngIf="BienBanKTData.BienBanKT.TroNgai && (BienBanKTData.BienBanKT.MaTroNgai !== '' && BienBanKTData.BienBanKT.MaTroNgai !== null)"
+            style="float: right;" class="label label-light-danger label-pill label-inline mr-2">
+        {{BienBanKTData.BienBanKT.MaTroNgai}} - {{BienBanKTData.BienBanKT.TroNgai}}
+      </span>
 
-               
-                <!-- <button type="button" [disabled]="submited| async" *ngIf="(allowApprove | async) && BienBanKTData.BienBanKT.ID > 0 && BienBanKTData.BienBanKT.TrangThai === 0"
-                    class="btn btn-success text-uppercase mr-2" (click)="approve()"><i class="fa fa-check"></i>
-                    Gửi khách hàng
-                </button> -->
-                <!-- <button type="button" [disabled]="submited| async" *ngIf="(allowSign | async) && BienBanKTData.BienBanKT.ID > 0 && BienBanKTData.BienBanKT.TrangThai === 2"
-                    class="btn btn-primary mr-2 text-uppercase" (click)="sign()"><i class="fa fa-pencil"></i>
-                    Chuyển tiếp
-                </button> -->
-  
-                <button type="button" [disabled]="submited| async" *ngIf="(allowSign | async) && BienBanKTData.BienBanKT.ID > 0 && BienBanKTData.BienBanKT.TrangThai === 2 "
-                    class="btn btn-primary mr-2 text-uppercase" (click)="kySoNhanVien()"><i class="fa fa-pencil"></i>
-                    Chuyển tiếp
-                </button>    
-            </ng-container>
-        </div>
+      <span *ngIf="BienBanKTData.BienBanKT.TroNgai && (BienBanKTData.BienBanKT.MaTroNgai === '' || BienBanKTData.BienBanKT.MaTroNgai === null)"
+            style="float: right;" class="label label-light-danger label-pill label-inline mr-2">
+        Khách hàng y/c chỉnh sửa: {{BienBanKTData.BienBanKT.TroNgai}}
+      </span>
     </div>
+
+    <div class="card-body">
+      <div class="col-xl-12 col-xxl-12">
+        <div class="tab-content mt-5" id="myTabContent">
+          <ng-container *ngIf="activeTabId === tabs.KetQuaKT && BienBanKTData">
+            <app-ket-qua-kiem-tra [KetQuaKT]="BienBanKTData.KetQuaKT"></app-ket-qua-kiem-tra>
+          </ng-container>
+
+          <ng-container *ngIf="activeTabId === tabs.BienBanKT && BienBanKTData">
+            <div class="pdf-container">
+              <ng-container *ngIf="!(isLoadingForm$ | async) && safeSrc">
+                <iframe
+                  [src]="safeSrc"
+                  width="100%"
+                  height="600px"
+                  frameborder="0"
+                  sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+                  class="embed-responsive-item">
+                </iframe>
+              </ng-container>
+
+              <ng-container *ngIf="isLoadingForm$ | async">
+                <div class="d-flex justify-content-center align-items-center" style="height: 200px;">
+                  <div class="spinner-border text-primary" role="status">
+                    <span class="sr-only">Đang tải PDF...</span>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-footer text-right" *ngIf="activeTabId === tabs.BienBanKT && BienBanKTData">
+      <ng-container>
+        <button type="button"
+                *ngIf="(allowCancel | async) && BienBanKTData && BienBanKTData.BienBanKT.ID > 0
+                && 5 > congVanYeuCau.TrangThai
+                && BienBanKTData.BienBanKT.TrangThai !== 0
+                && BienBanKTData.BienBanKT.TrangThai !== 2"
+                class="btn btn-warning mr-2 text-uppercase"
+                (click)="cancel()">
+          <i class="fa fa-trash"></i> Kiểm tra lại
+        </button>
+
+        <button type="button"
+                [disabled]="submited | async"
+                *ngIf="(allowSign | async)
+                && BienBanKTData.BienBanKT.ID > 0
+                && BienBanKTData.BienBanKT.TrangThai === 2"
+                class="btn btn-primary mr-2 text-uppercase"
+                (click)="kySoNhanVien()">
+          <i class="fa fa-pencil"></i> Chuyển tiếp
+        </button>
+      </ng-container>
+    </div>
+  </div>
 </ng-template>
-<input id="txtFileBase64Sign" hidden class="form-control"  name="txtFileBase64Sign"   type="text" />
+
+<input id="txtFileBase64Sign" hidden class="form-control" name="txtFileBase64Sign" type="text" />

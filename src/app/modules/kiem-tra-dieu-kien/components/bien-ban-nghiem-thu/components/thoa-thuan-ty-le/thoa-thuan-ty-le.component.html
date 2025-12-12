@@ -1,13 +1,11 @@
-
 <div class="pdf-container">
-    <ng-container *ngIf="!(isLoadingForm$ | async) && src">
-        <iframe class="iframe-pdf" width="100%"
-            onload="this.style.height=(window.outerHeight / 2)+'px';" frameBorder="0"
-            [src]="getUrl()"></iframe>
-    </ng-container>
+  <ng-container *ngIf="!(isLoadingForm$ | async) && blobUrl">
+    <iframe class="iframe-pdf" width="100%" [attr.src]="blobUrl" frameBorder="0"
+      [style.height]="height"></iframe>
+  </ng-container>
 </div>
 <div class="card-footer text-right">
-    <button type="button" class="btn btn-primary mr-2" (click)="create()"><i class="fa fa-plus-circle"></i>
-        Lập thỏa thuận
-    </button>
+  <button type="button" class="btn btn-primary mr-2" (click)="create()">
+    <i class="fa fa-plus-circle"></i> Lập thỏa thuận
+  </button>
 </div>

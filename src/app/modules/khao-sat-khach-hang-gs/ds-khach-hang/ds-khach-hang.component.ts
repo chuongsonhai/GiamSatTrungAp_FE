@@ -89,7 +89,7 @@ export class DsKhachHangComponent implements
     this.filterForm();
     console.log(this.filterGroup.controls.trangthai_khaosat.value)
     this._user$ = this.auth.currentUserValue;
-    this.allowGetAll.next(this.auth.isSysAdmin() && this._user$.maDViQLy=='HN');
+    this.allowGetAll.next(this.auth.isSysAdmin() && this._user$.maDViQLy=='HN'|| this._user$.maDViQLy =='X0206');
 
     const sb = this.service.isLoading$.subscribe(res => this.isLoading = res);
     this.subscriptions.push(sb);
@@ -120,7 +120,7 @@ export class DsKhachHangComponent implements
   // filtration
   filterForm() {
     this.filterGroup = this.fb.group({
-      maDViQLy: this.orgCode == 'HN' ? '' : this.orgCode,
+      maDViQLy: (this.orgCode == 'HN' || this.orgCode == 'X0206') ? '-1' : this.orgCode,
       fromdate: DateTimeUtil.convertDateToStringVNDefaulDateNow(this.fromDate),
       todate: DateTimeUtil.convertDateToStringVNDefaulDateNow(this.toDate),
       maLoaiCanhBao: -1,
