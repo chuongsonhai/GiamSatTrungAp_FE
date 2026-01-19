@@ -601,33 +601,32 @@ export class ThoaThuanTyLeComponent implements OnInit {
     }, []);
   }
 
-  getUQData(event) {
-    const value = event.target.value;
-    this.MetadataService.listUQ$.pipe().subscribe((res) => {
-      var item = res.filter((x) => x.tnguoiUquyen === value)[0];
-      if (item) {
-        this.ThoaThuanTyLe.VanBanUQ = item.soUquyen;
-        this.ThoaThuanTyLe.NgayKyUQ =
-          DateTimeUtil.convertDateToStringVNDefaulDateNow(item.ngayUquyen);
-        this.ThoaThuanTyLe.NgayUQ =
-          DateTimeUtil.convertDateToStringVNDefaulDateNow(item.ngayUquyen);
-        this.ThoaThuanTyLe.NguoiKyUQ = item.tnguoiUquyen;
-        this.ThoaThuanTyLe.ChucVuUQ = item.cvuUquyen;
-        this.ThoaThuanTyLe.DaiDien = item.tenUquyen;
-        console.log(this.formGroup);
-        this.formGroup.controls["VanBanUQ"].setValue(item.soUquyen);
-        this.formGroup.controls["NgayKyUQ"].setValue(
-          DateTimeUtil.convertDateToStringVNDefaulDateNow(item.ngayUquyen)
-        );
-        this.formGroup.controls["NgayUQ"].setValue(
-          DateTimeUtil.convertDateToStringVNDefaulDateNow(item.ngayUquyen)
-        );
-        this.formGroup.controls["NguoiKyUQ"].setValue(item.tnguoiUquyen);
-        this.formGroup.controls["ChucVuUQ"].setValue(item.cvuUquyen);
-        this.formGroup.controls["DaiDien"].setValue(item.tenUquyen);
-      }
-    });
-  }
+getUQData(event: Event) {
+  const value = (event.target as HTMLSelectElement).value;
+
+  this.MetadataService.listUQ$.subscribe((res) => {
+    const item = res.find(x => String(x.idKey) === String(value));
+    if (!item) return;
+
+    this.ThoaThuanTyLe.VanBanUQ = item.soUquyen;
+    this.ThoaThuanTyLe.NgayKyUQ = DateTimeUtil.convertDateToStringVNDefaulDateNow(item.ngayUquyen);
+    this.ThoaThuanTyLe.NgayUQ   = DateTimeUtil.convertDateToStringVNDefaulDateNow(item.ngayUquyen);
+    this.ThoaThuanTyLe.NguoiKyUQ = item.tnguoiUquyen;
+    this.ThoaThuanTyLe.ChucVuUQ = item.cvuUquyen;
+    this.ThoaThuanTyLe.DaiDien  = item.tenUquyen;
+
+    this.formGroup.controls["VanBanUQ"].setValue(item.soUquyen);
+    this.formGroup.controls["NgayKyUQ"].setValue(DateTimeUtil.convertDateToStringVNDefaulDateNow(item.ngayUquyen));
+    this.formGroup.controls["NgayUQ"].setValue(DateTimeUtil.convertDateToStringVNDefaulDateNow(item.ngayUquyen));
+
+    // ✅ QUAN TRỌNG: GIỮ SELECT = idKey, KHÔNG ĐÈ BẰNG TÊN
+    this.formGroup.controls["NguoiKyUQ"].setValue(item.idKey, { emitEvent: false });
+
+    this.formGroup.controls["ChucVuUQ"].setValue(item.cvuUquyen);
+    this.formGroup.controls["DaiDien"].setValue(item.tenUquyen);
+  });
+}
+
   getGiaData(event) {
     const value = event.target.value;
     this.MetadataService.getGiaNhoms(value)

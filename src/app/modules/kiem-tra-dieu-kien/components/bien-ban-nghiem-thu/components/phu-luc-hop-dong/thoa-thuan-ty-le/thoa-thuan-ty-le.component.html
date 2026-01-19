@@ -133,7 +133,7 @@
                         <select class="form-control" (change)='getUQData($event)' name="NguoiKyUQ"
                             formControlName="NguoiKyUQ">
                             <option value="">-- Chọn người ký --</option>
-                            <option [value]="item.tnguoiUquyen" *ngFor="let item of MetadataService.listUQ$ |async">
+                            <option [value]="item.idKey" *ngFor="let item of MetadataService.listUQ$ |async">
                                 {{item.tnguoiUquyen}}
                             </option>
                         </select>
