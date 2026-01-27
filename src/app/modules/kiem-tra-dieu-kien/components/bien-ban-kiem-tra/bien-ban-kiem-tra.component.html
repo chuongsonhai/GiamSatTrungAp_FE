@@ -1,11 +1,10 @@
-<ng-container *ngIf="isLoadingForm$ | async as isLoading">
-  <ng-container *ngIf="isLoading; else showData">
-    <div class="overlay-layer bg-transparent">
-      <div class="spinner spinner-lg spinner-success">
-        <span class="ml-4">Đang tải dữ liệu, vui lòng chờ</span>
-      </div>
+<!-- Loading -->
+<ng-container *ngIf="(isLoadingForm$ | async) === true; else showData">
+  <div class="overlay-layer bg-transparent">
+    <div class="spinner spinner-lg spinner-success">
+      <span class="ml-4">Đang tải dữ liệu, vui lòng chờ</span>
     </div>
-  </ng-container>
+  </div>
 </ng-container>
 
 <ng-template #showData>
@@ -27,18 +26,14 @@
         </div>
 
         <ul class="nav flex-column nav-pills aside-menu" role="tablist">
-          <li
-            class="nav-item"
-            *ngFor="let tab of tabsList"
-            [class.active]="activeTabId === tab.id"
-          >
-            <a
-              class="nav-link"
-              role="tab"
-              tabindex="0"
-              (click)="changeTab(tab.id)"
-              [attr.aria-selected]="activeTabId === tab.id"
-            >
+          <li class="nav-item"
+              *ngFor="let tab of tabsList"
+              [class.active]="activeTabId === tab.id">
+            <a class="nav-link"
+               role="tab"
+               tabindex="0"
+               (click)="changeTab(tab.id)"
+               [attr.aria-selected]="activeTabId === tab.id">
               {{ tab.label }}
             </a>
           </li>
@@ -48,42 +43,46 @@
       <!-- Cột nội dung tab -->
       <div class="col-lg-9">
         <ng-container [ngSwitch]="activeTabId">
+
           <!-- Thỏa thuận đấu nối -->
           <ng-container *ngSwitchCase="tabs.ThoaThuanDN">
-            <div class="pdf-container" *ngIf="safeSrcTTDN">
-              <iframe
-                class="iframe-pdf"
-                [src]="safeSrcTTDN"
-                width="100%"
-                height="600px"
-                frameborder="0"
-                title="Tài liệu Thỏa thuận đấu nối"
-              ></iframe>
+            <div class="pdf-container" *ngIf="safeSrcTTDN; else noPdf">
+              <iframe class="iframe-pdf"
+                      [src]="safeSrcTTDN"
+                      width="100%"
+                      height="600px"
+                      frameborder="0"
+                      title="Tài liệu Thỏa thuận đấu nối"></iframe>
             </div>
+
+            <ng-template #noPdf>
+              <div class="alert alert-warning">
+                Chưa có tài liệu PDF Thỏa thuận đấu nối.
+              </div>
+            </ng-template>
           </ng-container>
 
           <!-- Phân công kiểm tra -->
           <ng-container *ngSwitchCase="tabs.PhanCongKT">
             <app-phan-cong-kiem-tra
               [congVanYeuCau]="congVanYeuCau"
-              (reloadData)="reloadData($event)"
-            ></app-phan-cong-kiem-tra>
+              (reloadData)="reloadData($event)">
+            </app-phan-cong-kiem-tra>
           </ng-container>
 
           <!-- Biên bản kiểm tra -->
           <ng-container *ngSwitchCase="tabs.BienBanKT">
             <app-bien-ban-ktdd
               [congVanYeuCau]="congVanYeuCau"
-              (reloadData)="reloadData($event)"
-            ></app-bien-ban-ktdd>
+              (reloadData)="reloadData($event)">
+            </app-bien-ban-ktdd>
           </ng-container>
 
           <!-- Hồ sơ đính kèm -->
           <ng-container *ngSwitchCase="tabs.TaiLieuKT">
-            <app-tai-lieu-kiem-tra
-              [congVanYeuCau]="congVanYeuCau"
-            ></app-tai-lieu-kiem-tra>
+            <app-tai-lieu-kiem-tra [congVanYeuCau]="congVanYeuCau"></app-tai-lieu-kiem-tra>
           </ng-container>
+
         </ng-container>
       </div>
     </div>
